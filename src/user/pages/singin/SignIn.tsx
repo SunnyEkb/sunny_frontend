@@ -1,18 +1,18 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { FC, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import "./LogIn.scss";
+import "./SingIn.scss";
 import UserForm from "../../components/form/UserForm";
 import InputForm from "../../components/input/InputForm";
 
 interface Inputs {
-  firstName?: string;
-  lastName?: string;
-  password?: string;
-  email?: string;
+  firstName: string;
+  lastName: string;
+  password: string;
+  email: string;
 }
 
-const LogIn: FC = () => {
+const SignIn: FC = () => {
   const {
     register,
     formState: { errors, isValid, isDirty },
@@ -22,8 +22,12 @@ const LogIn: FC = () => {
     mode: "onChange",
   });
 
+  const title = "Регистрация"
+
   useEffect(() => {
     const defaultValues: Inputs = {
+      firstName: "",
+      lastName: "",
       password: "",
       email: "",
     };
@@ -34,11 +38,9 @@ const LogIn: FC = () => {
     console.log(data);
   };
 
-  const title = "Войти"
-
   return (
-    <div className="LogIn">
-      <h2>Вход</h2>
+    <div className="SingIn">
+      <h2>{title}</h2>
       <UserForm
         name="registration"
         onSubmit={handleSubmit(onSubmit)}
@@ -48,12 +50,47 @@ const LogIn: FC = () => {
       >
         <InputForm
           type="text"
+          {...register("firstName", {
+            required: "Напишите ваше имя",
+            minLength: {
+              value: 2,
+              message: "Минимум два символа",
+            },
+            maxLength: {
+              value: 40,
+              message: "Максимум сорок символов",
+            },
+          })}
+          name="firstName"
+          placeholder="имя"
+          errors={errors}
+        />
+        <InputForm
+          type="text"
+          {...register("lastName", {
+            required: "Заполните это поле",
+            minLength: {
+              value: 2,
+              message: "Минимум два символа",
+            },
+            maxLength: {
+              value: 40,
+              message: "Максимум сорок символов",
+            },
+          })}
+          name="lastName"
+          errors={errors}
+          placeholder="фамилия"
+        />
+
+        <InputForm
+          type="text"
           {...register("email", {
             required: "Напишите ваш email",
-            /* pattern: {
+            pattern: {
               value: /^[A-Z0-9._%+-]+@[A-Z0-9-]+.+.[A-Z]{2,4}$/i,
               message: "Некорректный формат почты",
-            }, */
+            },
           })}
           name="email"
           errors={errors}
@@ -63,7 +100,7 @@ const LogIn: FC = () => {
         <InputForm
           type="password"
           {...register("password", {
-            required: "Введите пароль",
+            required: "Придумайте пароль",
             /* 								minLength: {
                                     value: 8,
                                     message: 'Минимум восемь символов',
@@ -72,12 +109,12 @@ const LogIn: FC = () => {
                                     value: 40,
                                     message: 'Пароль - не более сорок символов',
                                 }, */
-            /* pattern: {
+            pattern: {
               value:
                 /(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{8,}/g,
               message:
                 "латинские буквы, 1 заглавная, 8 символов, 1 спецсимвол, 1 цифра",
-            }, */
+            },
           })}
           name="password"
           errors={errors}
@@ -89,4 +126,4 @@ const LogIn: FC = () => {
   );
 };
 
-export default LogIn;
+export default SignIn;
