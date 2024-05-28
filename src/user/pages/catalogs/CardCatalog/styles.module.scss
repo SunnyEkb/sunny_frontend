@@ -1,0 +1,39 @@
+.card {
+  border-radius: 16px;
+  background-color: #ffffff;
+  min-width: 88px;
+  max-width: 136px;
+  height: 88px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border: 1px solid transparent;
+  transition: all ease-in-out 0.3s;
+}
+
+.card:hover {
+    border: 1px solid #2c555b;
+    opacity: 0.8;
+}
+
+.card__title {
+  font-family: Inter;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 16px;
+  color: #2c555b;
+  padding: 8px;
+  padding-bottom: 0;
+}
+
+.card__img {
+  width: 40px;
+  height: 40px;
+}
+
+.card__imgWrapper {
+    display: flex;
+    justify-content: flex-end;
+    padding: 4px;
+    margin-bottom: 8px;
+}
