@@ -1,10 +1,10 @@
 import { FC } from "react";
 
-const login:FC = () => {
+const Login:FC = () => {
     
     return (
         <></>
     )
 };
 
-export default login;
+export default Login;

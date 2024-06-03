@@ -1,10 +1,10 @@
 import { FC } from "react";
 
-const userLK:FC = () => {
+const UserLK:FC = () => {
     
     return (
         <></>
     )
 };
 
-export default userLK;
+export default UserLK;
