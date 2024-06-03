@@ -9,8 +9,10 @@
 
 .input {
 	width: 100%;
-	border: 1px solid rgba(157, 157, 157, 1);
-	border-radius: 24px;
+  border: none;
+  outline: none;
+	border-bottom: 1px solid rgba(157, 157, 157, 1);
+	//border-radius: 24px;
 	padding: 18px 50px 18px 20px;
 	box-sizing: border-box;
 	font-family: 'SF-Pro', sans-serif;
@@ -22,17 +24,18 @@
 	z-index: 1;
 
 	&:hover {
-		border-color: rgba(122, 122, 122, 1);
+		border-color: 1px solid rgba(122, 122, 122, 1);
 	}
 
 	&:focus {
-		outline: 2px solid #550fda;
-		border: none;
+		//outline: 2px solid #550fda;
+		//border-bottom: 1px solid rgba(157, 157, 157, 1);
+    border-bottom: 2px solid black;
 	}
 
 	&_error {
-		border-color: red;
-		outline: 1px solid red;
+		border-bottom: 2px solid red;
+		//outline: 1px solid red;
 	}
 }
 

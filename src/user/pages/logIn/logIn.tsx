@@ -49,7 +49,7 @@ const LogIn: FC = () => {
         <InputForm
           type="text"
           {...register("email", {
-            required: "Напишите ваш email",
+            required: "Напишите ваш лоин или email",
             /* pattern: {
               value: /^[A-Z0-9._%+-]+@[A-Z0-9-]+.+.[A-Z]{2,4}$/i,
               message: "Некорректный формат почты",
@@ -57,32 +57,20 @@ const LogIn: FC = () => {
           })}
           name="email"
           errors={errors}
-          placeholder="Электронная почта"
+          placeholder=""
+          inputTitle="Логин или email"
         />
 
         <InputForm
           type="password"
           {...register("password", {
             required: "Введите пароль",
-            /* 								minLength: {
-                                    value: 8,
-                                    message: 'Минимум восемь символов',
-                                },
-                                maxLength: {
-                                    value: 40,
-                                    message: 'Пароль - не более сорок символов',
-                                }, */
-            /* pattern: {
-              value:
-                /(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{8,}/g,
-              message:
-                "латинские буквы, 1 заглавная, 8 символов, 1 спецсимвол, 1 цифра",
-            }, */
           })}
           name="password"
           errors={errors}
           autoComplete="on"
-          placeholder="Пароль"
+          placeholder=""
+          inputTitle="Пароль"
         />
       </UserForm>
     </div>

@@ -22,7 +22,7 @@ const SignIn: FC = () => {
     mode: "onChange",
   });
 
-  const title = "Регистрация"
+  const title = "Регистрация";
 
   useEffect(() => {
     const defaultValues: Inputs = {
@@ -101,14 +101,6 @@ const SignIn: FC = () => {
           type="password"
           {...register("password", {
             required: "Придумайте пароль",
-            /* 								minLength: {
-                                    value: 8,
-                                    message: 'Минимум восемь символов',
-                                },
-                                maxLength: {
-                                    value: 40,
-                                    message: 'Пароль - не более сорок символов',
-                                }, */
             pattern: {
               value:
                 /(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{8,}/g,
