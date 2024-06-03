@@ -2,7 +2,7 @@
 import { FC, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import "./LogIn.scss";
-import UserForm from "../../components/form/UserForm";
+import UserForm from "../../components/form/userForm";
 import InputForm from "../../components/input/InputForm";
 
 interface Inputs {
