@@ -1,56 +1,99 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { FC, useEffect } from "react";
+import { FC, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { Link } from "react-router-dom";
 import "./SingIn.scss";
 import UserForm from "../../components/form/userForm";
 import InputForm from "../../components/input/InputForm";
+import { useRegisterMutation } from "../../../store/auth-api/authApi";
+import ButtonForm from "../../../shared/button/button";
+import checkmark from "../../../assets/icon/checkmark.svg";
 
 interface Inputs {
-  firstName: string;
-  lastName: string;
+  username: string;
+  phone: string;
   password: string;
+  confirmation: string;
   email: string;
 }
 
-const SignIn: FC = () => {
+const Registr: FC = () => {
   const {
     register,
     formState: { errors, isValid, isDirty },
     handleSubmit,
     reset,
+    watch,
+    setError,
   } = useForm<Inputs>({
     mode: "onChange",
   });
+
+  // отправляем запрос на регистрацию пользователя
+  const [registerUser, { error, isLoading, data: userData }] =
+    useRegisterMutation();
 
   const title = "Регистрация";
 
   useEffect(() => {
     const defaultValues: Inputs = {
-      firstName: "",
-      lastName: "",
+      username: "",
+      phone: "",
       password: "",
+      confirmation: "",
       email: "",
     };
     reset(defaultValues);
   }, [reset]);
 
-  const onSubmit = (data: Inputs) => {
-    console.log(data);
+  const [checked, setChecked] = useState(false);
+
+  const toggleBtn = () => {
+		setChecked(!checked);
+	};
+
+  const onSubmit = async (data: Inputs) => {
+    try {
+      await registerUser(data).unwrap();
+    } catch (error: any) {
+      if (error.data) {
+        const serverErrors = error.data;
+        if (serverErrors.username) {
+          setError("username", {
+            type: "server",
+            message: serverErrors.username[0],
+          });
+        }
+        if (serverErrors.email) {
+          setError("email", {
+            type: "server",
+            message: serverErrors.email[0],
+          });
+        }
+      }
+    }
   };
 
+  const password = watch("password");
+
   return (
-    <div className="SingIn">
-      <h2>{title}</h2>
+    <div className="Registr">
+      <div className="Registr_containerTitle">
+        <h2 className="Registr_title">{title}</h2>
+      </div>
+
       <UserForm
         name="registration"
         onSubmit={handleSubmit(onSubmit)}
         isValid={isValid}
         isDirty={isDirty}
+        isLoading={isLoading}
         title={title}
       >
         <InputForm
           type="text"
-          {...register("firstName", {
+          {...register("username", {
             required: "Напишите ваше имя",
             minLength: {
               value: 2,
@@ -61,26 +104,10 @@ const SignIn: FC = () => {
               message: "Максимум сорок символов",
             },
           })}
-          name="firstName"
-          placeholder="имя"
+          name="username"
+          placeholder=""
+          inputTitle="имя"
           errors={errors}
-        />
-        <InputForm
-          type="text"
-          {...register("lastName", {
-            required: "Заполните это поле",
-            minLength: {
-              value: 2,
-              message: "Минимум два символа",
-            },
-            maxLength: {
-              value: 40,
-              message: "Максимум сорок символов",
-            },
-          })}
-          name="lastName"
-          errors={errors}
-          placeholder="фамилия"
         />
 
         <InputForm
@@ -94,7 +121,24 @@ const SignIn: FC = () => {
           })}
           name="email"
           errors={errors}
-          placeholder="Электронная почта"
+          placeholder=""
+          inputTitle="Электронная почта"
+        />
+
+        <InputForm
+          type="text"
+          {...register("phone", {
+            required: "Напишите ваш телефон",
+            pattern: {
+              value: /^((\+7|7|8)+([0-9]){10})$/,
+              message:
+                "Некорректный формат телефона. Начните с +7, 7 или 8 и введите 10 цифр после.",
+            },
+          })}
+          name="phone"
+          errors={errors}
+          placeholder=""
+          inputTitle="Телефон"
         />
 
         <InputForm
@@ -111,11 +155,56 @@ const SignIn: FC = () => {
           name="password"
           errors={errors}
           autoComplete="on"
-          placeholder="Пароль"
+          placeholder=""
+          inputTitle="Пароль"
+        />
+
+        <InputForm
+          type="password"
+          {...register("confirmation", {
+            required: "Повторите пароль",
+            validate: (value) => value === password || "Пароли не совпадают",
+          })}
+          name="confirmation"
+          errors={errors}
+          autoComplete="on"
+          placeholder=""
+          inputTitle="Повторите пароль"
+        />
+
+        <div>
+          <div className="checkboxContainer">
+            <button
+              className={`${"checkbox"} ${checked && "checkboxChecked"}`}
+              type="button"
+              aria-label="savePw"
+              onClick={toggleBtn}
+            >
+              {checked && <img src={checkmark} alt="checkmark" />}
+            </button>
+            <p className="">
+              Я даю согласие на обработку персональных данных в соответствии
+              с&nbsp;
+              <Link to={{ pathname: "/policy" }} className="">
+                Политикой конфиденциальности
+              </Link>
+              &nbsp; и принимаю&nbsp;
+              <Link to={{ pathname: "/policy" }} className="">
+                Условия работы сервиса
+              </Link>
+              .
+            </p>
+          </div>
+        </div>
+
+        <ButtonForm
+          type="submit"
+          disabled={!isValid || !isDirty || isLoading || !checked}
+          title={title || "Submit"}
         />
       </UserForm>
     </div>
   );
 };
 
-export default SignIn;
+export default Registr;

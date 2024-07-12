@@ -1,12 +1,12 @@
 import { FC, ReactNode } from "react";
 import "./UserForm.scss";
-import ButtonForm from "../../../shared/button/button";
 
 interface UserFormProps {
   name: string;
   onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
   isValid: boolean;
   isDirty: boolean;
+  isLoading: boolean;
   title?: string;
   children: ReactNode
 }
@@ -21,11 +21,6 @@ const UserForm: FC<UserFormProps> = (props) => {
     >
       {props.children}
 
-      <ButtonForm
-        type="submit"
-        disabled={!props.isValid || !props.isDirty}
-        title = {props.title || "Submit"}
-      />
     </form>
   );
 };

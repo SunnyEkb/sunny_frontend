@@ -1,9 +1,92 @@
-.SingIn {
+.Registr {
+  box-sizing: border-box;
   margin: 0 auto;
+  padding: 20px;
   height: 100%;
-  width: 100%;
+  width: 320px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  &_containerTitle {
+    margin: 0;
+    padding: 20px 0 20px;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    width: 100%;
+  }
+
+  &_title {
+    margin: 0;
+    padding: 0;
+    text-align: left;
+    color: rgb(44, 85, 91);
+    font-family: 'Inter', Arial, Helvetica, sans-serif;
+    font-size: 23px;
+    font-weight: 600;
+    line-height: 28px;
+    letter-spacing: 0%;
+    text-align: left;
+  }
+}
+
+.checkboxContainer {
+	margin: 0;
+	display: flex;
+	align-items: start;
+	justify-content: left;
+}
+
+.checkbox {
+	appearance: none;
+	-webkit-appearance: none; /* Для поддержки вебкит-браузерами */
+	-moz-appearance: none; /* Для поддержки Firefox */
+	margin: 0;
+	/* padding: 0; */
+	width: 22px;
+	height: 16px;
+	border: 1px solid #550fda;
+	border-radius: 4px;
+	margin-right: 9px;
+	background-color: inherit;
+	cursor: pointer;
+	text-align: center;
+
+  &Checked {
+		background-color: #550fda;
+    padding: 0;
+    /* margin: 0;
+    padding: 0 8px 0;
+    width: 16px;
+    height: 16px; */
+	}
+	/* &:hover {
+		border: 2px solid #550fda;
+	} */
+
+  &_img {
+    margin: 0;
+    padding: 0;
+    width: 8px;
+    height: 12px;
+  }
+}
+
+.checkbox__text {
+	margin: auto 0;
+	padding: 0;
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.link {
+	font-family: 'Inter', Arial, Helvetica, sans-serif;
+	color: #6000ed;
+	font-size: 14px;
+	line-height: 19px;
+	text-decoration: none;
 }
