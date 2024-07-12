@@ -20,7 +20,6 @@ const LogIn: FC = () => {
 
   const navigate = useNavigate();
 
-  //const history = useHistory();
   const dispatch = useDispatch();
 
   const {
@@ -41,12 +40,6 @@ const LogIn: FC = () => {
     };
     reset(defaultValues);
   }, [reset]);
-
-  /* useEffect(() => {
-    if (isSuccess) {
-      navigate("/catalogs"); // Перенаправление при успешном логине
-    }
-  }, [isSuccess, navigate]); */
 
   const onSubmit = async (data: Inputs) => {
     login(data)
