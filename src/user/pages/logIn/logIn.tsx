@@ -3,7 +3,7 @@
 import { FC, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
-import "./LogIn.scss";
+import styles from "./LogIn.module.scss";
 import UserForm from "../../components/form/userForm";
 import InputForm from "../../components/input/InputForm";
 import ButtonForm from "../../../shared/button/button";
@@ -52,15 +52,15 @@ const LogIn: FC = () => {
   //const titleButtomVC = "продолжить через VC"
 
   return (
-    <div className="LogIn">
-      <div className="LogIn_containerFofm">
+    <div className={styles.LogIn}>
+      <div className={styles.LogIn_containerForm}>
         <UserForm
           name="registration"
           onSubmit={handleSubmit(onSubmit)}
           isValid={isValid}
           isDirty={isDirty}
           title={title}
-          isLoading={false}
+          isLoading={isLoading}
         >
           <InputForm
             type="text"
@@ -72,7 +72,6 @@ const LogIn: FC = () => {
             placeholder=""
             inputTitle="Логин или email"
           />
-
           <InputForm
             type="password"
             {...register("password", {
@@ -83,30 +82,21 @@ const LogIn: FC = () => {
             placeholder=""
             inputTitle="Пароль"
           />
-
           <ButtonForm
             type="submit"
             disabled={!isValid || !isDirty || isLoading}
             title={title || "VC"}
           />
-
-          {/* <ButtonForm
-            type="submit"
-            disabled={!isValid || !isDirty || isLoading }
-            title = {titleButtomVC || "VC"}
-          /> */}
         </UserForm>
-
-        <div className="LogIn_linkRegistr">
+        <div className={styles.LogIn_linkRegistr}>
           <Link
             to={{ pathname: "/register" }}
-            className="LogIn_linkRegistr_linkText"
+            className={styles.LogIn_linkRegistr_linkText}
           >
             Регистрация
           </Link>
         </div>
       </div>
-
     </div>
   );
 };

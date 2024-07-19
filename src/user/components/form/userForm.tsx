@@ -1,5 +1,5 @@
 import { FC, ReactNode } from "react";
-import "./UserForm.scss";
+import styles from "./UserForm.module.scss";
 
 interface UserFormProps {
   name: string;
@@ -14,7 +14,7 @@ interface UserFormProps {
 const UserForm: FC<UserFormProps> = (props) => {
   return (
     <form
-      className="UserForm"
+      className={styles.UserForm}
       name={props.name}
       noValidate
       onSubmit={props.onSubmit}
