@@ -4,7 +4,8 @@ import { RootState } from "../../store/store";
 
 
 //узнать BASE_URL у беков
-const BASE_URL = "https://localhost:3000/api/v1";
+const BASE_URL = "https://sunnyekb.ru/api/v1";
+
 
 interface AxiosQueryParams {
   url: string;

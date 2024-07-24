@@ -3,7 +3,8 @@ import { paths } from "./paths";
 import Login from "../user/pages/logIn/logIn";
 import UserLK from "../user/pages/userLK/userLK";
 import Catalogs from "../user/pages/catalogs/catalogs";
-import Catalog from "../user/pages/catalog/catalog";
+import Catalog, { loaderCatalog } from "../user/pages/catalog/catalog";
+import CardCatalogBig from "../user/pages/CardCatalogBig/CardCatalogBig";
 
 export const router = createBrowserRouter([
   {
@@ -13,6 +14,11 @@ export const router = createBrowserRouter([
   {
     path: paths.catalog,
     element: <Catalog />,
+    loader: (params) => loaderCatalog(params),
+  },
+  {
+    path: paths.catalogAds,
+    element: <CardCatalogBig />,
   },
   {
     path: paths.auth,

@@ -2,10 +2,7 @@ import React from "react";
 import styles from "./styles.module.scss";
 import { mockCatalog } from "./constantsMock";
 import CardCatalog from "./CardCatalog/CardCatalog";
-
-import telegram from "../../../assets/icon/Telegram.svg";
-import vk from "../../../assets/icon/VK.svg";
-import email from "../../../assets/icon/Email.svg";
+import Footer from "../../components/footer/Footer";
 
 export default function Catalogs() {
   return (
@@ -26,7 +23,7 @@ export default function Catalogs() {
           })}
         </div>
       </main>
-      <footer className={styles.catalog__footer}>
+      {/* <footer className={styles.catalog__footer}>
         <div className={styles.catalog__footerLinks}>
           <div className={styles.catalog__footerLink}>Новости</div>
           <div className={styles.catalog__footerLink}>Служба поддержки</div>
@@ -44,7 +41,9 @@ export default function Catalogs() {
           <img src={email} alt="почта" className={styles.catalog__footerSocialImg}/>
         </div>
         <div className={styles.catalog__footerInfo}>© «Солнечный Екб», 2024</div>
-      </footer>
+      </footer> */}
+
+      <Footer />
     </section>
   );
 }

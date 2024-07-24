@@ -5,6 +5,7 @@ export const paths = {
     auth: '/auth',
     register: '/register',
     catalog: '/catalogs/:id',
+    catalogAds: '/catalogs/:id/ads/:idAds',
     error: '/*'
 
 }

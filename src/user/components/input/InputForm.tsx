@@ -2,8 +2,7 @@
 import { FC, forwardRef, useState } from "react";
 import "./input.scss";
 import eye from "../../../assets/icon/eye-default.svg";
-import eyeHidden from "../../../assets/icon/eye-hidden.svg"
-
+import eyeHidden from "../../../assets/icon/eye-hidden.svg";
 
 interface InputProps {
   type: string;
@@ -20,23 +19,22 @@ const InputForm: FC<InputProps> = forwardRef<HTMLInputElement, InputProps>(
   function InputForm(
     { type, name, placeholder, onChange, errors, autoComplete, inputTitle },
     ref
-  )
-  {
+  ) {
     const [isShowed, setIsShowed] = useState(false);
 
-    console.log(errors)
+    console.log(errors);
 
     const handleClick = () => {
-			setIsShowed(!isShowed);
-		};
+      setIsShowed(!isShowed);
+    };
 
-		const setType = () => {
-			if (type === 'password') {
-				if (isShowed) return 'text';
-				return 'password';
-			}
-			return type;
-		};
+    const setType = () => {
+      if (type === "password") {
+        if (isShowed) return "text";
+        return "password";
+      }
+      return type;
+    };
 
     return (
       <div className="container">
@@ -48,14 +46,14 @@ const InputForm: FC<InputProps> = forwardRef<HTMLInputElement, InputProps>(
             name={name}
             placeholder={placeholder}
             onChange={onChange}
-            className={`input ${errors[name]?.message && "input_error" }`}
+            className={`input ${errors[name]?.message && "input_error"}`}
             autoComplete={autoComplete}
           />
-          {type === 'password' && (
-						<button className="eye" type="button" onClick={handleClick}>
-							<img src={isShowed ? eye : eyeHidden} alt="hide" />
-						</button>
-					)}
+          {type === "password" && (
+            <button className="eye" type="button" onClick={handleClick}>
+              <img src={isShowed ? eye : eyeHidden} alt="hide" />
+            </button>
+          )}
           {errors && (
             <span className={`error input-error-${name}`}>
               {errors[name]?.message || ""}
