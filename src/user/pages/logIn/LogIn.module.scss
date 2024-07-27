@@ -1,0 +1,42 @@
+.LogIn {
+  box-sizing: border-box;
+  margin: 0 auto;
+  padding: 20px;
+  height: 100%;
+  width: 320px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(245, 245, 245);
+
+  &_containerFofm {
+    box-sizing: border-box;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  &_linkRegistr {
+    margin: 0;
+    padding: 0;
+    height: 56px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &_linkText {
+      margin: 32px 0 0 0;
+      padding: 0;
+      color: rgb(118, 160, 94);
+      font-family: "Inter", Arial, Helvetica, sans-serif;
+      font-size: 19px;
+      font-weight: 600;
+      line-height: 24px;
+      letter-spacing: 0%;
+      text-align: center;
+      text-decoration: none;
+    }
+  }
+}

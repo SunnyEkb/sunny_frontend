@@ -24,8 +24,6 @@ const InputForm: FC<InputProps> = forwardRef<HTMLInputElement, InputProps>(
   {
     const [isShowed, setIsShowed] = useState(false);
 
-    console.log(errors)
-
     const handleClick = () => {
 			setIsShowed(!isShowed);
 		};
@@ -41,7 +39,7 @@ const InputForm: FC<InputProps> = forwardRef<HTMLInputElement, InputProps>(
     return (
       <div className="container">
         <div className="inputContainer">
-          <label>{inputTitle}</label>
+          <label className="label">{inputTitle}</label>
           <input
             ref={ref}
             type={setType()}

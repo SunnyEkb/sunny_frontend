@@ -1,9 +1,12 @@
 export const paths = {
-    index: '/',
+   // index: '/',
     catalogs: '/catalogs',
+    //catalogs: '/',
     settings: '/settings',
-    auth: '/auth',
+    //auth: '/auth',
+    auth: '/',
     register: '/register',
+    //register: '/',
     catalog: '/catalogs/:id',
     error: '/*'
 

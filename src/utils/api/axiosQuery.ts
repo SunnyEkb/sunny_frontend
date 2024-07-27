@@ -1,6 +1,6 @@
 import axios, { AxiosRequestConfig, AxiosError } from "axios";
 import { retry, type BaseQueryFn, BaseQueryApi } from "@reduxjs/toolkit/query";
-import { RootState } from "../../store/store";
+//import { RootState } from "../../store/store";
 
 
 //узнать BASE_URL у беков
