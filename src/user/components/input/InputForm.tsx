@@ -3,6 +3,7 @@ import { FC, forwardRef, useState } from "react";
 import "./input.scss";
 import eye from "../../../assets/icon/eye-default.svg";
 import eyeHidden from "../../../assets/icon/eye-hidden.svg"
+import { phoneMask } from "../../../utils/phoneMask";
 
 
 interface InputProps {
@@ -23,6 +24,7 @@ const InputForm: FC<InputProps> = forwardRef<HTMLInputElement, InputProps>(
   )
   {
     const [isShowed, setIsShowed] = useState(false);
+    const [value, setValue] = useState(''); // состояние для хранения значения input
 
     const handleClick = () => {
 			setIsShowed(!isShowed);
@@ -36,6 +38,24 @@ const InputForm: FC<InputProps> = forwardRef<HTMLInputElement, InputProps>(
 			return type;
 		};
 
+    // функция для обработки изменения ввода
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      let newValue = e.target.value;
+      if (name === 'phone') { // Применение маски только для поля телефона
+        newValue = phoneMask(e.target.value);
+      }
+      setValue(newValue); // Установка нового значения в состояние
+      if (onChange) {
+        onChange({
+          ...e,
+          target: {
+            ...e.target,
+            value: newValue // Передача нового значения в onChange
+          }
+        });
+      }
+    };
+
     return (
       <div className="container">
         <div className="inputContainer">
@@ -45,7 +65,8 @@ const InputForm: FC<InputProps> = forwardRef<HTMLInputElement, InputProps>(
             type={setType()}
             name={name}
             placeholder={placeholder}
-            onChange={onChange}
+            value={value} // Установлено значение из состояния
+            onChange={handleInputChange} // Использование новой функции для обработки изменений
             className={`input ${errors[name]?.message && "input_error" }`}
             autoComplete={autoComplete}
           />
