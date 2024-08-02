@@ -2,7 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import { paths } from "./paths";
 import Login from "../user/pages/logIn/logIn";
 import UserLK from "../user/pages/userLK/userLK";
-import Catalogs from "../user/pages/catalogs/catalogs";
+import Catalogs, { loaderCatalogs } from "../user/pages/catalogs/catalogs";
 
 import Catalog, { loaderCatalog } from "../user/pages/catalog/catalog";
 import CardCatalogBig from "../user/pages/CardCatalogBig/CardCatalogBig";
@@ -15,18 +15,16 @@ export const router = createBrowserRouter([
     path: "/",
     element: <ProtectedRoute />,
     children: [
-
-  {
-
-    path: paths.catalog,
-    element: <Catalog />,
-    loader: (params) => loaderCatalog(params),
-  },
+      {
+        path: paths.catalog,
+        element: <Catalog />,
+        loader: (params) => loaderCatalog(params),
+      },
       {
         path: paths.settings,
         element: <UserLK />,
       },
-    ]
+    ],
   },
   {
     path: paths.catalogAds,
@@ -35,6 +33,7 @@ export const router = createBrowserRouter([
   {
     path: paths.catalogs,
     element: <Catalogs />,
+    loader: loaderCatalogs,
   },
   {
     path: paths.auth,
@@ -44,6 +43,4 @@ export const router = createBrowserRouter([
     path: paths.register,
     element: <Registr />,
   },
-
 ]);
-
