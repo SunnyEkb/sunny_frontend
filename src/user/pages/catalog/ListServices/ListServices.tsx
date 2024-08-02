@@ -7,9 +7,12 @@ import {
 } from "../../../../store/entities/services/services";
 import CardCatalog from "../CardCatalog/CardCatalog";
 import styles from "./styles.module.scss";
+import { useAppDispatch, useAppSelector } from "../../../../store/store";
+import { changePageAction } from "../../../../store/slices/serviceSlice";
 
 export default function ListServices() {
-  const [page, setPage] = React.useState(1);
+  const dispatch = useAppDispatch();
+  const { page, search } = useAppSelector((state) => state.services);
 
   const { ref, inView } = useInView({
     threshold: 0.5,
@@ -19,6 +22,7 @@ export default function ListServices() {
     {
       limit: 12,
       page: page,
+      search: search,
     },
     {
       selectFromResult: ({ data, ...originalArgs }) => ({
@@ -32,13 +36,14 @@ export default function ListServices() {
 
   React.useEffect(() => {
     if (isSuccess && inView) {
-      setPage((prev) => prev + 1);
+      dispatch(changePageAction(page + 1));
     }
   }, [isSuccess, inView]);
+
   return (
     <React.Fragment>
       {data.map((item) => {
-        return <CardCatalog key={item.id} title={item.title}/>;
+        return <CardCatalog key={item.id} title={item.title} />;
       })}
       <div ref={ref} className={styles.observer_element} />
     </React.Fragment>

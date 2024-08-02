@@ -16,6 +16,8 @@ import {
 } from "../../../store/entities/services/services";
 import React from "react";
 import ListServices from "./ListServices/ListServices";
+import { useAppDispatch, useAppSelector } from "../../../store/store";
+import { changeSearchAction } from "../../../store/slices/serviceSlice";
 
 interface ISearch {
   search: string;
@@ -37,6 +39,9 @@ export const loaderCatalog = async ({ params }: LoaderFunctionArgs<Params>) => {
 
 export default function Catalog() {
   // const data = useLoaderData();
+
+  const { search } = useAppSelector((state) => state.services);
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const {
     register,
@@ -47,14 +52,12 @@ export default function Catalog() {
   });
 
   const onSubmit = (data: ISearch) => {
-    console.log(data);
+    dispatch(changeSearchAction(data.search));
   };
 
   function handleGoBack() {
     navigate(-1);
   }
-
-
 
   return (
     <div className={style.catalog}>

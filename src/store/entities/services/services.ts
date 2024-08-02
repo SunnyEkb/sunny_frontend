@@ -21,12 +21,11 @@ export const servicesApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: BASE_URL }),
   tagTypes: ["Services", "UNAUTHORIZED", "UNKNOWN_ERROR"],
   keepUnusedDataFor: 180, //3 минуты
-
   endpoints: (build) => ({
     getServices: build.query<EntityState<any, number>, ParamsServices>({
       query: ({ limit = 15, page = 1, search }) => ({
         url: `${SERVICES_URL}?${limit ? `limit=${limit} ` : ""}&page=${page}${
-          search ? `&search=${search}` : ""
+          search ? `&title=${search}` : ""
         }`.replace(/\s+/g, ""), // regex удаляет все пробелы в строке
         method: "GET",
         credentials: "include",
