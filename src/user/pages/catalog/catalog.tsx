@@ -9,6 +9,13 @@ import { useForm } from "react-hook-form";
 import arrowBack from "../../../assets/icon/arrow-left.svg";
 import fileter from "../../../assets/icon/filter.svg";
 import CardCatalog from "./CardCatalog/CardCatalog";
+import {
+  servicesAdapter,
+  servicesSelector,
+  useGetServicesQuery,
+} from "../../../store/entities/services/services";
+import React from "react";
+import ListServices from "./ListServices/ListServices";
 
 interface ISearch {
   search: string;
@@ -19,17 +26,18 @@ interface Params {
 }
 
 export const loaderCatalog = async ({ params }: LoaderFunctionArgs<Params>) => {
-  const response = await fetch(
-    `https://sunnyekb.ru/api/v1/services/${params.id}/`
-  );
+  // const response = await fetch(
+  //   `https://sunnyekb.ru/api/v1/services/${params.id}/`  // здесь должен быть id по которому получаем список услуг в категории
+  // );
+
+  const response = await fetch(`https://sunnyekb.ru/api/v1/services/`);
 
   return await response.json();
 };
 
 export default function Catalog() {
-  const data = useLoaderData();
+  // const data = useLoaderData();
   const navigate = useNavigate();
-  console.log(data);
   const {
     register,
     formState: { errors },
@@ -45,6 +53,8 @@ export default function Catalog() {
   function handleGoBack() {
     navigate(-1);
   }
+
+
 
   return (
     <div className={style.catalog}>
@@ -94,8 +104,7 @@ export default function Catalog() {
         </button>
       </section>
 
-      <CardCatalog />
-      <CardCatalog />
+      <ListServices />
     </div>
   );
 }

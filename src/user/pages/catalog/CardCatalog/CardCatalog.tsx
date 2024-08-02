@@ -5,7 +5,11 @@ import { useNavigate } from "react-router-dom";
 import CardCatalogAuthor from "../../../components/authorCardCatalog/CardCatalogAuthor";
 import PriceLists from "../../CardCatalogBig/PriceList/PriceLists";
 
-export default function CardCatalog() {
+interface Props {
+  title: string
+}
+
+export default function CardCatalog({title}: Props) {
   const navigate = useNavigate();
 
   function handleGoAds() {
@@ -22,7 +26,7 @@ export default function CardCatalog() {
 
         <div className={style.catalog__cardTitle}>
           <div className={style.catalog__cardTitleWrapper}>
-            <div className={style.catalog__cardTitleText}>Мастер маникюра</div>
+            <div className={style.catalog__cardTitleText}>{title}</div>
             <div className={style.catalog__cardSubtitleText}>
               1000 ₽ за услугу
             </div>
