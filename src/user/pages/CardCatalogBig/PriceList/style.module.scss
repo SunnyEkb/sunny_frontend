@@ -1,0 +1,60 @@
+.catalog__cardInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.catalog__cardRowInfo {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  transition: all ease 0.3s;
+
+  &:hover {
+    opacity: 0.9;
+  }
+}
+
+.catalog__cardRowTitle {
+  overflow: hidden;
+  height: 16px;
+  font-family: Inter;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 16px;
+  text-align: left;
+  color: #2c555b;
+}
+
+.catalog__cardRowPrice {
+  width: 52px;
+  height: 16px;
+  font-family: Inter;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 16px;
+  text-align: right;
+  color: #2c555b;
+}
+
+.button {
+  width: 103px;
+  height: 32px;
+  padding: 8px 16px 8px 16px;
+  border-radius: 8px;
+  background: #b2bdc733;
+  font-family: Inter;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 16px;
+  text-align: left;
+  color: #76a05e;
+  transition: all ease 0.3s;
+  border: none;
+
+  &:hover {
+    opacity: 0.9;
+  }
+}

@@ -8,6 +8,7 @@ export const paths = {
     register: '/register',
     //register: '/',
     catalog: '/catalogs/:id',
+    catalogAds: '/catalogs/:id/ads/:idAds',
     error: '/*'
 
 }

@@ -1,0 +1,50 @@
+.cardBig__descriptionSection {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+}
+
+.cardBig__descriptionTitle {
+  margin: 0;
+  font-family: Inter;
+  font-size: 19px;
+  font-weight: 600;
+  line-height: 24px;
+  text-align: left;
+  color: #2c555b;
+}
+
+.cardBig__descriptionInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.cardBig__descriptionRow {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+}
+
+.cardBig__descriptionCategory {
+  white-space: wrap;
+  font-family: Inter;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 20px;
+  text-align: left;
+  color: #b2bdc7;
+}
+
+.cardBig__descriptionName {
+  white-space: wrap;
+  width: 188px;
+  font-family: Inter;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 20px;
+  text-align: left;
+}
