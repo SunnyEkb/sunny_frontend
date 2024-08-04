@@ -1,0 +1,35 @@
+.Table {
+	margin: 0;
+	padding: 0;
+	border-collapse: collapse;
+	border: 1px;
+	box-sizing: border-box;
+
+	&__item_1 {
+		margin: 0;
+		padding: 20px;
+		width: 30%;
+		height: 50px;
+		border: 1px solid black;
+		color: #000;
+		font-family: 'Inter', Arial, Helvetica, sans-serif;
+		font-size: clamp(14px, 4vw, 20px);
+		font-style: normal;
+		font-weight: 500;
+		line-height: 25px;
+	}
+
+	&__item_2 {
+		margin: 0;
+		padding: 20px;
+		width: 70%;
+		height: 50px;
+		border: 1px solid black;
+		color: #000;
+		font-family: 'Inter', Arial, Helvetica, sans-serif;
+		font-size: clamp(14px, 4vw, 20px);
+		font-style: normal;
+		font-weight: 500;
+		line-height: 25px;
+	}
+}
