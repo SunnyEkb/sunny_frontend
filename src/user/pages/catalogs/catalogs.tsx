@@ -1,13 +1,27 @@
-import React from "react";
 import styles from "./styles.module.scss";
-import { mockCatalog } from "./constantsMock";
+// import { mockCatalog } from "./constantsMock";
 import CardCatalog from "./CardCatalog/CardCatalog";
+import Footer from "../../components/footer/Footer";
+import { useLoaderData } from "react-router-dom";
 
-import telegram from "../../../assets/icon/Telegram.svg";
-import vk from "../../../assets/icon/VK.svg";
-import email from "../../../assets/icon/Email.svg";
+interface DataProps {
+  id: number;
+  title: string;
+  subcategories: Array<unknown> | null;
+  img?: string;
+}
+
+export const loaderCatalogs = async () => {
+  const response = await fetch("https://sunnyekb.ru/api/v1/categories/", {
+    method: "GET",
+    credentials: "include",
+  });
+
+  return response;
+};
 
 export default function Catalogs() {
+  const data = useLoaderData() as DataProps[];
   return (
     <section className={styles.section}>
       <header className={styles.catalog__header}>
@@ -21,30 +35,12 @@ export default function Catalogs() {
       <main className={styles.catalog__content}>
         <div className={styles.catalog__title}>На районе</div>
         <div className={styles.catalog__itemList}>
-          {mockCatalog.map((card) => {
+          {data.map((card) => {
             return <CardCatalog key={card.id} card={card} />;
           })}
         </div>
       </main>
-      <footer className={styles.catalog__footer}>
-        <div className={styles.catalog__footerLinks}>
-          <div className={styles.catalog__footerLink}>Новости</div>
-          <div className={styles.catalog__footerLink}>Служба поддержки</div>
-          <div className={styles.catalog__footerLink}>
-            Условия работы сервиса
-          </div>
-          <div className={styles.catalog__footerLink}>
-            Политика конфиденциальности
-          </div>
-          <div className={styles.catalog__footerLink}>Контакты</div>
-        </div>
-        <div className={styles.catalog__footerSocial}>
-          <img src={telegram} alt="телеграм" className={styles.catalog__footerSocialImg} />
-          <img src={vk} alt="вк" className={styles.catalog__footerSocialImg}/>
-          <img src={email} alt="почта" className={styles.catalog__footerSocialImg}/>
-        </div>
-        <div className={styles.catalog__footerInfo}>© «Солнечный Екб», 2024</div>
-      </footer>
+      <Footer />
     </section>
   );
 }

@@ -1,0 +1,36 @@
+import React from "react";
+import style from "./style.module.scss";
+
+export default function DescriptionList() {
+  return (
+    <section className={style.cardBig__descriptionSection}>
+      <h4 className={style.cardBig__descriptionTitle}>Описание</h4>
+
+      <div className={style.cardBig__descriptionInfo}>
+        <div className={style.cardBig__descriptionRow}>
+          <div className={style.cardBig__descriptionCategory}>Вид услуги:</div>
+          <div className={style.cardBig__descriptionName}>
+            Красота, здоровье
+          </div>
+        </div>
+
+        <div className={style.cardBig__descriptionRow}>
+          <div className={style.cardBig__descriptionCategory}>Тип услуги::</div>
+          <div className={style.cardBig__descriptionName}>Маникюр, педикюр</div>
+        </div>
+
+        <div className={style.cardBig__descriptionRow}>
+          <div className={style.cardBig__descriptionCategory}>
+            Место встречи:
+          </div>
+          <div className={style.cardBig__descriptionName}>На дому</div>
+        </div>
+
+        <div className={style.cardBig__descriptionRow}>
+          <div className={style.cardBig__descriptionCategory}>Опыт работы:</div>
+          <div className={style.cardBig__descriptionName}>5 лет</div>
+        </div>
+      </div>
+    </section>
+  );
+}
