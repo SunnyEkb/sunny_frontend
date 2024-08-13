@@ -8,6 +8,7 @@ import Catalog, { loaderCatalog } from "../user/pages/catalog/catalog";
 import CardCatalogBig from "../user/pages/CardCatalogBig/CardCatalogBig";
 import Registr from "../user/pages/singin/SignIn";
 import ProtectedRoute from "./protectedRoute";
+import PolicyPage from "../user/pages/PolicyPage/PolicyPage";
 //import { useCheckAuthQuery } from "../store/auth-api/authApi";
 
 export const router = createBrowserRouter([
@@ -41,6 +42,11 @@ export const router = createBrowserRouter([
   },
   {
     path: paths.register,
-    element: <Registr />,
+    element: <Registr />
   },
+  {
+    path: paths.policy,
+    element: <PolicyPage />
+  }
 ]);
+
