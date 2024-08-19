@@ -3,7 +3,9 @@ import { FC, forwardRef, useState } from "react";
 import "./input.scss";
 import eye from "../../../assets/icon/eye-default.svg";
 import eyeHidden from "../../../assets/icon/eye-hidden.svg"
-import { phoneMask } from "../../../utils/phoneMask";
+//import { FieldError, FieldErrors, FieldErrorsImpl, Merge, Message } from "react-hook-form";
+//import { Inputs } from "../../pages/singin/SignIn";
+//import { phoneMask } from "../../../utils/phoneMask";
 
 
 interface InputProps {
@@ -21,39 +23,21 @@ const InputForm: FC<InputProps> = forwardRef<HTMLInputElement, InputProps>(
   function InputForm(
     { type, name, placeholder, onChange, errors, autoComplete, inputTitle },
     ref
-  ) {
+  )
+  {
     const [isShowed, setIsShowed] = useState(false);
-    const [value, setValue] = useState(''); // состояние для хранения значения input
 
     const handleClick = () => {
-      setIsShowed(!isShowed);
-    };
+			setIsShowed(!isShowed);
+		};
 
-    const setType = () => {
-      if (type === "password") {
-        if (isShowed) return "text";
-        return "password";
-      }
-      return type;
-    };
-
-    // функция для обработки изменения ввода
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      let newValue = e.target.value;
-      if (name === 'phone') { // Применение маски только для поля телефона
-        newValue = phoneMask(e.target.value);
-      }
-      setValue(newValue); // Установка нового значения в состояние
-      if (onChange) {
-        onChange({
-          ...e,
-          target: {
-            ...e.target,
-            value: newValue // Передача нового значения в onChange
-          }
-        });
-      }
-    };
+		const setType = () => {
+			if (type === 'password') {
+				if (isShowed) return 'text';
+				return 'password';
+			}
+			return type;
+		};
 
     return (
       <div className="container">
@@ -64,16 +48,15 @@ const InputForm: FC<InputProps> = forwardRef<HTMLInputElement, InputProps>(
             type={setType()}
             name={name}
             placeholder={placeholder}
-            value={value} // Установлено значение из состояния
-            onChange={handleInputChange} // Использование новой функции для обработки изменений
+            onChange={onChange}
             className={`input ${errors[name]?.message && "input_error" }`}
             autoComplete={autoComplete}
           />
-          {type === "password" && (
-            <button className="eye" type="button" onClick={handleClick}>
-              <img src={isShowed ? eye : eyeHidden} alt="hide" />
-            </button>
-          )}
+          {type === 'password' && (
+						<button className="eye" type="button" onClick={handleClick}>
+							<img src={isShowed ? eye : eyeHidden} alt="hide" />
+						</button>
+					)}
           {errors && (
             <span className={`error input-error-${name}`}>
               {errors[name]?.message || ""}

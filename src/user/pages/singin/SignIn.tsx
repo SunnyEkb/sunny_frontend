@@ -2,15 +2,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { FC, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styles from "./SingIn.module.scss";
 import UserForm from "../../components/form/userForm";
 import InputForm from "../../components/input/InputForm";
 import { useRegisterMutation } from "../../../store/auth-api/authApi";
 import ButtonForm from "../../../shared/button/button";
 import checkmark from "../../../assets/icon/checkmark.svg";
+import { phoneMask } from "../../../utils/phoneMask";
 
-interface Inputs {
+export interface Inputs {
   username: string;
   phone: string;
   password: string;
@@ -19,6 +20,9 @@ interface Inputs {
 }
 
 const Registr: FC = () => {
+
+  const navigate = useNavigate();
+
   const {
     register,
     formState: { errors, isValid, isDirty },
@@ -26,6 +30,7 @@ const Registr: FC = () => {
     reset,
     watch,
     setError,
+    setValue,
   } = useForm<Inputs>({
     mode: "onChange",
   });
@@ -55,7 +60,10 @@ const Registr: FC = () => {
 
   const onSubmit = async (data: Inputs) => {
     try {
-      await registerUser(data).unwrap();
+      await registerUser(data).unwrap()
+        .then(() => {
+          navigate("/auth");
+        })
     } catch (error: any) {
       if (error.data) {
         const serverErrors = error.data;
@@ -76,6 +84,15 @@ const Registr: FC = () => {
   };
 
   const password = watch("password");
+
+  const phoneNumber = watch("phone") || "";
+
+  useEffect(() => {
+    const maskedPhone = phoneMask(phoneNumber);
+    if (phoneNumber !== maskedPhone) {
+      setValue("phone", phoneMask(phoneNumber));
+    }
+  }, [phoneNumber, setValue])
 
   return (
     <div className={styles.Registr}>
@@ -137,7 +154,7 @@ const Registr: FC = () => {
         })}
         name="phone"
         errors={errors}
-        placeholder=""
+        placeholder="+7"
         inputTitle="Телефон"
       />
 
@@ -199,7 +216,7 @@ const Registr: FC = () => {
       <ButtonForm
         type="submit"
         disabled={!isValid || !isDirty || isLoading || !checked}
-        title={title || "Submit"}
+        title={title || "Ввод"}
       />
     </UserForm>
   </div>
