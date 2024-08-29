@@ -25,16 +25,16 @@ export const router = createBrowserRouter([
         path: paths.settings,
         element: <UserLK />,
       },
+      {
+        path: paths.catalogs,
+        element: <Catalogs />,
+        loader: loaderCatalogs,
+      },
+      {
+        path: paths.catalogAds,
+        element: <CardCatalogBig />,
+      },
     ],
-  },
-  {
-    path: paths.catalogAds,
-    element: <CardCatalogBig />,
-  },
-  {
-    path: paths.catalogs,
-    element: <Catalogs />,
-    loader: loaderCatalogs,
   },
   {
     path: paths.auth,
