@@ -11,7 +11,7 @@ interface DataProps {
   img?: string;
 }
 
-export const loaderCatalogs = async () => {
+export const loaderCatagories = async () => {
   const response = await fetch("https://sunnyekb.ru/api/v1/categories/", {
     method: "GET",
     credentials: "include",

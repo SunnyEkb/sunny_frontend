@@ -9,6 +9,7 @@ import CardCatalog from "../CardCatalog/CardCatalog";
 import styles from "./styles.module.scss";
 import { useAppDispatch, useAppSelector } from "../../../../store/store";
 import { changePageAction } from "../../../../store/slices/serviceSlice";
+import { useParams } from "react-router-dom";
 
 export default function ListServices() {
   const dispatch = useAppDispatch();
@@ -17,12 +18,14 @@ export default function ListServices() {
   const { ref, inView } = useInView({
     threshold: 0.5,
   });
+  const params = useParams();
 
   const { data, isSuccess } = useGetServicesQuery(
     {
       limit: 12,
       page: page,
       search: search,
+      typeId: params.id!
     },
     {
       selectFromResult: ({ data, ...originalArgs }) => ({

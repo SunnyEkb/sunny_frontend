@@ -8,6 +8,7 @@ type ParamsServices = {
   limit?: number;
   page: number;
   search?: string;
+  typeId: string;
 };
 
 const servicesAdapter = createEntityAdapter({
@@ -23,10 +24,10 @@ export const servicesApi = createApi({
   keepUnusedDataFor: 180, //3 минуты
   endpoints: (build) => ({
     getServices: build.query<EntityState<any, number>, ParamsServices>({
-      query: ({ limit = 15, page = 1, search }) => ({
+      query: ({ limit = 15, page = 1, search, typeId }) => ({
         url: `${SERVICES_URL}?${limit ? `limit=${limit} ` : ""}&page=${page}${
           search ? `&title=${search}` : ""
-        }`.replace(/\s+/g, ""), // regex удаляет все пробелы в строке
+        }&type_id=${typeId}`.replace(/\s+/g, ""), // regex удаляет все пробелы в строке
         method: "GET",
         credentials: "include",
         // headers: {
