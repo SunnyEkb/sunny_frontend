@@ -1,46 +1,18 @@
-import {
-  LoaderFunctionArgs,
-  useLoaderData,
-  useNavigate,
-} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import style from "./style.module.scss";
 import InputForm from "../../components/input/InputForm";
 import { useForm } from "react-hook-form";
 import arrowBack from "../../../assets/icon/arrow-left.svg";
 import fileter from "../../../assets/icon/filter.svg";
-import CardCatalog from "./CardCatalog/CardCatalog";
-import {
-  servicesAdapter,
-  servicesSelector,
-  useGetServicesQuery,
-} from "../../../store/entities/services/services";
-import React from "react";
 import ListServices from "./ListServices/ListServices";
-import { useAppDispatch, useAppSelector } from "../../../store/store";
+import { useAppDispatch } from "../../../store/store";
 import { changeSearchAction } from "../../../store/slices/serviceSlice";
 
 interface ISearch {
   search: string;
 }
 
-interface Params {
-  id: string;
-}
-
-export const loaderCatalog = async ({ params }: LoaderFunctionArgs<Params>) => {
-  // const response = await fetch(
-  //   `https://sunnyekb.ru/api/v1/services/${params.id}/`  // здесь должен быть id по которому получаем список услуг в категории
-  // );
-
-  const response = await fetch(`https://sunnyekb.ru/api/v1/services/`);
-
-  return await response.json();
-};
-
 export default function Catalog() {
-  // const data = useLoaderData();
-
-  const { search } = useAppSelector((state) => state.services);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const {
@@ -64,7 +36,6 @@ export default function Catalog() {
       <header className={style.catalog__header}>
         <h1 className={style.catalog__headerTitle}>Солнечный Екб</h1>
       </header>
-
       <form
         onSubmit={handleSubmit(onSubmit)}
         className={style.catalog__searchContainer}

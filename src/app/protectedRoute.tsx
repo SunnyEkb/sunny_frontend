@@ -4,7 +4,7 @@ import Login from "../user/pages/logIn/logIn";
 
 const ProtectedRoute: FC = () => {
   //const mockToken = "mock"; // тут должна быть какая то логика по проверке наличия токена
-  const mockToken = null; // тут должна быть какая то логика по проверке наличия токена
+  const mockToken = true; // тут должна быть какая то логика по проверке наличия токена
 
   return mockToken ? <Outlet /> : <Login />;
 };
