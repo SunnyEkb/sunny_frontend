@@ -2,11 +2,15 @@ import React from "react";
 import style from './style.module.scss';
 import star from '../../../assets/icon/Star.svg';
 
-export default function CardCatalogAuthor() {
+interface Props {
+  card: any;
+}
+
+export default function CardCatalogAuthor({card}: Props) {
   return (
     <React.Fragment>
       <div className={style.catalog__cardAuthor}>
-        Имя мастера / Название салона
+        Имя мастера / {card.salon_name}
       </div>
 
       <div className={style.catalog__cardRaiting}>
