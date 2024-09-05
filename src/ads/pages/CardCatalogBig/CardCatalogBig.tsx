@@ -55,7 +55,7 @@ export default function CardCatalogBig() {
         </div>
       </section>
 
-      <SwipeImg imgList={cardData.image}/>
+      <SwipeImg imgList={cardData.images}/>
 
       <div className={style.cardBig__title}>
         <h2 className={style.cardBig__cardTitleText}>{cardData.title}</h2>

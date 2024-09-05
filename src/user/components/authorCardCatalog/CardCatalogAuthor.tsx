@@ -10,7 +10,7 @@ export default function CardCatalogAuthor({card}: Props) {
   return (
     <React.Fragment>
       <div className={style.catalog__cardAuthor}>
-        Имя мастера / {card.salon_name}
+        Имя мастера / {card?.salon_name ? card.salon_name  : 'Название салона'}
       </div>
 
       <div className={style.catalog__cardRaiting}>
