@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import style from "./style.module.scss";
-import InputForm from "../../components/input/InputForm";
+import InputForm from "../../../user/components/input/InputForm";
 import { useForm } from "react-hook-form";
 import arrowBack from "../../../assets/icon/arrow-left.svg";
 import fileter from "../../../assets/icon/filter.svg";
@@ -72,7 +72,7 @@ export default function Catalog() {
       </section>
 
       <section className={style.catalog__sectionButton}>
-        <button className={style.catalog__button}>
+        <button className={style.catalog__button} onClick={() => navigate('/type-catalog')}>
           <p className={style.catalog__buttonText}>Вид услуги</p>
           <img src={fileter} className={style.catalog__buttonArrow} />
         </button>

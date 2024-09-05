@@ -3,11 +3,11 @@ import arrowBack from "../../../assets/icon/arrow-left.svg";
 import share from "../../../assets/icon/Share.svg";
 import heart from "../../../assets/icon/Heart.svg";
 import SwipeImg from "./SwipeImg/SwipeImg";
-import CardCatalogAuthor from "../../components/authorCardCatalog/CardCatalogAuthor";
+import CardCatalogAuthor from "../../../user/components/authorCardCatalog/CardCatalogAuthor";
 import DescriptionList from "./DescriptionList/DescriptionList";
 import PriceLists from "./PriceList/PriceLists";
 import { descriptionText } from "./mock";
-import Footer from "../../components/footer/Footer";
+import Footer from "../../../user/components/footer/Footer";
 import { useNavigate } from "react-router-dom";
 
 export default function CardCatalogBig() {
