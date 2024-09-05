@@ -9,7 +9,10 @@ import CardCatalogBig from "../ads/pages/CardCatalogBig/CardCatalogBig";
 import Registr from "../user/pages/singin/SignIn";
 import ProtectedRoute from "./protectedRoute";
 import PolicyPage from "../user/pages/PolicyPage/PolicyPage";
-import TypeCatalog, { loaderTypesCatalog } from "../ads/pages/typeCatalog/TypeCatalog";
+import TypeCatalog, {
+  loaderTypesCatalog,
+} from "../ads/pages/typeCatalog/TypeCatalog";
+import MainLayout from "./layouts/MainLayout";
 //import { useCheckAuthQuery } from "../store/auth-api/authApi";
 
 export const router = createBrowserRouter([
@@ -28,19 +31,25 @@ export const router = createBrowserRouter([
     ],
   },
   {
-    path: paths.catalogAds,
-    element: <CardCatalogBig />,
+    element: <MainLayout />,
+    children: [
+      {
+        path: paths.catalogAds,
+        element: <CardCatalogBig />,
+      },
+      {
+        path: paths.typeCatalog,
+        element: <TypeCatalog />,
+        loader: loaderTypesCatalog,
+      },
+      {
+        path: paths.catalogs,
+        element: <Catalogs />,
+        loader: () => loaderCatagories(),
+      },
+    ],
   },
-  {
-    path: paths.typeCatalog,
-    element: <TypeCatalog />,
-    loader: loaderTypesCatalog,
-  },
-  {
-    path: paths.catalogs,
-    element: <Catalogs />,
-    loader: () => loaderCatagories(),
-  },
+
   {
     path: paths.auth,
     element: <Login />,

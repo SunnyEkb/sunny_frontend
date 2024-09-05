@@ -1,5 +1,7 @@
 .footer {
-  max-width: 480x;
+  position: sticky;
+  bottom: 0;
+  max-width: 480px;
   width: 100%;
   height: 56px;
   background-color: #ffffff;
@@ -17,7 +19,9 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 64px;
+  max-width: 64px;
+  min-width: 32px;
+  width: 100%;
   height: 56px;
   padding: 8px 0px 8px 0px;
   gap: 4px;
