@@ -1,0 +1,26 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 10px 0 0;
+}
+
+.backButton {
+  background: none;
+  margin-right: 90%;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.icons {
+  display: flex;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.icon {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+}
