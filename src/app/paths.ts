@@ -10,6 +10,7 @@ export const paths = {
    catalog: '/catalogs/:id',
    catalogAds: '/catalogs/:id/ads/:idAds',
    policy: '/policy',
-   error: '/*'
+   error: '/*',
+   typeCatalog: '/type-catalog'
 }
 

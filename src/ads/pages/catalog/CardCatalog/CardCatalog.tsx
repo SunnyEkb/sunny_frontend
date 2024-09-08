@@ -2,7 +2,7 @@ import style from "./style.module.scss";
 import defaultPhoto from "../../../../assets/icon/Foto.png";
 import heartLike from "../../../../assets/icon/Heart.svg";
 import { useNavigate } from "react-router-dom";
-import CardCatalogAuthor from "../../../components/authorCardCatalog/CardCatalogAuthor";
+import CardCatalogAuthor from "../../../../user/components/authorCardCatalog/CardCatalogAuthor";
 import PriceLists from "../../CardCatalogBig/PriceList/PriceLists";
 
 interface Props {

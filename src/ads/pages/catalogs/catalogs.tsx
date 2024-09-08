@@ -1,7 +1,7 @@
 import styles from "./styles.module.scss";
 // import { mockCatalog } from "./constantsMock";
 import CardCatalog from "./CardCatalog/CardCatalog";
-import Footer from "../../components/footer/Footer";
+import Footer from "../../../user/components/footer/Footer";
 import { useLoaderData } from "react-router-dom";
 
 interface DataProps {
