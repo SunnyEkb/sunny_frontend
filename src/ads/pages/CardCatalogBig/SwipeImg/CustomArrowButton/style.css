@@ -1,0 +1,15 @@
+.custom-next-button {
+  width: 6px;
+  height: 12px;
+  cursor: pointer;
+  transition: all ease .3s;
+
+}
+
+.custom-prev-button {
+  width: 6px;
+  height: 12px;
+  cursor: pointer;
+  transition: all ease .3s;
+
+}

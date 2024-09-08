@@ -3,18 +3,37 @@ import arrowBack from "../../../assets/icon/arrow-left.svg";
 import share from "../../../assets/icon/Share.svg";
 import heart from "../../../assets/icon/Heart.svg";
 import SwipeImg from "./SwipeImg/SwipeImg";
-import CardCatalogAuthor from "../../components/authorCardCatalog/CardCatalogAuthor";
+import CardCatalogAuthor from "../../../user/components/authorCardCatalog/CardCatalogAuthor";
 import DescriptionList from "./DescriptionList/DescriptionList";
 import PriceLists from "./PriceList/PriceLists";
 import { descriptionText } from "./mock";
-import Footer from "../../components/footer/Footer";
-import { useNavigate } from "react-router-dom";
+import Footer from "../../../user/components/footer/Footer";
+import {
+  LoaderFunctionArgs,
+  useLoaderData,
+  useNavigate,
+} from "react-router-dom";
+
+interface LoaderParams {
+  idAds: string;
+  id: string; //catalog
+}
+
+export const loaderAdsByCatalogId = async ({
+  params,
+}: LoaderFunctionArgs<LoaderParams>) => {
+  const response = await fetch(
+    `https://sunnyekb.ru/api/v1/services/${params.idAds}/`
+  );
+  return response;
+};
 
 export default function CardCatalogBig() {
-  const navigate = useNavigate()
-
+  const navigate = useNavigate();
+  const cardData = useLoaderData() as any;
+  console.log(cardData);
   function handleGoBack() {
-    navigate(-1)
+    navigate(-1);
   }
   return (
     <div className={style.cardBig}>
@@ -23,7 +42,12 @@ export default function CardCatalogBig() {
       </header>
 
       <section className={style.cardBig__settings}>
-        <img src={arrowBack} alt="back" className={style.cardBig__img} onClick={handleGoBack}/>
+        <img
+          src={arrowBack}
+          alt="back"
+          className={style.cardBig__img}
+          onClick={handleGoBack}
+        />
 
         <div className={style.cardBig__panel}>
           <img src={share} className={style.cardBig__img} />
@@ -31,17 +55,17 @@ export default function CardCatalogBig() {
         </div>
       </section>
 
-      <SwipeImg />
+      <SwipeImg imgList={cardData.images}/>
 
       <div className={style.cardBig__title}>
-        <h2 className={style.cardBig__cardTitleText}>Мастер маникюра</h2>
+        <h2 className={style.cardBig__cardTitleText}>{cardData.title}</h2>
         <div className={style.cardBig__cardSubtitleText}>1000 ₽ за услугу</div>
       </div>
 
       <div className={style.cardBig__cardCity}>ул. Лучистая, 16</div>
 
       <div className={style.cardBig__cardContact}>
-        <CardCatalogAuthor />
+        <CardCatalogAuthor card={cardData}/>
 
         <button className={style.cardBig__cardButton}>Написать</button>
       </div>
