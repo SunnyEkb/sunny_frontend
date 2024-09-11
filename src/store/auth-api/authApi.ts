@@ -2,33 +2,9 @@
 import { createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
 import { BASE_URL } from "../../utils/constans";
 
-/* export const BASE_URL: string = 'https://sunnyekb.ru/api/v1/';
+//export const BASE_URL: string = 'https://sunnyekb.ru/api/v1/';
 
-export const token = localStorage.getItem('token')
-  ? localStorage.getItem('token')
-  : sessionStorage.getItem('token')
-    ? sessionStorage.getItem('token')
-    : ''; */
 
-export const getToken = (): string => {
-  const localStorageToken = localStorage.getItem('token');
-  const sessionStorageToken = sessionStorage.getItem('token');
-  return localStorageToken || sessionStorageToken || '';
-};
-
-export const preHeaders = () => {
-  const tokenA = getToken();
- /*  const tokenObject = getToken();
-  const tokenA = tokenObject.token; */
-  return tokenA
-    ? {
-      "Content-Type": "application/json",
-      Authorization: `Token ${tokenA}`,
-    }
-    : {
-      "Content-Type": "application/json",
-    };
-};
 
 export const authApi = createApi({
   reducerPath: 'auth/api',
@@ -40,7 +16,10 @@ export const authApi = createApi({
       query: (data) => ({
         url: `login/`,
         method: 'POST',
-        headers: preHeaders(),
+        credentials: 'include',
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify(data),
       }),
     }),
@@ -48,14 +27,20 @@ export const authApi = createApi({
       query: () => ({
         url: `logout/`,
         method: 'POST',
-        headers: preHeaders(),
+        credentials: 'include',
+        headers: {
+          "Content-Type": "application/json",
+        },
       }),
     }),
     register: build.mutation<string, any>({
       query: (data) => ({
         url: `registry/`,
         method: 'POST',
-        headers: preHeaders(),
+        credentials: 'include',
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify(data),
       }),
     }),
@@ -63,7 +48,21 @@ export const authApi = createApi({
       query: () => ({
         url: `users/me/`,
         method: 'GET',
-        headers: preHeaders(),
+        credentials: 'include',
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }),
+    }),
+    updateUserProfile: build.mutation<any, any>({
+      query: (data) => ({
+        url: `users/me/`,
+        method: 'PUT',
+        credentials: 'include',
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
       }),
     }),
   }),
@@ -74,7 +73,8 @@ export const {
   useLazyLoginQuery,
   useRegisterMutation,
   useLogoutMutation,
-  useCheckAuthQuery
+  useCheckAuthQuery,
+  useUpdateUserProfileMutation
 } = authApi;
 
 export type AuthApi = typeof authApi;
