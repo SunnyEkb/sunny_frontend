@@ -1,5 +1,6 @@
 import React from "react";
 import styles from "./userProfile.module.scss";
+import Avatar from "../avatar/Avatar";
 
 interface UserProfileProps {
   name?: string;
@@ -21,17 +22,7 @@ const UserProfile: React.FC<UserProfileProps> = ({
   return (
     <article className={styles.userProfile}>
       <header className={styles.header}>
-        <div className={styles.avatar}>
-          {avatarUrl ? (
-            <img
-              src={avatarUrl}
-              alt={`${name}'s Avatar`}
-              className={styles.avatarImage}
-            />
-          ) : (
-            <span className={styles.avatarInitial}>{initial}</span>
-          )}
-        </div>
+        <Avatar avatarUrl={avatarUrl} initial={initial} altText={`${name}'s Avatar`} />
         <h2 className={styles.name}>{name}</h2>
       </header>
       <section className={styles.info}>
