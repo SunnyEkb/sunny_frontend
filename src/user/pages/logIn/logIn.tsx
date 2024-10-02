@@ -7,13 +7,14 @@ import styles from "./LogIn.module.scss";
 import UserForm from "../../components/form/userForm";
 import InputForm from "../../components/input/InputForm";
 import ButtonForm from "../../../shared/button/button";
-import { useLazyLoginQuery } from "../../../store/auth-api/authApi";
-import { setAuthenticated } from '../../../store/slices/authSlice';
+import { useLazyCheckAuthQuery, useLazyLoginQuery, useLazyRefrechTokenQuery } from "../../../store/auth-api/authApi";
+//import { setAuthenticated } from '../../../store/slices/authSlice';
 import { useDispatch } from "react-redux";
+import { setAuthenticated, setUser } from "../../../store/slices/authSlice";
 
 interface Inputs {
-  password?: string;
-  email?: string;
+  password: string;
+  email: string;
 }
 
 const LogIn: FC = () => {
@@ -31,7 +32,9 @@ const LogIn: FC = () => {
     mode: "onChange",
   });
 
-  const [login, { error, isLoading, isSuccess }] = useLazyLoginQuery();
+  const [login, { isLoading: isLoginLoading }] = useLazyLoginQuery();
+  const [fetcUserMe] = useLazyCheckAuthQuery();
+  const [refrechToken] = useLazyRefrechTokenQuery();
 
   useEffect(() => {
     const defaultValues: Inputs = {
@@ -42,10 +45,25 @@ const LogIn: FC = () => {
   }, [reset]);
 
   const onSubmit = async (data: Inputs) => {
-    login(data)
-      .then((res) => {
-        navigate("/catalogs");
-      })
+    try {
+      // Выполняем запрос логина
+      const loginResponse = await login(data).unwrap();
+      if (loginResponse) {
+        // Если логин успешен, запрашиваем рефреш токен
+        //пока рефреш не запрашиваем
+        //await refrechToken().unwrap();
+
+        // Получаем данные пользователя
+        const userResponse = await fetcUserMe().unwrap();
+        dispatch(setUser(userResponse)); // Сохраняем данные пользователя в Redux
+        dispatch(setAuthenticated(true)); // Устанавливаем, что пользователь аутентифицирован
+
+        // Перенаправляем на страницу каталога
+        navigate('/catalogs');
+      }
+    } catch (err) {
+      console.error('Ошибка при логине или запросе данных:', err);
+    }
   };
 
   const title = "Войти"
@@ -60,7 +78,7 @@ const LogIn: FC = () => {
           isValid={isValid}
           isDirty={isDirty}
           title={title}
-          isLoading={isLoading}
+          isLoading={isLoginLoading}
         >
           <InputForm
             type="text"
@@ -84,7 +102,7 @@ const LogIn: FC = () => {
           />
           <ButtonForm
             type="submit"
-            disabled={!isValid || !isDirty || isLoading}
+            disabled={!isValid || !isDirty || isLoginLoading}
             title={title || "VC"}
           />
         </UserForm>

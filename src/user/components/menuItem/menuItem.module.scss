@@ -1,0 +1,31 @@
+.menuItem {
+  padding: 0 20px 15px 0;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: start;
+}
+
+.danger {
+  color: #d9534f;
+}
+
+.title {
+  margin: 0;
+  font-size: 18px;
+  font-family: 'Inter', Arial, Helvetica, sans-serif;
+}
+
+.subtitle {
+  margin: 5px 0 0;
+  font-size: 14px;
+  color: #666;
+  font-family: 'Inter', Arial, Helvetica, sans-serif;
+}
+
+.linkText {
+  color: #5cb85c;
+  text-decoration: none;
+  font-family: 'Inter', Arial, Helvetica, sans-serif;
+}

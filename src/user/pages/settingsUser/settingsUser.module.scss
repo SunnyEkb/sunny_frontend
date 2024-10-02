@@ -1,0 +1,20 @@
+.settingsUser {
+  margin: 0;
+  padding: 40px 0 0 20px;
+  width: 320px;
+  height: 76px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  &__link {
+    margin: 0;
+    padding: 0;
+    color: rgb(44, 85, 91);
+    font-family: 'Inter', Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 20px;
+    text-decoration: none;
+  }
+}
