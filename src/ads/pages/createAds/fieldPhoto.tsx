@@ -10,9 +10,10 @@ export default function FieldPhoto() {
 
   const addPhoto = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files && event.target.files[0];
+
     if (file) {
       const newPhotoUrl = URL.createObjectURL(file);
-      const newPhoto = [...photo, { url: newPhotoUrl }];
+      const newPhoto = [...photo, { url: newPhotoUrl, file: file }];
       setValue("photo", newPhoto, { shouldValidate: true });
     }
   };

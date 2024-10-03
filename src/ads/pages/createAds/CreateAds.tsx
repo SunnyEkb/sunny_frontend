@@ -11,6 +11,7 @@ export interface itemAds {
 
 export interface IPhoto {
   url: string;
+  file: File;
 }
 
 interface PropsForm {
@@ -26,13 +27,8 @@ interface PropsForm {
 export default function CreateAds() {
   const methods = useForm({
     defaultValues: {
-      itemAds: [
-        {
-          nameAds: "",
-          price: "",
-        },
-      ],
-      photo: [{ url: "" }],
+      itemAds: [],
+      photo: [],
       viewAds: "",
       typeAds: "",
       venue: "",
