@@ -101,9 +101,11 @@
 
   &:hover {
     border-color: 1px solid rgba(122, 122, 122, 1);
+    outline: none;
   }
 
   &:focus {
+    outline: none;
     border-bottom: 2px solid black;
   }
 }
