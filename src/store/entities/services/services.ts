@@ -68,9 +68,21 @@ export const servicesApi = createApi({
           ? ["UNAUTHORIZED"]
           : ["UNKNOWN_ERROR"],
     }),
+    createService: build.mutation({
+      query: (data) => ({
+        url: `${SERVICES_URL}/services/`,
+        method: "POST",
+        credentials: "include",
+        data: JSON.stringify(data),
+        body: JSON.stringify(data),
+        // headers: {
+        //   Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        // },
+      }),
+    }),
   }),
 });
 
-export const { useGetServicesQuery } = servicesApi;
+export const { useGetServicesQuery, useCreateServiceMutation } = servicesApi;
 
 export { servicesAdapter, servicesSelector };
