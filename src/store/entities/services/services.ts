@@ -75,6 +75,9 @@ export const servicesApi = createApi({
         credentials: "include",
         data: JSON.stringify(data),
         body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json",
+        },
         // headers: {
         //   Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
         // },
