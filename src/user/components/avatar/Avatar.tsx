@@ -1,34 +1,9 @@
-import { ChangeEvent, FC } from "react";
+import { FC } from "react";
 import styles from "./avatar.module.scss"
 import camera from "../../../assets/icon/camera.svg"
 
-/* interface AvatarProps {
-  avatarUrl?: string;
-  initial?: string;
-  altText?: string;
-  editable?: boolean;
-}
-
-const Avatar: FC<AvatarProps> = ({ avatarUrl, initial, altText, editable }) => {
-  return (
-    <div className={styles.avatar}>
-      {avatarUrl ? (
-        <img
-          src={avatarUrl}
-          alt={altText}
-          className={styles.avatarImage}
-        />
-      ) : (
-        <span className={styles.avatarInitial}>{initial}</span>
-      )}
-      {editable ? (<img className={styles.avatarIcon_foto} src={camera} alt="camera_icon"/>) : (null)}
-
-    </div>
-  );
-}; */
-
 interface AvatarProps {
-  avatarUrl?: string | null;
+  avatarUrl?: string | File | null;
   initial?: string;
   altText?: string;
   editable?: boolean;
@@ -37,13 +12,14 @@ interface AvatarProps {
 
 const Avatar: FC<AvatarProps> = ({ avatarUrl, initial, altText, editable, onAvatarChange }) => {
 
+  const imageUrl = avatarUrl instanceof File ? URL.createObjectURL(avatarUrl) : avatarUrl || undefined;
 
   return (
     <div className={styles.avatar}>
       <label className={editable ? styles.editableAvatar : styles.nonEditableAvatar}>
         {avatarUrl ? (
           <img
-            src={avatarUrl}
+            src={imageUrl}
             alt={altText}
             className={styles.avatarImage}
           />
