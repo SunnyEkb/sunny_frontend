@@ -28,10 +28,3 @@ const UserLK: FC = () => {
 };
 
 export default UserLK;
-
-
-//<NavHeader />
-
-{/* <main className={styles.userLK}>
-</main>
- */}

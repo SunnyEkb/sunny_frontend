@@ -10,6 +10,8 @@ import { useRegisterMutation } from "../../../store/auth-api/authApi";
 import ButtonForm from "../../../shared/button/button";
 import checkmark from "../../../assets/icon/checkmark.svg";
 import { phoneMask } from "../../../utils/phoneMask";
+import { yupResolver } from "@hookform/resolvers/yup";
+import signInValidationSchema from "./signInValidationSchema";
 
 export interface Inputs {
   username: string;
@@ -33,6 +35,7 @@ const Registr: FC = () => {
     setValue,
   } = useForm<Inputs>({
     mode: "onChange",
+    resolver: yupResolver(signInValidationSchema)
   });
 
   // отправляем запрос на регистрацию пользователя
@@ -110,17 +113,7 @@ const Registr: FC = () => {
     >
       <InputForm
         type="text"
-        {...register("username", {
-          required: "Напишите ваше имя",
-          minLength: {
-            value: 2,
-            message: "Минимум два символа",
-          },
-          maxLength: {
-            value: 40,
-            message: "Максимум сорок символов",
-          },
-        })}
+        {...register("username")}
         name="username"
         placeholder=""
         inputTitle="Имя"
@@ -129,13 +122,7 @@ const Registr: FC = () => {
 
       <InputForm
         type="text"
-        {...register("email", {
-          required: "Напишите ваш email",
-          pattern: {
-            value: /^[A-Z0-9._%+-]+@[A-Z0-9-]+.+.[A-Z]{2,4}$/i,
-            message: "Некорректный формат почты",
-          },
-        })}
+        {...register("email")}
         name="email"
         errors={errors}
         placeholder=""
@@ -144,14 +131,7 @@ const Registr: FC = () => {
 
       <InputForm
         type="text"
-        {...register("phone", {
-          required: "Напишите ваш телефон",
-          pattern: {
-            value: /^((\+7|7|8)+([0-9]){10})$/,
-            message:
-              "Некорректный формат телефона. Начните с +7, 7 или 8 и введите 10 цифр после.",
-          },
-        })}
+        {...register("phone")}
         name="phone"
         errors={errors}
         placeholder="+7"
@@ -160,15 +140,7 @@ const Registr: FC = () => {
 
       <InputForm
         type="password"
-        {...register("password", {
-          required: "Придумайте пароль",
-          pattern: {
-            value:
-              /(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{8,}/g,
-            message:
-              "латинские буквы, 1 заглавная, 8 символов, 1 спецсимвол, 1 цифра",
-          },
-        })}
+        {...register("password")}
         name="password"
         errors={errors}
         autoComplete="on"
@@ -178,10 +150,7 @@ const Registr: FC = () => {
 
       <InputForm
         type="password"
-        {...register("confirmation", {
-          required: "Повторите пароль",
-          validate: (value) => value === password || "Пароли не совпадают",
-        })}
+        {...register("confirmation")}
         name="confirmation"
         errors={errors}
         autoComplete="on"

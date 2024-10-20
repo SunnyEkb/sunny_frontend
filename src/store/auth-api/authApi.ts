@@ -57,7 +57,7 @@ export const authApi = createApi({
       }),
     }),
     //updateUserProfile: build.mutation<any, {id: number,  username?: string; first_name?: string | null, last_name?: string | null, email?: string; phone?: string,  password?: string, avatar?: File }>({
-    updateUserProfile: build.mutation<any, Partial<User> & { id: number }>({
+    updateUserProfile: build.mutation<any, Partial<User> & { id?: number }>({
       query: ({ id, ...data }) => ({
         url: `users/${id}/`,
         ...getRequestConfig('PATCH', data),

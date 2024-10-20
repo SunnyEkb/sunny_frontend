@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { FC, useEffect } from "react";
+import { FC, useEffect, useState } from "react";
 import styles from "./userProfileEdit.module.scss";
 import LayoutUserLK from "../../layout/layoutUserLK/LayoutUserLK";
 import {
@@ -84,14 +84,33 @@ const UserProfileEdit: FC = () => {
 
   const avatarUrl = getValues('avatar');
 
+  const [errorMessage, setErrorMessage] = useState<string | null>(null)
+
   const onSubmit = async (data: UserProfileFormInputs) => {
     if (userProfile?.id) {
-      await updateProfile(data)
-      .then((res) => {
+      try {
+        const res = await updateProfile(data).unwrap();
         dispatch(setUser(res.data));
-      })
+        reset(data); // Сбрасываем форму после успешного обновления данных
+      } catch (error: any) {
+        if (error?.data) {
+          // Выводим ошибки в консоль для каждого поля
+          Object.entries(error.data).forEach(([field, messages]) => {
+            if (Array.isArray(messages)) {
+              messages.forEach((message) => {
+                console.error(`Ошибка в поле ${field}: ${message}`);
+                setErrorMessage(message);
+              });
+            }
+          });
+
+        } else {
+          console.error("Ошибка при обновлении профиля:", error);
+        }
+      }
     } else {
       console.error("Ошибка при обновлении профиля:");
+      reset(data)
     }
   };
 
@@ -99,9 +118,9 @@ const UserProfileEdit: FC = () => {
     const file = e.target.files?.[0];
     if (file) {
       console.log(file)
-      const fileURL = URL.createObjectURL(file)
-      console.log(fileURL)
-      setValue('avatar', fileURL, {shouldDirty: true, shouldTouch: true})
+      //const fileURL = URL.createObjectURL(file)
+      //console.log(fileURL)
+      setValue('avatar', file, {shouldDirty: true, shouldTouch: true})
     }
   };
 
@@ -175,11 +194,22 @@ const UserProfileEdit: FC = () => {
             placeholder="+7"
             inputTitle="Телефон"
           />
+          <div className={styles.futerform}>
+          {errorMessage && (
+            <div className={styles.errorMessage}>
+              <p className={styles.errorMessage__text}>
+                {errorMessage}
+              </p>
+
+            </div>
+          )}
           <ButtonForm
             type="submit"
             disabled={isUpdating  || !isDirty}
             title={isUpdating ? "Сохранение..." : "Сохранить изменения"}
           />
+          </div>
+
         </UserForm>
       </article>
     </LayoutUserLK>

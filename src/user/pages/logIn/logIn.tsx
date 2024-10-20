@@ -11,6 +11,8 @@ import { useLazyCheckAuthQuery, useLazyLoginQuery, useLazyRefrechTokenQuery } fr
 //import { setAuthenticated } from '../../../store/slices/authSlice';
 import { useDispatch } from "react-redux";
 import { setAuthenticated, setUser } from "../../../store/slices/authSlice";
+import { yupResolver } from "@hookform/resolvers/yup";
+import loginValidationSchema from "./loginValidationSchema";
 
 interface Inputs {
   password: string;
@@ -30,6 +32,7 @@ const LogIn: FC = () => {
     reset,
   } = useForm<Inputs>({
     mode: "onChange",
+    resolver: yupResolver(loginValidationSchema)
   });
 
   const [login, { isLoading: isLoginLoading }] = useLazyLoginQuery();
@@ -82,19 +85,15 @@ const LogIn: FC = () => {
         >
           <InputForm
             type="text"
-            {...register("email", {
-              required: "Напишите ваш логин или email",
-            })}
+            {...register("email")}
             name="email"
             errors={errors}
             placeholder=""
-            inputTitle="Логин или email"
+            inputTitle="email"
           />
           <InputForm
             type="password"
-            {...register("password", {
-              required: "Введите пароль",
-            })}
+            {...register("password")}
             name="password"
             errors={errors}
             placeholder=""
