@@ -11,6 +11,7 @@ export const paths = {
    //register: '/',
    catalog: '/catalogs/:id',
    catalogAds: '/catalogs/:id/ads/:idAds',
+   createAds: '/create',
    policy: '/policy',
    error: '/*',
    typeCatalog: '/type-catalog'
