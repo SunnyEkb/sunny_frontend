@@ -48,6 +48,8 @@ const LogIn: FC = () => {
   }, [reset]);
 
   const onSubmit = async (data: Inputs) => {
+
+
     try {
       // Выполняем запрос логина
       const loginResponse = await login(data).unwrap();
@@ -62,11 +64,12 @@ const LogIn: FC = () => {
         dispatch(setAuthenticated(true)); // Устанавливаем, что пользователь аутентифицирован
 
         // Перенаправляем на страницу каталога
-        navigate('/catalogs');
+        navigate('/');
       }
     } catch (err) {
       console.error('Ошибка при логине или запросе данных:', err);
     }
+
   };
 
   const title = "Войти"
