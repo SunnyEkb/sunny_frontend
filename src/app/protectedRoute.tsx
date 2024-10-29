@@ -15,6 +15,10 @@ const ProtectedRoute: FC = () => {
   }
 
   return <Outlet />;
+
 };
 
+
 export default ProtectedRoute;
+
+

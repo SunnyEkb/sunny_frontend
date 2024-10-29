@@ -25,17 +25,24 @@
 }
 
 .sectionImg {
-  box-sizing: border-box;
-  padding: 20px;
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 16px;
+  margin: 10px 0;
+  padding-top: 56.25%;
 }
 
 .img {
-  width: 320px;
-  height: 160px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   border-radius: 16px;
   background-image: url("../../../assets/catalogImg.png");
   background-repeat: no-repeat;
-  background-size: 100%;
+  background-size: cover;
 }
 
 .catalog__content {
