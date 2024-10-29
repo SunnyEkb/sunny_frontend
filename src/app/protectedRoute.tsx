@@ -1,10 +1,14 @@
-import { FC } from "react";
+import React, { FC } from "react";
 import { Navigate, Outlet } from "react-router-dom";
-import { useCheckAuthQuery } from "../store/auth-api/authApi";
+import { useLazyCheckAuthQuery } from "../store/auth-api/authApi";
 import { paths } from "./paths";
 
 const ProtectedRoute: FC = () => {
-  const data = useCheckAuthQuery();
+  const [checkAuth, data] = useLazyCheckAuthQuery();
+
+  React.useEffect(() => {
+    checkAuth();
+  }, []);
 
   if (data.isLoading) {
     return <div>Loading...</div>;
@@ -15,10 +19,6 @@ const ProtectedRoute: FC = () => {
   }
 
   return <Outlet />;
-
 };
 
-
 export default ProtectedRoute;
-
-

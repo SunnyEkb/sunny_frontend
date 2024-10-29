@@ -5,7 +5,7 @@ export const paths = {
    settings: '/settings',
    profile: '/profile',
    user_profile_edit: '/user_profile_edit',
-   //auth: '/',
+   auth: '/auth',
    register: '/register',
    //register: '/',
    catalog: '/catalogs/:id',
