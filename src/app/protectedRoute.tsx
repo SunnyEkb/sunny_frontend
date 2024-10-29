@@ -1,12 +1,20 @@
 import { FC } from "react";
-import { Outlet } from "react-router-dom";
-import Login from "../user/pages/logIn/logIn";
+import { Navigate, Outlet } from "react-router-dom";
+import { useCheckAuthQuery } from "../store/auth-api/authApi";
+import { paths } from "./paths";
 
 const ProtectedRoute: FC = () => {
-  //const mockToken = "mock"; // тут должна быть какая то логика по проверке наличия токена
-  const mockToken = true; // тут должна быть какая то логика по проверке наличия токена
+  const data = useCheckAuthQuery();
 
-  return mockToken ? <Outlet /> : <Login />;
+  if (data.isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (data.error) {
+    return <Navigate to={paths.auth} />;
+  }
+
+  return <Outlet />;
 };
 
 export default ProtectedRoute;

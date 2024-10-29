@@ -23,7 +23,6 @@ import MainFormAds from "../ads/pages/createAds/mainForm";
 
 export const router = createBrowserRouter([
   {
-    path: "/",
     element: <ProtectedRoute />,
     children: [
       {
@@ -68,7 +67,7 @@ export const router = createBrowserRouter([
         loader: loaderTypesCatalog,
       },
       {
-        path: paths.catalogs,
+        path: paths.index,
         element: <Catalogs />,
         loader: () => loaderCatagories(),
       },

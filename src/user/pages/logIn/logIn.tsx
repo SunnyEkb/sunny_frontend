@@ -44,7 +44,7 @@ const LogIn: FC = () => {
   const onSubmit = async (data: Inputs) => {
     login(data)
       .then((res) => {
-        navigate("/catalogs");
+        navigate("/");
       })
   };
 
