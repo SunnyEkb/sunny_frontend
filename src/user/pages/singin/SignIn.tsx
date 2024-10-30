@@ -10,6 +10,8 @@ import { useRegisterMutation } from "../../../store/auth-api/authApi";
 import ButtonForm from "../../../shared/button/button";
 import checkmark from "../../../assets/icon/checkmark.svg";
 import { phoneMask } from "../../../utils/phoneMask";
+import { yupResolver } from "@hookform/resolvers/yup";
+import signInValidationSchema from "./signInValidationSchema";
 
 export interface Inputs {
   username: string;
@@ -32,6 +34,7 @@ const Registr: FC = () => {
     setValue,
   } = useForm<Inputs>({
     mode: "onChange",
+    resolver: yupResolver(signInValidationSchema)
   });
 
   // отправляем запрос на регистрацию пользователя
@@ -232,6 +235,64 @@ export default Registr;
 
 {
   /* <button
+    <UserForm
+      name="registration"
+      onSubmit={handleSubmit(onSubmit)}
+      isValid={isValid}
+      isDirty={isDirty}
+      isLoading={isLoading}
+      title={title}
+    >
+      <InputForm
+        type="text"
+        {...register("username")}
+        name="username"
+        placeholder=""
+        inputTitle="Имя"
+        errors={errors}
+      />
+
+      <InputForm
+        type="text"
+        {...register("email")}
+        name="email"
+        errors={errors}
+        placeholder=""
+        inputTitle="Электронная почта"
+      />
+
+      <InputForm
+        type="text"
+        {...register("phone")}
+        name="phone"
+        errors={errors}
+        placeholder="+7"
+        inputTitle="Телефон"
+      />
+
+      <InputForm
+        type="password"
+        {...register("password")}
+        name="password"
+        errors={errors}
+        autoComplete="on"
+        placeholder=""
+        inputTitle="Пароль"
+      />
+
+      <InputForm
+        type="password"
+        {...register("confirmation")}
+        name="confirmation"
+        errors={errors}
+        autoComplete="on"
+        placeholder=""
+        inputTitle="Повторите пароль"
+      />
+
+      <div>
+        <div className={styles.checkboxContainer}>
+          <button
             className={`${styles.checkbox} ${
               checked && styles.checkboxChecked
             }`}
