@@ -3,10 +3,6 @@ import { FC, forwardRef, useState } from "react";
 import "./input.scss";
 import eye from "../../../assets/icon/eye-default.svg";
 import eyeHidden from "../../../assets/icon/eye-hidden.svg"
-//import { FieldError, FieldErrors, FieldErrorsImpl, Merge, Message } from "react-hook-form";
-//import { Inputs } from "../../pages/singin/SignIn";
-//import { phoneMask } from "../../../utils/phoneMask";
-
 
 interface InputProps {
   type: string;
