@@ -50,7 +50,7 @@ const InputForm: FC<InputProps> = forwardRef<HTMLInputElement, InputProps>(
           />
           {type === 'password' && (
 						<button className="eye" type="button" onClick={handleClick}>
-							<img src={isShowed ? eye : eyeHidden} alt="hide" />
+							<img className="eye__img" src={isShowed ? eye : eyeHidden} alt="hide" />
 						</button>
 					)}
           {errors && (

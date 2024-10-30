@@ -1,7 +1,7 @@
 .Registr {
   box-sizing: border-box;
   margin: 0 auto;
-  padding: 20px;
+  padding: 54px 20px 20px 20px;
   height: 100%;
   width: 320px;
   display: flex;
@@ -9,10 +9,11 @@
   justify-content: center;
   align-items: center;
   background-color: rgb(245, 245, 245);
+  position: relative;
 
   &_containerTitle {
     margin: 0;
-    padding: 20px 0 20px;
+    padding: 20px 0 35px;
     display: flex;
     justify-content: start;
     align-items: center;
@@ -33,58 +34,66 @@
   }
 }
 
+.containerCloseButton{
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 28px;
+  right: 28px;
+}
+
+.closeButton {
+  margin: 0;
+  padding: 0;
+  position: relative;
+  width: 30px;   // размер кнопки
+  height: 30px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 14px;  // длина полосок креста
+    height: 2px;  // толщина полосок креста
+    background-color: rgb(44, 85, 91); // цвет полосок
+    transform-origin: center;
+    transition: transform 0.3s linear, opacity 0.3s linear; // добавляем плавные переходы
+  }
+
+  // Устанавливаем изначальные углы поворота
+  &::before {
+    transform: translate(-50%, -50%) rotate(45deg);
+  }
+
+  &::after {
+    transform: translate(-50%, -50%) rotate(-45deg);
+  }
+
+  // Анимация уменьшения и исчезновения при клике
+  &:active::before,
+  &:active::after {
+    transform: translate(-50%, -50%) scale(0); // уменьшаем к центру
+    opacity: 0; // исчезает
+  }
+}
+
+
+
+
 .checkboxContainer {
   margin: 0;
   display: flex;
   align-items: start;
   justify-content: left;
 }
-
-/* .checkbox {
-  position: absolute;
-  //width: 0;
-  //height: 0;
-  opacity: 0;
-  z-index: 1;
-} */
-
-/* .checkbox:checked + .castomCeckbox::before {
-  opacity: 1;
-  transform: rotate(45deg);
-} */
-
-/* .castomCeckbox_checked::before {
-  opacity: 1;
-  transform: rotate(45deg);
-}
-
-.castomCeckbox {
-  display: inline-block;
-  position: relative;
-  margin: 0;
-  padding: 0;
-  margin-right: 9px;
-  vertical-align: sub;
-  width: 16px;
-  height: 16px;
-  background-color: inherit;
-  border: 1px solid rgb(44, 85, 91);
-  border-radius: 2px;
-  cursor: pointer;
-
-  &::before {
-    content: "";
-    position: absolute;
-    top: 1px;
-    left: 5px;
-    width: 6px;
-    height: 10px;
-    border: solid rgb(118, 160, 94);
-    border-width: 0 2px 2px 0;
-    opacity: 0;
-    transition: opacity 0.2s ease;
-  }
-} */
 
 .castomCeckbox {
   display: inline-block;
@@ -170,6 +179,7 @@
 .buttonReg {
   margin: 0 auto;
   padding: 0;
+  padding-top: 55px;
   display: flex;
   border: none;
   cursor: pointer;
