@@ -31,6 +31,12 @@
   white-space: nowrap;
   z-index: 1;
 
+  &.input_password-hidden {
+    letter-spacing: 0.3em;
+    font-size: 17px;
+    font-weight: 600;
+  }
+
   &:hover {
     border-color: 1px solid rgba(122, 122, 122, 1);
   }
@@ -40,14 +46,14 @@
   }
 
   &_error {
-    border-bottom: 2px solid red;
+    border-bottom: 2px solid rgb(255, 92, 0);
   }
 }
 
 .error {
-  margin: 4px 0 0 14px;
+  margin: 4px 0 0 2px;
   max-width: 100%;
-  color: rgb(178, 189, 199);
+  color: rgb(255, 92, 0);
   font-family: "Inter", Arial, Helvetica, sans-serif;
   font-size: 13px;
   font-style: normal;
@@ -58,7 +64,7 @@
 }
 
 .error_active {
-  color: red;
+  color: rgb(255, 92, 0);
 }
 
 .label {

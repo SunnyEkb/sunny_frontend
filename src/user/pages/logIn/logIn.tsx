@@ -7,12 +7,18 @@ import styles from "./LogIn.module.scss";
 import UserForm from "../../components/form/userForm";
 import InputForm from "../../components/input/InputForm";
 import ButtonForm from "../../../shared/button/button";
-import { useLazyCheckAuthQuery, useLazyLoginQuery, useLazyRefrechTokenQuery } from "../../../store/auth-api/authApi";
+import {
+  useLazyCheckAuthQuery,
+  useLazyLoginQuery,
+  useLazyRefrechTokenQuery,
+} from "../../../store/auth-api/authApi";
 //import { setAuthenticated } from '../../../store/slices/authSlice';
 import { useDispatch } from "react-redux";
 import { setAuthenticated, setUser } from "../../../store/slices/authSlice";
 import { yupResolver } from "@hookform/resolvers/yup";
 import loginValidationSchema from "./loginValidationSchema";
+import PageTitle from "../../../shared/pageTitle/pageTitle";
+import CrossCloseButton from "../../../shared/crossCloseButton/crossCloseButton";
 
 interface Inputs {
   password: string;
@@ -20,7 +26,6 @@ interface Inputs {
 }
 
 const LogIn: FC = () => {
-
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
@@ -32,7 +37,7 @@ const LogIn: FC = () => {
     reset,
   } = useForm<Inputs>({
     mode: "onChange",
-    resolver: yupResolver(loginValidationSchema)
+    resolver: yupResolver(loginValidationSchema),
   });
 
   const [login, { isLoading: isLoginLoading }] = useLazyLoginQuery();
@@ -46,10 +51,9 @@ const LogIn: FC = () => {
     };
     reset(defaultValues);
   }, [reset]);
+  const handleGoBack = () => navigate(-1);
 
   const onSubmit = async (data: Inputs) => {
-
-
     try {
       // Выполняем запрос логина
       const loginResponse = await login(data).unwrap();
@@ -60,30 +64,33 @@ const LogIn: FC = () => {
 
         // Получаем данные пользователя
         const userResponse = await fetcUserMe().unwrap();
-        dispatch(setUser(userResponse)); // Сохраняем данные пользователя в Redux
-        dispatch(setAuthenticated(true)); // Устанавливаем, что пользователь аутентифицирован
+        dispatch(setUser(userResponse));
+        dispatch(setAuthenticated(true));
 
         // Перенаправляем на страницу каталога
-        navigate('/');
+        navigate("/");
       }
     } catch (err) {
-      console.error('Ошибка при логине или запросе данных:', err);
+      console.error("Ошибка при логине или запросе данных:", err);
     }
-
   };
-
-  const title = "Войти"
-  //const titleButtomVC = "продолжить через VC"
 
   return (
     <div className={styles.LogIn}>
+      <div className={styles.containerCloseButton}>
+        <CrossCloseButton onClick={handleGoBack} />
+      </div>
+
+      <div className={styles.LogIn_containerTitle}>
+        <PageTitle title="Вход" />
+      </div>
       <div className={styles.LogIn_containerForm}>
         <UserForm
           name="registration"
           onSubmit={handleSubmit(onSubmit)}
           isValid={isValid}
           isDirty={isDirty}
-          title={title}
+          title="Войти"
           isLoading={isLoginLoading}
         >
           <InputForm
@@ -105,7 +112,7 @@ const LogIn: FC = () => {
           <ButtonForm
             type="submit"
             disabled={!isValid || !isDirty || isLoginLoading}
-            title={title || "VC"}
+            title="Войти"
           />
         </UserForm>
         <div className={styles.LogIn_linkRegistr}>
@@ -113,7 +120,7 @@ const LogIn: FC = () => {
             to={{ pathname: "/register" }}
             className={styles.LogIn_linkRegistr_linkText}
           >
-            Регистрация
+            Зарегистрироваться
           </Link>
         </div>
       </div>
@@ -122,4 +129,3 @@ const LogIn: FC = () => {
 };
 
 export default LogIn;
-

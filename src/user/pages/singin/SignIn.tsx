@@ -10,6 +10,9 @@ import { useRegisterMutation } from "../../../store/auth-api/authApi";
 import { phoneMask } from "../../../utils/phoneMask";
 import { yupResolver } from "@hookform/resolvers/yup";
 import signInValidationSchema from "./signInValidationSchema";
+import CrossCloseButton from "../../../shared/crossCloseButton/crossCloseButton";
+import PageTitle from "../../../shared/pageTitle/pageTitle";
+import CheckboxContainer from "../../components/checkboxContainer/checkboxContainer";
 
 export interface Inputs {
   username: string;
@@ -100,11 +103,11 @@ const Registr: FC = () => {
   return (
     <div className={styles.Registr}>
       <div className={styles.containerCloseButton}>
-        <button className={styles.closeButton} onClick={handleGoBack}></button>
+        <CrossCloseButton onClick={handleGoBack} />
       </div>
 
       <div className={styles.Registr_containerTitle}>
-        <h2 className={styles.Registr_title}>{title}</h2>
+        <PageTitle title="Регистрация" />
       </div>
 
       <UserForm
@@ -163,31 +166,7 @@ const Registr: FC = () => {
         />
 
         <div className={styles.concestContainer}>
-          <div className={styles.checkboxContainer}>
-            <span
-              className={`${styles.castomCeckbox} ${
-                checked ? styles.checked : null
-              }`}
-              onClick={toggleBtn}
-              tabIndex={0}
-              role="checkbox"
-              onKeyDown={(e) => {
-                if (e.key === "Enter") toggleBtn();
-              }}
-            ></span>
-            <label htmlFor="consent" className={styles.concestText}>
-              Я даю согласие на обработку персональных данных в соответствии
-              с&nbsp;
-              <Link to="/policy" className={styles.concestText__link}>
-                Политикой конфиденциальности
-              </Link>
-              &nbsp; и принимаю&nbsp;
-              <Link to="/policy" className={styles.concestText__link}>
-                Условия работы сервиса
-              </Link>
-              .
-            </label>
-          </div>
+          <CheckboxContainer checked={checked} onToggle={toggleBtn} />
         </div>
 
         <button
