@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { FC, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import styles from "./SingIn.module.scss";
 import UserForm from "../../components/form/userForm";
 import InputForm from "../../components/input/InputForm";
@@ -13,14 +13,7 @@ import signInValidationSchema from "./signInValidationSchema";
 import CrossCloseButton from "../../../shared/crossCloseButton/crossCloseButton";
 import PageTitle from "../../../shared/pageTitle/pageTitle";
 import CheckboxContainer from "../../components/checkboxContainer/checkboxContainer";
-
-export interface Inputs {
-  username: string;
-  phone: string;
-  password: string;
-  confirmation: string;
-  email: string;
-}
+import { inputFields, Inputs } from "./constans";
 
 const Registr: FC = () => {
   const navigate = useNavigate();
@@ -39,10 +32,8 @@ const Registr: FC = () => {
   });
 
   // отправляем запрос на регистрацию пользователя
-  const [registerUser, { error, isLoading, data: userData }] =
+  const [registerUser, { isLoading }] =
     useRegisterMutation();
-
-  const title = "Регистрация";
 
   useEffect(() => {
     const defaultValues: Inputs = {
@@ -89,8 +80,6 @@ const Registr: FC = () => {
     }
   };
 
-  const password = watch("password");
-
   const phoneNumber = watch("phone") || "";
 
   useEffect(() => {
@@ -116,54 +105,21 @@ const Registr: FC = () => {
         isValid={isValid}
         isDirty={isDirty}
         isLoading={isLoading}
-        title={title}
+        title="Регистрация"
       >
-        <InputForm
-          type="text"
-          {...register("username")}
-          name="username"
-          placeholder=""
-          inputTitle="Имя"
-          errors={errors}
-        />
 
-        <InputForm
-          type="text"
-          {...register("email")}
-          name="email"
-          errors={errors}
-          placeholder=""
-          inputTitle="Электронная почта"
-        />
-
-        <InputForm
-          type="text"
-          {...register("phone")}
-          name="phone"
-          errors={errors}
-          placeholder="+7"
-          inputTitle="Телефон"
-        />
-
-        <InputForm
-          type="password"
-          {...register("password")}
-          name="password"
-          errors={errors}
-          autoComplete="on"
-          placeholder=""
-          inputTitle="Пароль"
-        />
-
-        <InputForm
-          type="password"
-          {...register("confirmation")}
-          name="confirmation"
-          errors={errors}
-          autoComplete="on"
-          placeholder=""
-          inputTitle="Повторите пароль"
-        />
+        {inputFields.map((field) => (
+          <InputForm
+            key={field.name}
+            type={field.type}
+            {...register(field.name)}
+            name={field.name}
+            placeholder={field.placeholder}
+            inputTitle={field.inputTitle}
+            errors={errors}
+            autoComplete={field.autoComplete}
+          />
+        ))}
 
         <div className={styles.concestContainer}>
           <CheckboxContainer checked={checked} onToggle={toggleBtn} />

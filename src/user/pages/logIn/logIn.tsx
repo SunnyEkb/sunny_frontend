@@ -10,20 +10,14 @@ import ButtonForm from "../../../shared/button/button";
 import {
   useLazyCheckAuthQuery,
   useLazyLoginQuery,
-  useLazyRefrechTokenQuery,
 } from "../../../store/auth-api/authApi";
-//import { setAuthenticated } from '../../../store/slices/authSlice';
 import { useDispatch } from "react-redux";
 import { setAuthenticated, setUser } from "../../../store/slices/authSlice";
 import { yupResolver } from "@hookform/resolvers/yup";
 import loginValidationSchema from "./loginValidationSchema";
 import PageTitle from "../../../shared/pageTitle/pageTitle";
 import CrossCloseButton from "../../../shared/crossCloseButton/crossCloseButton";
-
-interface Inputs {
-  password: string;
-  email: string;
-}
+import { inputFields, Inputs } from "./constans";
 
 const LogIn: FC = () => {
   const navigate = useNavigate();
@@ -42,7 +36,6 @@ const LogIn: FC = () => {
 
   const [login, { isLoading: isLoginLoading }] = useLazyLoginQuery();
   const [fetcUserMe] = useLazyCheckAuthQuery();
-  const [refrechToken] = useLazyRefrechTokenQuery();
 
   useEffect(() => {
     const defaultValues: Inputs = {
@@ -93,22 +86,18 @@ const LogIn: FC = () => {
           title="Войти"
           isLoading={isLoginLoading}
         >
-          <InputForm
-            type="text"
-            {...register("email")}
-            name="email"
-            errors={errors}
-            placeholder=""
-            inputTitle="email"
-          />
-          <InputForm
-            type="password"
-            {...register("password")}
-            name="password"
-            errors={errors}
-            placeholder=""
-            inputTitle="Пароль"
-          />
+          {inputFields.map((field) => (
+            <InputForm
+              key={field.name}
+              type={field.type}
+              {...register(field.name)}
+              name={field.name}
+              placeholder={field.placeholder}
+              inputTitle={field.inputTitle}
+              errors={errors}
+            />
+          ))}
+
           <ButtonForm
             type="submit"
             disabled={!isValid || !isDirty || isLoginLoading}
