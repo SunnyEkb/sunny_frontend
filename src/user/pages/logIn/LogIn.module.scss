@@ -1,14 +1,24 @@
 .LogIn {
   box-sizing: border-box;
   margin: 0 auto;
-  padding: 20px;
+  padding: 54px 20px 20px 20px;
   height: 100%;
   width: 320px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: rgb(245, 245, 245);
+  background-color: rgb(255, 255, 255);
+  position: relative;
+
+  &_containerTitle {
+    margin: 0;
+    padding: 20px 0 35px;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    width: 100%;
+  }
 
   &_containerFofm {
     box-sizing: border-box;
@@ -19,7 +29,7 @@
   }
 
   &_linkRegistr {
-    margin: 0;
+    margin: 55px 0;
     padding: 0;
     height: 56px;
     display: flex;
@@ -39,4 +49,15 @@
       text-decoration: none;
     }
   }
+}
+
+.containerCloseButton{
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 28px;
+  right: 28px;
 }

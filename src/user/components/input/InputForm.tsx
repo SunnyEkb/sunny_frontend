@@ -7,7 +7,7 @@ import eyeHidden from "../../../assets/icon/eye-hidden.svg"
 interface InputProps {
   type: string;
   name: string;
-  placeholder: string;
+  placeholder?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   errors?: any;
   sing?: boolean;
@@ -27,13 +27,13 @@ const InputForm: FC<InputProps> = forwardRef<HTMLInputElement, InputProps>(
 			setIsShowed(!isShowed);
 		};
 
-		const setType = () => {
-			if (type === 'password') {
-				if (isShowed) return 'text';
-				return 'password';
-			}
-			return type;
-		};
+    const setType = () => (type === 'password' && !isShowed ? 'password' : 'text');
+
+    const inputClassName = [
+      "input",
+      errors[name]?.message && "input_error",
+      type === "password" && !isShowed && "input_password-hidden"
+    ].filter(Boolean).join(" ");
 
     return (
       <div className="container">
@@ -45,12 +45,12 @@ const InputForm: FC<InputProps> = forwardRef<HTMLInputElement, InputProps>(
             name={name}
             placeholder={placeholder}
             onChange={onChange}
-            className={`input ${errors[name]?.message && "input_error" }`}
+            className={inputClassName}
             autoComplete={autoComplete}
           />
           {type === 'password' && (
 						<button className="eye" type="button" onClick={handleClick}>
-							<img src={isShowed ? eye : eyeHidden} alt="hide" />
+							<img className="eye__img" src={isShowed ? eye : eyeHidden} alt="hide" />
 						</button>
 					)}
           {errors && (

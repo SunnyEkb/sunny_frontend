@@ -7,20 +7,19 @@ import styles from "./LogIn.module.scss";
 import UserForm from "../../components/form/userForm";
 import InputForm from "../../components/input/InputForm";
 import ButtonForm from "../../../shared/button/button";
-import { useLazyCheckAuthQuery, useLazyLoginQuery, useLazyRefrechTokenQuery } from "../../../store/auth-api/authApi";
-//import { setAuthenticated } from '../../../store/slices/authSlice';
+import {
+  useLazyCheckAuthQuery,
+  useLazyLoginQuery,
+} from "../../../store/auth-api/authApi";
 import { useDispatch } from "react-redux";
 import { setAuthenticated, setUser } from "../../../store/slices/authSlice";
 import { yupResolver } from "@hookform/resolvers/yup";
 import loginValidationSchema from "./loginValidationSchema";
-
-interface Inputs {
-  password: string;
-  email: string;
-}
+import PageTitle from "../../../shared/pageTitle/pageTitle";
+import CrossCloseButton from "../../../shared/crossCloseButton/crossCloseButton";
+import { inputFields, Inputs } from "./constans";
 
 const LogIn: FC = () => {
-
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
@@ -32,12 +31,11 @@ const LogIn: FC = () => {
     reset,
   } = useForm<Inputs>({
     mode: "onChange",
-    resolver: yupResolver(loginValidationSchema)
+    resolver: yupResolver(loginValidationSchema),
   });
 
   const [login, { isLoading: isLoginLoading }] = useLazyLoginQuery();
   const [fetcUserMe] = useLazyCheckAuthQuery();
-  const [refrechToken] = useLazyRefrechTokenQuery();
 
   useEffect(() => {
     const defaultValues: Inputs = {
@@ -46,10 +44,9 @@ const LogIn: FC = () => {
     };
     reset(defaultValues);
   }, [reset]);
+  const handleGoBack = () => navigate(-1);
 
   const onSubmit = async (data: Inputs) => {
-
-
     try {
       // Выполняем запрос логина
       const loginResponse = await login(data).unwrap();
@@ -60,52 +57,51 @@ const LogIn: FC = () => {
 
         // Получаем данные пользователя
         const userResponse = await fetcUserMe().unwrap();
-        dispatch(setUser(userResponse)); // Сохраняем данные пользователя в Redux
-        dispatch(setAuthenticated(true)); // Устанавливаем, что пользователь аутентифицирован
+        dispatch(setUser(userResponse));
+        dispatch(setAuthenticated(true));
 
         // Перенаправляем на страницу каталога
-        navigate('/');
+        navigate("/");
       }
     } catch (err) {
-      console.error('Ошибка при логине или запросе данных:', err);
+      console.error("Ошибка при логине или запросе данных:", err);
     }
-
   };
-
-  const title = "Войти"
-  //const titleButtomVC = "продолжить через VC"
 
   return (
     <div className={styles.LogIn}>
+      <div className={styles.containerCloseButton}>
+        <CrossCloseButton onClick={handleGoBack} />
+      </div>
+
+      <div className={styles.LogIn_containerTitle}>
+        <PageTitle title="Вход" />
+      </div>
       <div className={styles.LogIn_containerForm}>
         <UserForm
           name="registration"
           onSubmit={handleSubmit(onSubmit)}
           isValid={isValid}
           isDirty={isDirty}
-          title={title}
+          title="Войти"
           isLoading={isLoginLoading}
         >
-          <InputForm
-            type="text"
-            {...register("email")}
-            name="email"
-            errors={errors}
-            placeholder=""
-            inputTitle="email"
-          />
-          <InputForm
-            type="password"
-            {...register("password")}
-            name="password"
-            errors={errors}
-            placeholder=""
-            inputTitle="Пароль"
-          />
+          {inputFields.map((field) => (
+            <InputForm
+              key={field.name}
+              type={field.type}
+              {...register(field.name)}
+              name={field.name}
+              placeholder={field.placeholder}
+              inputTitle={field.inputTitle}
+              errors={errors}
+            />
+          ))}
+
           <ButtonForm
             type="submit"
             disabled={!isValid || !isDirty || isLoginLoading}
-            title={title || "VC"}
+            title="Войти"
           />
         </UserForm>
         <div className={styles.LogIn_linkRegistr}>
@@ -113,7 +109,7 @@ const LogIn: FC = () => {
             to={{ pathname: "/register" }}
             className={styles.LogIn_linkRegistr_linkText}
           >
-            Регистрация
+            Зарегистрироваться
           </Link>
         </div>
       </div>
@@ -122,4 +118,3 @@ const LogIn: FC = () => {
 };
 
 export default LogIn;
-

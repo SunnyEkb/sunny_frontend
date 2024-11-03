@@ -15,17 +15,7 @@ import ButtonForm from "../../../shared/button/button";
 import Avatar from "../../components/avatar/Avatar";
 import UserForm from "../../components/form/userForm";
 import InputForm from "../../components/input/InputForm";
-
-interface UserProfileFormInputs {
-  id: number;
-  username?: string;
-  first_name?: string | null;
-  last_name?: string | null;
-  email?: string;
-  phone?: string;
-  password?: string;
-  avatar?: File | string | null;
-}
+import { inputFields, UserProfileFormInputs } from "./constans";
 
 const UserProfileEdit: FC = () => {
   const dispatch = useDispatch();
@@ -118,8 +108,6 @@ const UserProfileEdit: FC = () => {
     const file = e.target.files?.[0];
     if (file) {
       console.log(file)
-      //const fileURL = URL.createObjectURL(file)
-      //console.log(fileURL)
       setValue('avatar', file, {shouldDirty: true, shouldTouch: true})
     }
   };
@@ -146,54 +134,19 @@ const UserProfileEdit: FC = () => {
           isDirty={isDirty}
           isLoading={isUpdating}
         >
-          <InputForm
-            type="text"
-            {...register("username", {
-              //required: "Напишите ваше имя",
-              minLength: {
-                value: 2,
-                message: "Минимум два символа",
-              },
-              maxLength: {
-                value: 40,
-                message: "Максимум сорок символов",
-              },
-            })}
-            name="username"
-            placeholder=""
-            inputTitle="Имя"
-            errors={errors}
-          />
-          <InputForm
-            type="text"
-            {...register("email", {
-              //required: "Напишите ваш email",
-              pattern: {
-                value: /^[A-Z0-9._%+-]+@[A-Z0-9-]+.+.[A-Z]{2,4}$/i,
-                message: "Некорректный формат почты",
-              },
-            })}
-            name="email"
-            errors={errors}
-            placeholder=""
-            inputTitle="Электронная почта"
-          />
 
-          <InputForm
-            type="text"
-            {...register("phone", {
-              //required: "Напишите ваш телефон",
-              pattern: {
-                value: /^((\+7|7|8)+([0-9]){10})$/,
-                message:
-                  "Некорректный формат телефона. Начните с +7, 7 или 8 и введите 10 цифр после.",
-              },
-            })}
-            name="phone"
-            errors={errors}
-            placeholder="+7"
-            inputTitle="Телефон"
-          />
+          {inputFields.map((field) => (
+            <InputForm
+              key={field.name}
+              type={field.type}
+              {...register(field.name, field.validation)}
+              name={field.name}
+              placeholder={field.placeholder}
+              inputTitle={field.inputTitle}
+              errors={errors}
+            />
+          ))}
+
           <div className={styles.futerform}>
           {errorMessage && (
             <div className={styles.errorMessage}>

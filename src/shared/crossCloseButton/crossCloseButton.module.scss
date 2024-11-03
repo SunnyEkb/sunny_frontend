@@ -1,0 +1,37 @@
+.closeButton {
+  margin: 0;
+  padding: 0;
+  position: relative;
+  width: 30px; // размер кнопки
+  height: 30px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 14px;  // длина полосок креста
+    height: 2px;  // толщина полосок креста
+    background-color: rgb(44, 85, 91); // цвет полосок
+    transform-origin: center;
+    transition: transform 0.3s linear, opacity 0.3s linear;
+  }
+
+  &::before {
+    transform: translate(-50%, -50%) rotate(45deg);
+  }
+
+  &::after {
+    transform: translate(-50%, -50%) rotate(-45deg);
+  }
+
+  &:active::before,
+  &:active::after {
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
+  }
+}
