@@ -13,6 +13,8 @@ export const paths = {
    createAds: '/create',
    policy: '/policy',
    error: '/*',
-   typeCatalog: '/type-catalog'
+   typeCatalog: '/type-catalog',
+   passwordRecovery: '/password-recovery',
+   
 }
 

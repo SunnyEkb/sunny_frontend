@@ -10,10 +10,10 @@ import { useRegisterMutation } from "../../../store/auth-api/authApi";
 import { phoneMask } from "../../../utils/phoneMask";
 import { yupResolver } from "@hookform/resolvers/yup";
 import signInValidationSchema from "./signInValidationSchema";
-import CrossCloseButton from "../../../shared/crossCloseButton/crossCloseButton";
-import PageTitle from "../../../shared/pageTitle/pageTitle";
 import CheckboxContainer from "../../components/checkboxContainer/checkboxContainer";
-import { inputFields, Inputs } from "./constans";
+//import { inputFields, Inputs } from "./constans";
+import AuthPageLayout from "../../layout/authPageLayout/AuthPageLayout";
+import { Inputs, registerFields } from "../../components/input/constans";
 
 const Registr: FC = () => {
   const navigate = useNavigate();
@@ -28,7 +28,7 @@ const Registr: FC = () => {
     setValue,
   } = useForm<Inputs>({
     mode: "onChange",
-    resolver: yupResolver(signInValidationSchema),
+    resolver: yupResolver<any>(signInValidationSchema),
   });
 
   // отправляем запрос на регистрацию пользователя
@@ -47,8 +47,6 @@ const Registr: FC = () => {
   }, [reset]);
 
   const [checked, setChecked] = useState(false);
-
-  const handleGoBack = () => navigate(-1);
 
   const toggleBtn = () => {
     setChecked((prev) => !prev);
@@ -90,15 +88,7 @@ const Registr: FC = () => {
   }, [phoneNumber, setValue]);
 
   return (
-    <div className={styles.Registr}>
-      <div className={styles.containerCloseButton}>
-        <CrossCloseButton onClick={handleGoBack} />
-      </div>
-
-      <div className={styles.Registr_containerTitle}>
-        <PageTitle title="Регистрация" />
-      </div>
-
+    <AuthPageLayout title="Регистрация" onGoBack={() => navigate(-1)}>
       <UserForm
         name="registration"
         onSubmit={handleSubmit(onSubmit)}
@@ -108,7 +98,8 @@ const Registr: FC = () => {
         title="Регистрация"
       >
 
-        {inputFields.map((field) => (
+       {/*  {inputFields.map((field) => ( */}
+        {registerFields.map((field) => (
           <InputForm
             key={field.name}
             type={field.type}
@@ -133,7 +124,7 @@ const Registr: FC = () => {
           Зарегистрироваться
         </button>
       </UserForm>
-    </div>
+    </AuthPageLayout>
   );
 };
 

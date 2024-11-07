@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { FC, useEffect } from "react";
+import { FC, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import styles from "./LogIn.module.scss";
@@ -15,11 +15,13 @@ import { useDispatch } from "react-redux";
 import { setAuthenticated, setUser } from "../../../store/slices/authSlice";
 import { yupResolver } from "@hookform/resolvers/yup";
 import loginValidationSchema from "./loginValidationSchema";
-import PageTitle from "../../../shared/pageTitle/pageTitle";
-import CrossCloseButton from "../../../shared/crossCloseButton/crossCloseButton";
-import { inputFields, Inputs } from "./constans";
+//import { inputFields, Inputs } from "./constans";
+import AuthPageLayout from "../../layout/authPageLayout/AuthPageLayout";
+import { paths } from "../../../app/paths";
+import { Inputs, loginFields } from "../../components/input/constans";
 
 const LogIn: FC = () => {
+
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
@@ -31,7 +33,7 @@ const LogIn: FC = () => {
     reset,
   } = useForm<Inputs>({
     mode: "onChange",
-    resolver: yupResolver(loginValidationSchema),
+    resolver: yupResolver<any>(loginValidationSchema),
   });
 
   const [login, { isLoading: isLoginLoading }] = useLazyLoginQuery();
@@ -44,7 +46,8 @@ const LogIn: FC = () => {
     };
     reset(defaultValues);
   }, [reset]);
-  const handleGoBack = () => navigate(-1);
+
+  const [errMsg, setErrMsg] = useState('')
 
   const onSubmit = async (data: Inputs) => {
     try {
@@ -63,20 +66,14 @@ const LogIn: FC = () => {
         // Перенаправляем на страницу каталога
         navigate("/");
       }
-    } catch (err) {
-      console.error("Ошибка при логине или запросе данных:", err);
+    } catch (err: any) {
+      console.error("Ошибка при логине или запросе данных");
+      err.data ? setErrMsg('Неправильная почта или пароль') : '';
     }
-  };
+  }
 
   return (
-    <div className={styles.LogIn}>
-      <div className={styles.containerCloseButton}>
-        <CrossCloseButton onClick={handleGoBack} />
-      </div>
-
-      <div className={styles.LogIn_containerTitle}>
-        <PageTitle title="Вход" />
-      </div>
+    <AuthPageLayout title="Вход" onGoBack={() => navigate(-1)}>
       <div className={styles.LogIn_containerForm}>
         <UserForm
           name="registration"
@@ -86,7 +83,7 @@ const LogIn: FC = () => {
           title="Войти"
           isLoading={isLoginLoading}
         >
-          {inputFields.map((field) => (
+          {loginFields.map((field) => (
             <InputForm
               key={field.name}
               type={field.type}
@@ -98,22 +95,32 @@ const LogIn: FC = () => {
             />
           ))}
 
+          <Link
+            to={paths.passwordRecovery}
+            className={styles.LogIn_passwordRecovery}
+          >
+            Забыли пароль?
+          </Link>
+
           <ButtonForm
             type="submit"
             disabled={!isValid || !isDirty || isLoginLoading}
             title="Войти"
           />
         </UserForm>
+
+        <p className={styles.LogIn__error_mesage}>{errMsg}</p>
         <div className={styles.LogIn_linkRegistr}>
           <Link
-            to={{ pathname: "/register" }}
+            to={paths.register}
             className={styles.LogIn_linkRegistr_linkText}
           >
             Зарегистрироваться
           </Link>
         </div>
       </div>
-    </div>
+
+  </AuthPageLayout>
   );
 };
 

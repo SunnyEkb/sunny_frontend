@@ -20,7 +20,7 @@ export const authApi = createApi({
     baseUrl: BASE_URL,
   }),
   endpoints: (build) => ({
-    login: build.query<string, { email: string; password: string }>({
+    login: build.query<string, { email?: string; password?: string}>({
       query: (data) => ({
         url: 'login/',
         ...getRequestConfig('POST', data),
@@ -44,7 +44,7 @@ export const authApi = createApi({
         ...getRequestConfig('POST'),
       }),
     }),
-    register: build.mutation<string, { email: string; password: string }>({
+    register: build.mutation<string, { email?: string; password?: string }>({
       query: (data) => ({
         url: 'registry/',
         ...getRequestConfig('POST', data),
