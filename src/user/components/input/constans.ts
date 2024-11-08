@@ -14,7 +14,7 @@ export interface InputFieldConfig {
   placeholder: string;
   inputTitle: string;
   autoComplete?: string;
-  pages: Array<typeof paths[keyof typeof paths]>;
+  pages: typeof paths[keyof typeof paths][];
 }
 
 // Общий массив для всех полей инпутов
