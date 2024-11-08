@@ -2,13 +2,15 @@ import { FC } from 'react';
 import { Link } from 'react-router-dom';
 import Table from './Table/Table';
 import styles from './PolicyPage.module.scss';
+import { paths } from '../../../app/paths';
+import { linkSunnyEkb, linkSunnyEkbPolicy } from './constans';
 
 const PolicyPage:FC = () => (
 	<main className={styles.PolicyPage}>
 		<header className={styles.PolicyPage__header}>
 			<div className={styles.PolicyPage__header__logo} />
 			<Link
-				to={{ pathname: '/register' }}
+				to={paths.register}
 				className={styles.PolicyPage__header__login_button}>
 				Регистрация
 			</Link>
@@ -36,8 +38,8 @@ const PolicyPage:FC = () => (
 				1.2. Настоящая политика Оператора в отношении обработки персональных
 				данных (далее — Политика) применяется ко всей информации, которую
 				Оператор может получить о посетителях веб-сайта&nbsp;
-				<a className={styles.PolicyPage__link} href="https://sunnyekb.ru">
-					https://sunnyekb.ru
+				<a className={styles.PolicyPage__link} href={linkSunnyEkb}>
+					{linkSunnyEkb}
 				</a>
 			</li>
 		</ul>
@@ -60,8 +62,8 @@ const PolicyPage:FC = () => (
 				2.3. Веб-сайт — совокупность графических и информационных материалов, а
 				также программ для ЭВМ и баз данных, обеспечивающих их доступность в
 				сети интернет по сетевому адресу&nbsp;
-				<a className={styles.PolicyPage__link} href="https://sunnyekb.ru">
-					https://sunnyekb.ru
+				<a className={styles.PolicyPage__link} href={linkSunnyEkb}>
+					{linkSunnyEkb}
 				</a>
 			</li>
 			<li className={styles.PolicyPage__list_text}>
@@ -95,8 +97,8 @@ const PolicyPage:FC = () => (
 			<li className={styles.PolicyPage__list_text}>
 				2.8. Персональные данные — любая информация, относящаяся прямо или
 				косвенно к определенному или определяемому Пользователю веб-сайта&nbsp;
-				<a className={styles.PolicyPage__link} href="https://sunnyekb.ru">
-					https://sunnyekb.ru
+				<a className={styles.PolicyPage__link} href={linkSunnyEkb}>
+					{linkSunnyEkb}
 				</a>
 			</li>
 			<li className={styles.PolicyPage__list_text}>
@@ -110,8 +112,8 @@ const PolicyPage:FC = () => (
 			</li>
 			<li className={styles.PolicyPage__list_text}>
 				2.10. Пользователь — любой посетитель веб-сайта&nbsp;
-				<a className={styles.PolicyPage__link} href="https://sunnyekb.ru">
-					https://sunnyekb.ru
+				<a className={styles.PolicyPage__link} href={linkSunnyEkb}>
+					{linkSunnyEkb}
 				</a>
 			</li>
 			<li className={styles.PolicyPage__list_text}>
@@ -513,9 +515,9 @@ const PolicyPage:FC = () => (
 				Интернет по адресу&nbsp;
 				<a
 					className={styles.PolicyPage__link}
-					href="https://sunnyekb.ru/Policy/"
+					href={linkSunnyEkbPolicy}
 				>
-					https://sunnyekb.ru/policy
+					{linkSunnyEkbPolicy}
 				</a>
 			</li>
 		</ul>

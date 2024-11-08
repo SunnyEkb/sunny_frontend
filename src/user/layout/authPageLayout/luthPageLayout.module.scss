@@ -1,0 +1,30 @@
+// AuthLayout.module.scss
+.authPageLayout {
+  box-sizing: border-box;
+  margin: 0 auto;
+  padding: 54px 20px 20px;
+  height: 100%;
+  width: 320px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff;
+  position: relative;
+
+  &_containerTitle {
+    padding: 20px 0 35px;
+    width: 100%;
+    display: flex;
+    justify-content: start;
+  }
+}
+
+.containerCloseButton {
+  position: absolute;
+  top: 28px;
+  right: 28px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

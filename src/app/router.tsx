@@ -20,6 +20,7 @@ import CreateAds from "../ads/pages/createAds/CreateAds";
 import ChooseAds from "../ads/pages/createAds/chooseAds";
 import ChooseTypeAds from "../ads/pages/createAds/chooseTypeAds";
 import MainFormAds from "../ads/pages/createAds/mainForm";
+import PasswordRecovery from "../user/pages/passwordRecovery/passwordRecovery";
 //import { useCheckAuthQuery } from "../store/auth-api/authApi";
 
 export const router = createBrowserRouter([
@@ -86,6 +87,10 @@ export const router = createBrowserRouter([
   {
     path: paths.auth,
     element: <Login />,
+  },
+  {
+    path: paths.passwordRecovery,
+    element: <PasswordRecovery />,
   },
   {
     path: paths.register,
