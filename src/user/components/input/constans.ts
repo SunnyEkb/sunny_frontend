@@ -23,8 +23,8 @@ const inputFields: InputFieldConfig[] = [
   { inputTitle: "Имя", type: "text", name: "username", placeholder: "", pages: [paths.register, paths.user_profile_edit] },
   { inputTitle: "Электронная почта", type: "text", name: "email", placeholder: "", pages: [paths.auth, paths.register, paths.passwordRecovery, paths.user_profile_edit] },
   { inputTitle: "Телефон", type: "text", name: "phone", placeholder: "+7", pages: [paths.register, paths.user_profile_edit] },
-  { inputTitle: "Пароль", type: "password", name: "password", placeholder: "", autoComplete: "on", pages: [paths.auth, paths.register] },
-  { inputTitle: "Повторите пароль", type: "password", name: "confirmation", placeholder: "", autoComplete: "on", pages: [paths.register] },
+  { inputTitle: "Пароль", type: "password", name: "password", placeholder: "", autoComplete: "on", pages: [paths.auth, paths.register, paths.newPassword] },
+  { inputTitle: "Повторите пароль", type: "password", name: "confirmation", placeholder: "", autoComplete: "on", pages: [paths.register, paths.newPassword] },
 ];
 
 // Функция фильтрации полей по значению пути
@@ -40,6 +40,9 @@ export const registerFields = getInputFieldsForPath(paths.register);
 
 // Получение полей для страницы "Восстановление пароля"
 export const passwordRecoveryFields = getInputFieldsForPath(paths.passwordRecovery);
+
+// Получение полей для страницы "Восстановление пароля"
+export const newPasswordFields = getInputFieldsForPath(paths.newPassword);
 
 //Получение полей для страницы "Мой профиль"
 export const profileEditFields = getInputFieldsForPath(paths.user_profile_edit);
