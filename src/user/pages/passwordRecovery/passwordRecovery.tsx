@@ -1,17 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { FC, useEffect } from "react";
+import { FC, useEffect, useState } from "react";
 import styles from "./passwordRecovery.module.scss"
 import AuthPageLayout from "../../layout/authPageLayout/AuthPageLayout";
 import UserForm from "../../components/form/userForm";
 import InputForm from "../../components/input/InputForm";
-//import { inputFields, Inputs } from "./constans";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import ButtonForm from "../../../shared/button/button";
 import emailValidationSchema from "./emailValidationSchema";
 import { Inputs, passwordRecoveryFields } from "../../components/input/constans";
+import { usePasswordRecoveryMutation } from "../../../store/auth-api/authApi";
 
 
 const PasswordRecovery: FC = () => {
@@ -28,8 +28,23 @@ const PasswordRecovery: FC = () => {
     resolver: yupResolver<any>(emailValidationSchema),
   });
 
-  const onSubmit = (data: Inputs) => {
+  const [passwordRecovery, {isLoading: isRecoveryLoading}] = usePasswordRecoveryMutation();
+
+  const [resMsg, setResMsg] = useState<string | null>(null)
+  const [errMsg, setErrMsg] = useState<string | null>(null)
+
+  const onSubmit = async (data: Inputs) => {
     console.log(data)
+    try {
+      const rasswordRespons = await passwordRecovery(data).unwrap()
+      rasswordRespons
+      ? setResMsg('На указанный адрес отправлена ссылка для восстановления пароля. Если письмо не приходит, проверьте папку «Спам» в своей почте.')
+      : null;
+
+    } catch (err: any) {
+      console.error("Ошибка при запросе данных");
+      err.data ? setErrMsg('Возникла ошибка') : null;
+    }
   }
 
   useEffect(() => {
@@ -46,7 +61,7 @@ const PasswordRecovery: FC = () => {
           onSubmit={handleSubmit(onSubmit)}
           isValid={isValid}
           isDirty={isDirty}
-          title="Войти"
+          title="Восстановление пароля"
           //isLoading={isLoginLoading}
         >
 
@@ -69,12 +84,12 @@ const PasswordRecovery: FC = () => {
 
           <ButtonForm
             type="submit"
-            disabled={!isValid || !isDirty /* || isLoginLoading */}
+            disabled={!isValid || !isDirty || isRecoveryLoading}
             title="Восстановить пароль"
           />
 
           <p className={styles.passwordRecovery_innerText}>
-            Если письмо не приходит, проверьте папку «Спам» в своей почте.
+            {errMsg || resMsg}
           </p>
         </UserForm>
   </AuthPageLayout>
