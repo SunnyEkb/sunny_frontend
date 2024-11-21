@@ -28,10 +28,6 @@ export const router = createBrowserRouter([
     element: <ProtectedRoute />,
     children: [
       {
-        path: paths.catalog,
-        element: <Catalog />,
-      },
-      {
         path: paths.profile,
         element: <UserLK />,
       },
@@ -49,6 +45,10 @@ export const router = createBrowserRouter([
     element: <MainLayout />,
     children: [
       {
+        path: paths.catalog,
+        element: <Catalog />,
+      },
+      {
         path: paths.catalogAds,
         element: <CardCatalogBig />,
         loader: (params) => loaderAdsByCatalogId(params),
@@ -62,11 +62,11 @@ export const router = createBrowserRouter([
             element: <ChooseAds />,
           },
           {
-            path: paths.createAds + '/type',
+            path: paths.createAds + "/type",
             element: <ChooseTypeAds />,
           },
           {
-            path: paths.createAds + '/type' + '/ads',
+            path: paths.createAds + "/type" + "/ads",
             element: <MainFormAds />,
           },
         ],
@@ -101,5 +101,3 @@ export const router = createBrowserRouter([
     element: <PolicyPage />,
   },
 ]);
-
-

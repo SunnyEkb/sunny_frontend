@@ -5,6 +5,7 @@ import styles from "./userProfileEdit.module.scss";
 import LayoutUserLK from "../../layout/layoutUserLK/LayoutUserLK";
 import {
   useLazyCheckAuthQuery,
+  useUpdateUserAvatarMutation,
   useUpdateUserProfileMutation,
 } from "../../../store/auth-api/authApi";
 import { useForm } from "react-hook-form";
@@ -35,12 +36,13 @@ const UserProfileEdit: FC = () => {
   const userProfile = useAppSelector((state) => state.auth.user);
 
   // Запрос для получения данных пользователя
-  const [fetchUserMe] =
-    useLazyCheckAuthQuery();
+  const [fetchUserMe] = useLazyCheckAuthQuery();
 
   // для обновления профиля пользователя
   const [updateProfile, { isLoading: isUpdating }] =
     useUpdateUserProfileMutation();
+
+  const [updateAvatar] = useUpdateUserAvatarMutation();
 
   // Заполняем форму при получении данных пользователя
   useEffect(() => {
@@ -72,9 +74,9 @@ const UserProfileEdit: FC = () => {
     loadUserData();
   }, [dispatch, fetchUserMe]);
 
-  const avatarUrl = getValues('avatar');
+  const avatarUrl = getValues("avatar");
 
-  const [errorMessage, setErrorMessage] = useState<string | null>(null)
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const onSubmit = async (data: UserProfileFormInputs) => {
     if (userProfile?.id) {
@@ -93,25 +95,23 @@ const UserProfileEdit: FC = () => {
               });
             }
           });
-
         } else {
           console.error("Ошибка при обновлении профиля:", error);
         }
       }
     } else {
       console.error("Ошибка при обновлении профиля:");
-      reset(data)
+      reset(data);
     }
   };
 
   const handleAvatarChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      console.log(file)
-      setValue('avatar', file, {shouldDirty: true, shouldTouch: true})
+     await updateAvatar({avatar: file, id: userProfile?.id});
+      setValue("avatar", file, { shouldDirty: true, shouldTouch: true });
     }
   };
-
 
   const initial = userProfile?.username
     ? userProfile.username.charAt(0).toUpperCase()
@@ -134,7 +134,6 @@ const UserProfileEdit: FC = () => {
           isDirty={isDirty}
           isLoading={isUpdating}
         >
-
           {inputFields.map((field) => (
             <InputForm
               key={field.name}
@@ -148,21 +147,17 @@ const UserProfileEdit: FC = () => {
           ))}
 
           <div className={styles.futerform}>
-          {errorMessage && (
-            <div className={styles.errorMessage}>
-              <p className={styles.errorMessage__text}>
-                {errorMessage}
-              </p>
-
-            </div>
-          )}
-          <ButtonForm
-            type="submit"
-            disabled={isUpdating  || !isDirty}
-            title={isUpdating ? "Сохранение..." : "Сохранить изменения"}
-          />
+            {errorMessage && (
+              <div className={styles.errorMessage}>
+                <p className={styles.errorMessage__text}>{errorMessage}</p>
+              </div>
+            )}
+            <ButtonForm
+              type="submit"
+              disabled={isUpdating || !isDirty}
+              title={isUpdating ? "Сохранение..." : "Сохранить изменения"}
+            />
           </div>
-
         </UserForm>
       </article>
     </LayoutUserLK>
