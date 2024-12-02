@@ -1,8 +1,31 @@
 import React from "react";
 import styles from "./navMenu.module.scss";
 import MenuItem from "../menuItem/MenuItem";
+import { useNavigate } from "react-router-dom";
+import { useLogoutMutation } from "../../../store/auth-api/authApi";
+import { paths } from "../../../app/paths";
+import { useDispatch } from "react-redux";
+import { setAuthenticated, setUser } from "../../../store/slices/authSlice";
 
 const NavMenu: React.FC = () => {
+
+  const navigate = useNavigate();
+
+  const dispatch = useDispatch()
+
+  const [logout] = useLogoutMutation();
+
+  const handleClick = async () => {
+    try {
+      await logout().unwrap();
+      dispatch(setUser(null));
+      dispatch(setAuthenticated(false))
+      navigate(paths.index);
+    } catch (error) {
+      console.error("Возникла ошибка:", error);
+    }
+  };
+
   return (
     <nav className={styles.menu}>
       <MenuItem
@@ -22,7 +45,7 @@ const NavMenu: React.FC = () => {
         subtitle="Всё содержимое будет стёрто"
         danger
       />
-      <MenuItem title="Выйти из профиля" subtitle="Сменить пользователя" />
+      <MenuItem title="Выйти из профиля" subtitle="Сменить пользователя" onClick={handleClick} />
     </nav>
   );
 };
