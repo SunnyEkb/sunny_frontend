@@ -82,6 +82,12 @@ export const authApi = createApi({
         ...getRequestConfig("POST", data),
       }),
     }),
+    passwordForget: build.mutation<string, { password?: string, token?: string }>({
+      query: (data) => ({
+        url: "password_reset/confirm/",
+        ...getRequestConfig("POST", data),
+      }),
+    }),
   }),
 });
 
@@ -96,6 +102,7 @@ export const {
   useLazyRefrechTokenQuery,
   usePasswordRecoveryMutation,
   useUpdateUserAvatarMutation,
+  usePasswordForgetMutation,
 } = authApi;
 
 export type AuthApi = typeof authApi;

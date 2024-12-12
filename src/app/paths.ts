@@ -15,6 +15,7 @@ export const paths = {
    error: '/*',
    typeCatalog: '/type-catalog',
    passwordRecovery: '/password-recovery',
-   newPassword: '...'
+   newPassword: '...',
+   forgetPassword: '/forger-password/:token'
 }
 
