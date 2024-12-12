@@ -1,0 +1,17 @@
+.modal {
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: center;
+  left: 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 20;
+
+  &__filter {
+    backdrop-filter: blur(30px);
+  }
+}
