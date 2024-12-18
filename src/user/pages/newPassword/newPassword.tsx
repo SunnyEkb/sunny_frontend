@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { Inputs, newPasswordFields } from "../../components/input/constans";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import newPasswordValidationSchema, {
@@ -15,10 +15,12 @@ import { paths } from "../../../app/paths";
 
 const NewPassword: FC = () => {
   const navigate = useNavigate();
-  const { token } = useParams();
 
-  if(!token) {
-    navigate(paths.auth)
+  const urlParams = new URLSearchParams(window.location.search);
+  const token = urlParams.get("token");
+
+  if (!token) {
+    navigate(paths.auth);
   }
 
   const defaultValues: FormValuesNewPassword = {
@@ -39,11 +41,15 @@ const NewPassword: FC = () => {
   });
 
   const onSubmit = async (data: Inputs) => {
-    await changePassword({ password: data.password, token: token }).unwrap().then(() => {
-      navigate(paths.auth)
-    }).catch((e) => {
-      console.error(e)
-    });
+    token &&
+      (await changePassword({ password: data.password, token: token })
+        .unwrap()
+        .then(() => {
+          navigate(paths.auth);
+        })
+        .catch((e) => {
+          console.error(e);
+        }));
     console.log(data);
   };
 
