@@ -16,6 +16,6 @@ export const paths = {
    typeCatalog: '/type-catalog',
    passwordRecovery: '/password-recovery',
    newPassword: '...',
-   forgetPassword: '/forger-password/:token'
+   forgetPassword: '/password-forget/:token'
 }
 
