@@ -64,17 +64,20 @@ export const authApi = createApi({
       }),
     }),
     updateUserAvatar: build.mutation<any, any>({
-      query: ({ avatar, id }) => ({
-        url: `users/avatar/${id}/`,
-        method: "PATCH",
-        credentials: "include" as RequestCredentials,
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-        data: JSON.stringify(avatar),
+      query: ({ avatar, id }) => {
+        return {
+          url: `users/avatar/${id}/`,
+          method: "PATCH",
+          credentials: "include" as RequestCredentials,
+          headers: {
+            // "Content-Type": "multipart/form-data",
+            "Content-Type": "application/json",
+          },
+          data: JSON.stringify({ avatar: avatar }),
 
-        // body: JSON.stringify(avatar)
-      }),
+          body: JSON.stringify({ avatar: avatar }),
+        };
+      },
     }),
     passwordRecovery: build.mutation<string, { email?: string }>({
       query: (data) => ({
