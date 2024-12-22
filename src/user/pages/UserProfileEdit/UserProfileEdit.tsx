@@ -17,6 +17,7 @@ import Avatar from "../../components/avatar/Avatar";
 import UserForm from "../../components/form/userForm";
 import InputForm from "../../components/input/InputForm";
 import { inputFields, UserProfileFormInputs } from "./constans";
+import React from "react";
 
 const UserProfileEdit: FC = () => {
   const dispatch = useDispatch();
@@ -34,6 +35,7 @@ const UserProfileEdit: FC = () => {
 
   // Достаем данные пользователя из Redux
   const userProfile = useAppSelector((state) => state.auth.user);
+  const [avatarBase64, setAvatarBase64] = React.useState("");
 
   // Запрос для получения данных пользователя
   const [fetchUserMe] = useLazyCheckAuthQuery();
@@ -108,8 +110,24 @@ const UserProfileEdit: FC = () => {
   const handleAvatarChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-     await updateAvatar({avatar: file, id: userProfile?.id});
-      setValue("avatar", file, { shouldDirty: true, shouldTouch: true });
+      if (!file.type.startsWith("image/")) {
+        console.error("Выберите изображение");
+        return;
+      }
+
+      try {
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          const base64String = event.target && (event.target.result as string);
+          base64String && setAvatarBase64(base64String);
+        };
+        await reader.readAsDataURL(file);
+
+        await updateAvatar({ avatar: avatarBase64, id: userProfile?.id });
+        setValue("avatar", file, { shouldDirty: true, shouldTouch: true });
+      } catch (e) {
+        console.warn("аватар не загрузился");
+      }
     }
   };
 
