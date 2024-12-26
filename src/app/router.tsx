@@ -22,6 +22,7 @@ import ChooseTypeAds from "../ads/pages/createAds/chooseTypeAds";
 import MainFormAds from "../ads/pages/createAds/mainForm";
 import PasswordRecovery from "../user/pages/passwordRecovery/passwordRecovery";
 import NewPassword from "../user/pages/newPassword/newPassword";
+import RegisterActivatePage from "../user/pages/registerActivate/registerActivate";
 //import { useCheckAuthQuery } from "../store/auth-api/authApi";
 
 export const router = createBrowserRouter([
@@ -105,4 +106,8 @@ export const router = createBrowserRouter([
     path: paths.policy,
     element: <PolicyPage />,
   },
+  {
+    path: paths.registryActivate,
+    element: <RegisterActivatePage />
+  }
 ]);
