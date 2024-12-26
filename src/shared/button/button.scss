@@ -11,6 +11,7 @@
 	font-size: 24px;
 	line-height: 28px;
 	overflow: hidden;
+  transition: all ease .3s;
 	cursor: pointer;
 	&:disabled {
 		background-color: #a1d090;
@@ -18,6 +19,7 @@
 	}
 	&:not(:disabled):hover {
 		background-color: #65b04a;
+    opacity: 0.8;
 	}
 	&:not(:disabled):active {
 		background-color: #65b04a;
