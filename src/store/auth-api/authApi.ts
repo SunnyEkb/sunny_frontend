@@ -91,8 +91,16 @@ export const authApi = createApi({
         ...getRequestConfig("POST", data),
       }),
     }),
+    verifyRegistration: build.mutation<string, { token?: string }>({
+      query: (data) => ({
+        url: "verify-registration/",
+        ...getRequestConfig("POST", data),
+      }),
+    }),
   }),
 });
+
+
 
 export const {
   useLoginQuery,
@@ -106,6 +114,7 @@ export const {
   usePasswordRecoveryMutation,
   useUpdateUserAvatarMutation,
   usePasswordForgetMutation,
+  useVerifyRegistrationMutation,
 } = authApi;
 
 export type AuthApi = typeof authApi;
