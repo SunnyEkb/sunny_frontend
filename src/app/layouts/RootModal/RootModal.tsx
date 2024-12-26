@@ -1,5 +1,5 @@
 import { createPortal } from "react-dom";
-import styles from "./Popup.module.scss";
+import styles from "./style.module.scss";
 
 interface Props {
   backdropFilter?: "blur";

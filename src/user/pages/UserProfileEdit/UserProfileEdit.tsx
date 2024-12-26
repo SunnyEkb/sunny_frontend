@@ -35,7 +35,6 @@ const UserProfileEdit: FC = () => {
 
   // Достаем данные пользователя из Redux
   const userProfile = useAppSelector((state) => state.auth.user);
-  const [avatarBase64, setAvatarBase64] = React.useState("");
 
   // Запрос для получения данных пользователя
   const [fetchUserMe] = useLazyCheckAuthQuery();
@@ -117,13 +116,12 @@ const UserProfileEdit: FC = () => {
 
       try {
         const reader = new FileReader();
-        reader.onload = (event) => {
+        reader.onload = async (event) => {
           const base64String = event.target && (event.target.result as string);
-          base64String && setAvatarBase64(base64String);
+          await updateAvatar({ avatar: base64String, id: userProfile?.id });
         };
         await reader.readAsDataURL(file);
 
-        await updateAvatar({ avatar: avatarBase64, id: userProfile?.id });
         setValue("avatar", file, { shouldDirty: true, shouldTouch: true });
       } catch (e) {
         console.warn("аватар не загрузился");
