@@ -1,15 +1,35 @@
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import styles from "./userLK.module.scss";
-//import NavHeader from "../../components/navHeader/NavHeader";
 import UserProfile from "../../components/userProfile/UserProfile";
 import NavMenu from "../../components/navMenu/NavMenu";
 import LayoutUserLK from "../../layout/layoutUserLK/LayoutUserLK";
-import avatarUrl from "../../../assets/kapibara-avatar-mock.jpg"
 import { useAppSelector } from "../../../store/store";
+import { useLazyCheckAuthQuery } from "../../../store/auth-api/authApi";
+import { setUser } from "../../../store/slices/authSlice";
+import { useDispatch } from "react-redux";
 
 const UserLK: FC = () => {
+  const dispatch = useDispatch();
 
+  //получаем данный из стейта
   const userProfile = useAppSelector((state) => state.auth.user);
+
+  // Запрос для получения данных пользователя
+  const [fetchUserMe] = useLazyCheckAuthQuery();
+
+  useEffect(() => {
+    if (!userProfile) {
+      const loadUserData = async () => {
+        try {
+          const user = await fetchUserMe().unwrap();
+          dispatch(setUser(user));
+        } catch (err) {
+          console.error("Ошибка при загрузке данных пользователя:", err);
+        }
+      };
+      loadUserData();
+    }
+  }, [userProfile, dispatch, fetchUserMe]);
 
   return (
     <LayoutUserLK userLK={true}>
@@ -19,7 +39,7 @@ const UserLK: FC = () => {
           accountType="Частное лицо"
           rating={5.0}
           reviewsCount={20}
-          avatarUrl={avatarUrl}
+          avatarUrl={userProfile?.avatar}
         />
         <NavMenu />
       </article>
@@ -28,3 +48,4 @@ const UserLK: FC = () => {
 };
 
 export default UserLK;
+

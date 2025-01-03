@@ -1,13 +1,14 @@
 import React from "react";
 import styles from "./userProfile.module.scss";
 import Avatar from "../avatar/Avatar";
+import { AvatarType } from "../../../store/slices/authSlice";
 
 interface UserProfileProps {
   name?: string;
   accountType?: string;
   rating?: number;
   reviewsCount?: number;
-  avatarUrl?: string;
+  avatarUrl?: AvatarType;
 }
 
 const UserProfile: React.FC<UserProfileProps> = ({

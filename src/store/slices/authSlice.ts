@@ -1,5 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
+export type AvatarType = File | string | null
+
 export interface User {
   id?: number;
   username?: string;
@@ -8,7 +10,7 @@ export interface User {
   first_name?: string | null;
   last_name?: string | null;
   role?: string | null;
-  avatar?: File | string | null;
+  avatar?: AvatarType;
 }
 
 interface AuthState {
