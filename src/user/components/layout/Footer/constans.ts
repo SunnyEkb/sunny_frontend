@@ -25,12 +25,6 @@ const mockLinkMenu = [
     link: "/catalogs",
   },
   {
-    id: 4,
-    title: "О нас",
-    icon: info,
-    link: "/about",
-  },
-  {
     id: 5,
     title: "Выйти",
     icon: logIn,
@@ -44,5 +38,13 @@ const mockLinkMenu = [
     link: "/profile",
   },
 ];
+
+export const mockLogin = {
+  id: 5,
+  title: "Войти",
+  icon: logIn,
+  link: "/auth",
+  action: "login",
+};
 
 export default mockLinkMenu;

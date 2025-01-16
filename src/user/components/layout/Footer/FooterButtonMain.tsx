@@ -1,15 +1,23 @@
 import style from "./style.module.scss";
 import { useNavigate } from "react-router-dom";
-import { useLogoutMutation } from "../../../../store/auth-api/authApi";
-import mockLinkMenu from "./constans";
+import {
+  useLazyCheckAuthQuery,
+  useLogoutMutation,
+} from "../../../../store/auth-api/authApi";
+import mockLinkMenu, { mockLogin } from "./constans";
+import React from "react";
 
 export default function FooterButtonMain() {
-
   const navigate = useNavigate();
-
   const [logout] = useLogoutMutation();
 
-  const handleClick = async (item: typeof mockLinkMenu[number]) => {
+  const [checkAuth, { isSuccess }] = useLazyCheckAuthQuery();
+
+  React.useEffect(() => {
+    checkAuth();
+  }, []);
+
+  const handleClick = async (item: (typeof mockLinkMenu)[number]) => {
     if (item.action === "logout") {
       try {
         await logout().unwrap();
@@ -20,24 +28,34 @@ export default function FooterButtonMain() {
     } else if (item.link) {
       navigate(item.link);
     }
-  }
+  };
 
   return (
     <footer className={style.footer}>
       <div className={style.footerList}>
         {mockLinkMenu.map((item) => {
+          let blockMenu: typeof item;
+          if (!isSuccess && item.id == 5) {
+            blockMenu = mockLogin;
+          } else {
+            blockMenu = item;
+          }
+
+          if (item.id == 6 && !isSuccess) {
+            return null;
+          }
           return (
             <div
-              key={item.id}
+              key={blockMenu.id}
               className={style.item}
-              onClick={() => handleClick(item)}
+              onClick={() => handleClick(blockMenu)}
             >
               <img
-                src={item.icon}
-                alt={item.title}
+                src={blockMenu.icon}
+                alt={blockMenu.title}
                 className={style.linkIcon}
               />
-              <div className={style.linkTitle}>{item.title}</div>
+              <div className={style.linkTitle}>{blockMenu.title}</div>
             </div>
           );
         })}
