@@ -74,6 +74,34 @@ export default function CardCatalogBig() {
   const handleClickLike = async () => {
     await addToFavorite(cardData.id).unwrap();
   };
+
+  const getFormatDate = (dateTime: string) => {
+    const date = new Date(dateTime);
+
+    const months = [
+      "января",
+      "февраля",
+      "марта",
+      "апреля",
+      "мая",
+      "июня",
+      "июля",
+      "августа",
+      "сентября",
+      "октября",
+      "ноября",
+      "декабря",
+    ];
+
+    const day = date.getDate();
+    const month = months[date.getMonth()];
+    const hours = String(date.getHours()).padStart(2, "0");
+    const minutes = String(date.getMinutes()).padStart(2, "0");
+
+    const formattedDate = `${day} ${month} ${hours}:${minutes}`;
+
+    return formattedDate;
+  };
   return (
     <div className={style.cardBig}>
       <header className={style.cardBig__header}>
@@ -124,8 +152,10 @@ export default function CardCatalogBig() {
       </section>
 
       <section className={style.cardBig__section}>
-        <div className={style.cardBig__info}> Объявление № 12345</div>
-        <div className={style.cardBig__info}> Размещено 31 мая 18:55</div>
+        <div className={style.cardBig__info}> Объявление № {cardData.id}</div>
+        <div className={style.cardBig__info}>
+          Размещено {getFormatDate(cardData.created_at)}
+        </div>
         <div className={style.cardBig__info}> Просмотров 790</div>
       </section>
 
