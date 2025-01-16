@@ -21,7 +21,6 @@ import { paths } from "../../../app/paths";
 import { Inputs, loginFields } from "../../components/input/constans";
 
 const LogIn: FC = () => {
-
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
@@ -47,7 +46,7 @@ const LogIn: FC = () => {
     reset(defaultValues);
   }, [reset]);
 
-  const [errMsg, setErrMsg] = useState('')
+  const [errMsg, setErrMsg] = useState("");
 
   const onSubmit = async (data: Inputs) => {
     try {
@@ -68,12 +67,17 @@ const LogIn: FC = () => {
       }
     } catch (err: any) {
       console.error("Ошибка при логине или запросе данных");
-      err.data ? setErrMsg('Неправильная почта или пароль') : '';
+      err.data ? setErrMsg("Неправильная почта или пароль") : "";
     }
-  }
+  };
 
   return (
-    <AuthPageLayout title="Вход" onGoBack={() => navigate(-1)}>
+    <AuthPageLayout
+      title="Вход"
+      onGoBack={() => {
+        navigate("/");
+      }}
+    >
       <div className={styles.LogIn_containerForm}>
         <UserForm
           name="registration"
@@ -119,8 +123,7 @@ const LogIn: FC = () => {
           </Link>
         </div>
       </div>
-
-  </AuthPageLayout>
+    </AuthPageLayout>
   );
 };
 
