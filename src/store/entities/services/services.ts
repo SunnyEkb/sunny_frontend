@@ -1,6 +1,7 @@
 import { createEntityAdapter, EntityState } from "@reduxjs/toolkit";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { BASE_URL } from "../../../utils/constans";
+import { AdsInfo } from "../../../ads/pages/CardCatalogBig/CardCatalogBig";
 
 const SERVICES_URL = "/services";
 // const BASE_URL = "https://sunnyekb.ru/api/v1";
@@ -80,8 +81,23 @@ export const servicesApi = createApi({
     }),
     createService: build.mutation({
       query: (data) => ({
-        url: `${SERVICES_URL}/services/`,
+        url: `/services/`,
         method: "POST",
+        credentials: "include",
+        data: JSON.stringify(data),
+        body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json",
+        },
+        // headers: {
+        //   Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        // },
+      }),
+    }),
+    update: build.mutation({
+      query: (data: AdsInfo) => ({
+        url: `/services/${data.id}/`,
+        method: "PATCH",
         credentials: "include",
         data: JSON.stringify(data),
         body: JSON.stringify(data),
@@ -95,13 +111,21 @@ export const servicesApi = createApi({
     }),
     addToFavorites: build.mutation({
       query: (id) => ({
-        url: `/ads/${id}/add-to-favorites/`,
+        url: `/services/${id}/add-to-favorites/`,
         ...getRequestConfig("POST"),
       }),
+      invalidatesTags: [{ type: "Services", id: "PARTIAL-LIST" }],
+    }),
+    deleteFromFavorites: build.mutation({
+      query: (id) => ({
+        url: `/services/${id}/delete-from-favorites/`,
+        ...getRequestConfig("DELETE"),
+      }),
+      invalidatesTags: [{ type: "Services", id: "PARTIAL-LIST" }], 
     }),
   }),
 });
 
-export const { useGetServicesQuery, useCreateServiceMutation, useAddToFavoritesMutation } = servicesApi;
+export const { useGetServicesQuery, useCreateServiceMutation, useAddToFavoritesMutation, useUpdateMutation, useDeleteFromFavoritesMutation } = servicesApi;
 
 export { servicesAdapter, servicesSelector };

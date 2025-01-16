@@ -13,7 +13,11 @@ import {
   useLoaderData,
   useNavigate,
 } from "react-router-dom";
-import { useAddToFavoritesMutation } from "../../../store/entities/services/services";
+import {
+  useAddToFavoritesMutation,
+  useDeleteFromFavoritesMutation,
+  useUpdateMutation,
+} from "../../../store/entities/services/services";
 
 interface LoaderParams {
   idAds: string;
@@ -70,9 +74,14 @@ export default function CardCatalogBig() {
   }
 
   const [addToFavorite] = useAddToFavoritesMutation();
+  const [deleteFromFavorite] = useDeleteFromFavoritesMutation();
 
   const handleClickLike = async () => {
-    await addToFavorite(cardData.id).unwrap();
+    if (cardData.is_favorited) {
+      await deleteFromFavorite(cardData.id).unwrap();
+    } else {
+      await addToFavorite(cardData.id).unwrap();
+    }
   };
 
   const getFormatDate = (dateTime: string) => {

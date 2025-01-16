@@ -6,7 +6,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import CardCatalogAuthor from "../../../../user/components/authorCardCatalog/CardCatalogAuthor";
 import PriceLists from "../../CardCatalogBig/PriceList/PriceLists";
 import { AdsInfo } from "../../CardCatalogBig/CardCatalogBig";
-import { useAddToFavoritesMutation } from "../../../../store/entities/services/services";
+import { useAddToFavoritesMutation, useDeleteFromFavoritesMutation } from "../../../../store/entities/services/services";
 
 interface Props {
   title: string;
@@ -22,10 +22,15 @@ export default function CardCatalog({ title, card }: Props) {
     navigate(`/catalogs/${params.id}/ads/${card.id}`);
   }
 
-  const [addToFavorite] = useAddToFavoritesMutation();
+ const [addToFavorite] = useAddToFavoritesMutation();
+  const [deleteFromFavorite] = useDeleteFromFavoritesMutation();
 
   const handleClickLike = async () => {
-    await addToFavorite(card.id).unwrap();
+    if (card.is_favorited) {
+      await deleteFromFavorite(card.id).unwrap();
+    } else {
+      await addToFavorite(card.id).unwrap();
+    }
   };
 
   return (
