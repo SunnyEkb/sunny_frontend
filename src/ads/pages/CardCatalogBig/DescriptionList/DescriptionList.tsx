@@ -1,7 +1,12 @@
 import React from "react";
 import style from "./style.module.scss";
+import { AdsInfo } from "../CardCatalogBig";
 
-export default function DescriptionList() {
+interface Props {
+  card: AdsInfo
+}
+
+export default function DescriptionList({card}: Props) {
   return (
     <section className={style.cardBig__descriptionSection}>
       <h4 className={style.cardBig__descriptionTitle}>Описание</h4>
@@ -23,12 +28,12 @@ export default function DescriptionList() {
           <div className={style.cardBig__descriptionCategory}>
             Место встречи:
           </div>
-          <div className={style.cardBig__descriptionName}>На дому</div>
+          <div className={style.cardBig__descriptionName}>{card.place_of_provision}</div>
         </div>
 
         <div className={style.cardBig__descriptionRow}>
           <div className={style.cardBig__descriptionCategory}>Опыт работы:</div>
-          <div className={style.cardBig__descriptionName}>5 лет</div>
+          <div className={style.cardBig__descriptionName}>{card.experience} лет</div>
         </div>
       </div>
     </section>
