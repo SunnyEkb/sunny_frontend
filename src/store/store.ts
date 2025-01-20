@@ -5,6 +5,9 @@ import authReducer from "./slices/authSlice";
 import { servicesApi } from "./entities/services/services";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import servicesSlice from "./slices/serviceSlice";
+import { webSocketMiddleware } from "./midlewares/MidlewaresWebSoket";
+import { wsCHATActions } from "./actions/chat";
+import { wsChatReducer } from "./slices/wsChatSlice";
 
 export const store = configureStore({
   reducer: {
@@ -12,11 +15,13 @@ export const store = configureStore({
     [servicesApi.reducerPath]: servicesApi.reducer,
     auth: authReducer,
     services: servicesSlice,
+    wsChat: wsChatReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()
       .concat(authApi.middleware)
-      .concat(servicesApi.middleware),
+      .concat(servicesApi.middleware)
+      .concat(webSocketMiddleware(wsCHATActions)),
 });
 
 setupListeners(store.dispatch);
