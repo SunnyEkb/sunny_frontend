@@ -26,9 +26,12 @@
   padding: 8px 0px 8px 0px;
   gap: 4px;
   cursor: pointer;
+  transition: all ease-in-out .3s;
 
   &:hover {
     opacity: 0.8;
+    color: #76a05e;
+    transform: scale(1.3);
   }
 }
 

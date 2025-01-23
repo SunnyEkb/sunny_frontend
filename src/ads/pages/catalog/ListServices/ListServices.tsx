@@ -10,6 +10,7 @@ import styles from "./styles.module.scss";
 import { useAppDispatch, useAppSelector } from "../../../../store/store";
 import { changePageAction } from "../../../../store/slices/serviceSlice";
 import { useParams } from "react-router-dom";
+import { AdsInfo } from "../../../../common/model/ads";
 
 export default function ListServices() {
   const dispatch = useAppDispatch();
@@ -45,8 +46,8 @@ export default function ListServices() {
 
   return (
     <React.Fragment>
-      {data.map((item) => {
-        return <CardCatalog key={item.id} title={item.title} />;
+      {data.map((item: AdsInfo) => {
+        return <CardCatalog key={item.id} title={item.title} card={item} />;
       })}
       <div ref={ref} className={styles.observer_element} />
     </React.Fragment>

@@ -1,27 +1,46 @@
 import style from "./style.module.scss";
 import defaultPhoto from "../../../../assets/icon/Foto.png";
 import heartLike from "../../../../assets/icon/Heart.svg";
-import { useNavigate } from "react-router-dom";
+import heardLiked from "../../../../assets/icon/Heart_liked.svg";
+import { useNavigate, useParams } from "react-router-dom";
 import CardCatalogAuthor from "../../../../user/components/authorCardCatalog/CardCatalogAuthor";
 import PriceLists from "../../CardCatalogBig/PriceList/PriceLists";
+import { useAddToFavoritesMutation, useDeleteFromFavoritesMutation } from "../../../../store/entities/services/services";
+import { AdsInfo } from "../../../../common/model/ads";
 
 interface Props {
-  title: string
+  title: string;
+  card: AdsInfo;
 }
 
-export default function CardCatalog({title}: Props) {
+export default function CardCatalog({ title, card }: Props) {
   const navigate = useNavigate();
 
+  const params = useParams();
+
   function handleGoAds() {
-    navigate(`/catalogs/${1}/ads/${2}`);
+    navigate(`/catalogs/${params.id}/ads/${card.id}`);
   }
+
+ const [addToFavorite] = useAddToFavoritesMutation();
+  const [deleteFromFavorite] = useDeleteFromFavoritesMutation();
+
+  const handleClickLike = async () => {
+    if (card.is_favorited) {
+      await deleteFromFavorite(card.id).unwrap();
+    } else {
+      await addToFavorite(card.id).unwrap();
+    }
+  };
+
   return (
     <section className={style.catalog__cardList}>
       <div className={style.catalog__card}>
         <img
-          src={defaultPhoto}
+          src={card.images[0]?.image || defaultPhoto}
           alt="услуга"
           className={style.catalog__cardPhoto}
+          onClick={handleGoAds}
         />
 
         <div className={style.catalog__cardTitle}>
@@ -31,16 +50,21 @@ export default function CardCatalog({title}: Props) {
               1000 ₽ за услугу
             </div>
           </div>
-          <img src={heartLike} alt="like" className={style.catalog__cardLike} />
+          <img
+            src={card.is_favorited ? heardLiked : heartLike}
+            alt="like"
+            onClick={handleClickLike}
+            className={style.catalog__cardLike}
+          />
         </div>
 
-        <PriceLists variant="smallInfo"/>
+        <PriceLists variant="smallInfo" cardData={card} />
 
-        <div className={style.catalog__cardCity}>ул. Лучистая, 16</div>
+        <div className={style.catalog__cardCity}>{card.address}</div>
       </div>
 
       <div className={style.catalog__cardContact}>
-        <CardCatalogAuthor />
+        <CardCatalogAuthor card={card} />
 
         <div className={style.catalog__buttons}>
           <button className={style.catalog__cardButton} onClick={handleGoAds}>
