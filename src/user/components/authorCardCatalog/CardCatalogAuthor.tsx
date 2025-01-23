@@ -1,7 +1,7 @@
 import React from "react";
 import style from './style.module.scss';
 import star from '../../../assets/icon/Star.svg';
-import { AdsInfo } from "../../../ads/pages/CardCatalogBig/CardCatalogBig";
+import { AdsInfo } from "../../../common/model/ads";
 
 interface Props {
   card: AdsInfo;

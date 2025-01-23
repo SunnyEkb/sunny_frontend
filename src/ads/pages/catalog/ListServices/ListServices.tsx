@@ -10,7 +10,7 @@ import styles from "./styles.module.scss";
 import { useAppDispatch, useAppSelector } from "../../../../store/store";
 import { changePageAction } from "../../../../store/slices/serviceSlice";
 import { useParams } from "react-router-dom";
-import { AdsInfo } from "../../CardCatalogBig/CardCatalogBig";
+import { AdsInfo } from "../../../../common/model/ads";
 
 export default function ListServices() {
   const dispatch = useAppDispatch();

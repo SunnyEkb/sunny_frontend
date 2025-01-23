@@ -5,8 +5,8 @@ import heardLiked from "../../../../assets/icon/Heart_liked.svg";
 import { useNavigate, useParams } from "react-router-dom";
 import CardCatalogAuthor from "../../../../user/components/authorCardCatalog/CardCatalogAuthor";
 import PriceLists from "../../CardCatalogBig/PriceList/PriceLists";
-import { AdsInfo } from "../../CardCatalogBig/CardCatalogBig";
 import { useAddToFavoritesMutation, useDeleteFromFavoritesMutation } from "../../../../store/entities/services/services";
+import { AdsInfo } from "../../../../common/model/ads";
 
 interface Props {
   title: string;

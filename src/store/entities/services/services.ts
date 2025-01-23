@@ -1,7 +1,7 @@
 import { createEntityAdapter, EntityState } from "@reduxjs/toolkit";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { BASE_URL } from "../../../utils/constans";
-import { AdsInfo } from "../../../ads/pages/CardCatalogBig/CardCatalogBig";
+import { AdsInfo } from "../../../common/model/ads";
 
 const SERVICES_URL = "/services";
 // const BASE_URL = "https://sunnyekb.ru/api/v1";
@@ -121,7 +121,7 @@ export const servicesApi = createApi({
         url: `/services/${id}/delete-from-favorites/`,
         ...getRequestConfig("DELETE"),
       }),
-      invalidatesTags: [{ type: "Services", id: "PARTIAL-LIST" }], 
+      invalidatesTags: [{ type: "Services", id: "PARTIAL-LIST" }],
     }),
   }),
 });

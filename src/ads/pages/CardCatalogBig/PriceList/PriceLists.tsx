@@ -1,7 +1,8 @@
 import React from "react";
 import style from "./style.module.scss";
+import { AdsInfo } from "../../../../common/model/ads";
 // import { rowYsligi } from "../../catalog/mock";
-import { AdsInfo } from "../CardCatalogBig";
+
 
 interface Props {
   variant: "smallInfo" | "bigInfo";
