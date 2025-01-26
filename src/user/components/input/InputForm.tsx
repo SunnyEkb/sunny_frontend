@@ -3,10 +3,12 @@ import { FC, forwardRef, useState } from "react";
 import "./input.scss";
 import eye from "../../../assets/icon/eye-default.svg";
 import eyeHidden from "../../../assets/icon/eye-hidden.svg"
+import { FieldPath } from "react-hook-form";
+import { Inputs } from "./constans";
 
 interface InputProps {
   type: string;
-  name: string;
+  name: FieldPath<Inputs>;
   placeholder?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   errors?: any;
