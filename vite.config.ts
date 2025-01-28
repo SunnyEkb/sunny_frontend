@@ -10,7 +10,7 @@ export default defineConfig({
     },
     cors: {
 			origin: ['https://sunnyekb.ru/', 'http://localhost:5173'],
-			methods: ['GET', 'POST'],
+			methods: ['GET', 'POST', "PATCH", "PUT", "DELETE"],
 			allowedHeaders: ['Content-Type']
 		},
 		allowedHosts: ['https://sunnyekb.ru/'],
