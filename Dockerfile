@@ -5,15 +5,18 @@ RUN npm i --legacy-peer-deps
 COPY . ./
 RUN npm run build
 
-FROM alpine:latest AS export-static
+# FROM alpine:latest AS export-static
 
-WORKDIR /app
+# WORKDIR /app
 
-# Создание папки /app/build
-RUN mkdir -p /app/build
+# # Создание папки /app/build
+# RUN mkdir -p /app/build
 
-# Копирование файлов из /app/dist (со стадии сборки) в /app/build
-COPY --from=build /app/dist/. /app/build/
+# # Копирование файлов из /app/dist (со стадии сборки) в /app/build
+# COPY --from=build /app/dist/. /app/build/
 
-# Завершение работы контейнера
-CMD ["echo", "Static files copied to /app/build"]
+# # Завершение работы контейнера
+# CMD ["echo", "Static files copied to /app/build"]
+
+CMD ["npm", "run", "dev" ]
+
