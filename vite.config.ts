@@ -13,7 +13,7 @@ export default defineConfig({
 			methods: ['GET', 'POST', "PATCH", "PUT", "DELETE"],
 			allowedHeaders: ['Content-Type']
 		},
-		allowedHosts: ['https://sunnyekb.ru/'],
+		allowedHosts: true,
     host: true,
     strictPort: true,
     port: 5173,
