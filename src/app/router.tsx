@@ -48,13 +48,20 @@ export const router = createBrowserRouter([
       // }
     ],
   },
+
   {
-    element: <MainLayout />,
+    element: <MainLayout isShowFooter={false} />,
     children: [
       {
         path: paths.chat,
-        element: <ChatPage />
+        element: <ChatPage />,
       },
+    ],
+  },
+
+  {
+    element: <MainLayout />,
+    children: [
       {
         path: paths.catalog,
         element: <Catalog />,
@@ -101,7 +108,7 @@ export const router = createBrowserRouter([
   },
   {
     path: paths.forgetPassword,
-    element: <NewPassword />
+    element: <NewPassword />,
   },
   {
     path: paths.passwordRecovery,
@@ -117,6 +124,6 @@ export const router = createBrowserRouter([
   },
   {
     path: paths.registryActivate,
-    element: <RegisterActivatePage />
-  }
+    element: <RegisterActivatePage />,
+  },
 ]);

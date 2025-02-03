@@ -11,19 +11,18 @@ export default function ChatPage() {
     navigate(-1);
   };
   return (
-    <>
-      <div className={styles.chat}>
-        <header className={styles.chat__header}>
-          <img
-            src={arrowBack}
-            alt="back"
-            className={styles.cardBig__img}
-            onClick={handleGoBack}
-          />
-          <h1 className={styles.chat__headerTitle}>Имя пользователя</h1>
-        </header>
-      </div>
+    <div className={styles.chat}>
+      <header className={styles.chat__header}>
+        <img
+          src={arrowBack}
+          alt="back"
+          className={styles.cardBig__img}
+          onClick={handleGoBack}
+        />
+        <h1 className={styles.chat__headerTitle}>Имя пользователя</h1>
+      </header>
+
       <WindowChat />
-    </>
+    </div>
   );
 }

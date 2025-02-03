@@ -1,12 +1,16 @@
 import { Outlet } from "react-router-dom";
 import { FooterButtonMain } from "../../user/components/layout";
-import style from './style.module.scss'
+import style from "./style.module.scss";
 
-export default function MainLayout() {
+interface Props {
+  isShowFooter?: boolean;
+}
+
+export default function MainLayout({ isShowFooter = true }: Props) {
   return (
     <div className={style.main}>
       <Outlet />
-      <FooterButtonMain />
+      {isShowFooter && <FooterButtonMain />}
     </div>
   );
 }
