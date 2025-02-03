@@ -23,6 +23,7 @@ import MainFormAds from "../ads/pages/createAds/mainForm";
 import PasswordRecovery from "../user/pages/passwordRecovery/passwordRecovery";
 import NewPassword from "../user/pages/newPassword/newPassword";
 import RegisterActivatePage from "../user/pages/registerActivate/registerActivate";
+import ChatPage from "../ads/pages/chatPage/chatPage";
 //import { useCheckAuthQuery } from "../store/auth-api/authApi";
 
 export const router = createBrowserRouter([
@@ -41,11 +42,19 @@ export const router = createBrowserRouter([
         path: paths.user_profile_edit,
         element: <UserProfileEdit />,
       },
+      // {
+      //   path: paths.chat,
+      //   element: <ChatPage />
+      // }
     ],
   },
   {
     element: <MainLayout />,
     children: [
+      {
+        path: paths.chat,
+        element: <ChatPage />
+      },
       {
         path: paths.catalog,
         element: <Catalog />,

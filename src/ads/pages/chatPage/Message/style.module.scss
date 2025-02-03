@@ -1,0 +1,40 @@
+.message {
+  display: flex;
+  flex-direction: row;
+  max-width: 340px;
+  gap: 8px;
+}
+
+.message__avatar {
+  width: 28px;
+  height: 28px;
+  cursor: pointer;
+}
+
+.message__content {
+  font-family: 'Inter';
+  background-color: rgba(178, 189, 199, 0.2);
+  max-width: 300px;
+  max-height: 100%;
+  overflow: scroll;
+  width: 100%;
+  padding: 8px;
+  color: rgb(44, 85, 91);
+  border-radius: 8px;
+}
+
+
+.message__text {
+  font-family: 'Inter';
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 16px;
+  text-align: left;
+}
+
+.message__time {
+  display: flex;
+ justify-content: flex-end;
+  flex-direction: column;
+  color: rgb(178, 189, 199);
+}
