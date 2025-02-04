@@ -32,6 +32,7 @@ const InputForm: FC<InputProps> = forwardRef<HTMLInputElement, InputProps>(
     const inputClassName = [
       "input",
       errors[name]?.message && "input_error",
+      type === "password" && "input_password", // Add input_password class
       type === "password" && !isShowed && "input_password-hidden"
     ].filter(Boolean).join(" ");
 
