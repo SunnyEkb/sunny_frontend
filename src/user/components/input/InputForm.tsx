@@ -1,14 +1,13 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FC, forwardRef, useState } from "react";
 import "./input.scss";
 import eye from "../../../assets/icon/eye-default.svg";
-import eyeHidden from "../../../assets/icon/eye-hidden.svg"
+import eyeHidden from "../../../assets/icon/eye-hidden.svg";
 import { FieldPath } from "react-hook-form";
 import { Inputs } from "./constans";
 
 interface InputProps {
   type: string;
-  name: FieldPath<Inputs>;
+  name: FieldPath<Inputs> | "search"; // Add "search" here
   placeholder?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   errors?: any;
@@ -21,13 +20,12 @@ const InputForm: FC<InputProps> = forwardRef<HTMLInputElement, InputProps>(
   function InputForm(
     { type, name, placeholder, onChange, errors, autoComplete, inputTitle },
     ref
-  )
-  {
+  ) {
     const [isShowed, setIsShowed] = useState(false);
 
     const handleClick = () => {
-			setIsShowed(!isShowed);
-		};
+      setIsShowed(!isShowed);
+    };
 
     const setType = () => (type === 'password' && !isShowed ? 'password' : 'text');
 
@@ -51,10 +49,10 @@ const InputForm: FC<InputProps> = forwardRef<HTMLInputElement, InputProps>(
             autoComplete={autoComplete}
           />
           {type === 'password' && (
-						<button className="eye" type="button" onClick={handleClick}>
-							<img className="eye__img" src={isShowed ? eye : eyeHidden} alt="hide" />
-						</button>
-					)}
+            <button className="eye" type="button" onClick={handleClick}>
+              <img className="eye__img" src={isShowed ? eye : eyeHidden} alt="hide" />
+            </button>
+          )}
           {errors && (
             <span className={`error input-error-${name}`}>
               {errors[name]?.message || ""}
