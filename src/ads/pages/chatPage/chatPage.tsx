@@ -22,7 +22,10 @@ export default function ChatPage() {
         <h1 className={styles.chat__headerTitle}>Имя пользователя</h1>
       </header>
 
-      <WindowChat />
+      <div className={styles.chat__wrapper}>
+        {" "}
+        <WindowChat />
+      </div>
     </div>
   );
 }

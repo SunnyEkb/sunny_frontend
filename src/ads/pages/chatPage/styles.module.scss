@@ -1,4 +1,6 @@
 .chat {
+  display: flex;
+  flex-direction: column;
   margin: 0 auto;
   max-width: 480px;
   width: 100%;
@@ -41,3 +43,7 @@
   }
 }
 
+
+.chat__wrapper {
+  flex-grow: 1;
+}
