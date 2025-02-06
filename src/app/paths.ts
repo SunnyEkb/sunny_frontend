@@ -18,4 +18,5 @@ export const paths = {
   newPassword: "...",
   forgetPassword: "/password-forget",
   registryActivate: "/registry-activate",
+  chat: '/chat'
 };

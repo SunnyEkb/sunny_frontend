@@ -4,11 +4,15 @@ import Login from "../user/pages/logIn/logIn";
 import UserLK from "../user/pages/userLK/userLK";
 import Catalogs, { loaderCatagories } from "../ads/pages/catalogs/catalogs";
 import Catalog from "../ads/pages/catalog/catalog";
-import CardCatalogBig, { loaderAdsByCatalogId } from "../ads/pages/CardCatalogBig/CardCatalogBig";
+import CardCatalogBig, {
+  loaderAdsByCatalogId,
+} from "../ads/pages/CardCatalogBig/CardCatalogBig";
 import Registr from "../user/pages/singin/SignIn";
 import ProtectedRoute from "./protectedRoute";
 import PolicyPage from "../user/pages/PolicyPage/PolicyPage";
-import TypeCatalog, { loaderTypesCatalog } from "../ads/pages/typeCatalog/TypeCatalog";
+import TypeCatalog, {
+  loaderTypesCatalog,
+} from "../ads/pages/typeCatalog/TypeCatalog";
 import MainLayout from "./layouts/MainLayout";
 import SettingsUser from "../user/pages/settingsUser/SettingsUser";
 import UserProfileEdit from "../user/pages/UserProfileEdit/UserProfileEdit";
@@ -19,6 +23,7 @@ import MainFormAds from "../ads/pages/createAds/mainForm";
 import PasswordRecovery from "../user/pages/passwordRecovery/passwordRecovery";
 import NewPassword from "../user/pages/newPassword/newPassword";
 import RegisterActivatePage from "../user/pages/registerActivate/registerActivate";
+import ChatPage from "../ads/pages/chatPage/chatPage";
 
 export const router = createBrowserRouter(
   [
@@ -36,6 +41,15 @@ export const router = createBrowserRouter(
         {
           path: paths.user_profile_edit,
           element: <UserProfileEdit />,
+        },
+      ],
+    },
+    {
+      element: <MainLayout isShowFooter={false} />,
+      children: [
+        {
+          path: paths.chat,
+          element: <ChatPage />,
         },
       ],
     },
@@ -106,6 +120,7 @@ export const router = createBrowserRouter(
       element: <RegisterActivatePage />,
     },
   ],
+
   {
     future: {
       v7_startTransition: true,

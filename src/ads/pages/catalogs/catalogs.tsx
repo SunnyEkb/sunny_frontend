@@ -11,17 +11,21 @@ interface DataProps {
   img?: string;
 }
 
-export const loaderCatagories = async () => {
-  const response = await fetch("https://sunnyekb.ru/api/v1/categories/", {
-    method: "GET",
-    credentials: "include",
-  });
+export const loaderCatagories = async (): Promise<Response | null> => {
+  try {
+    const response = await fetch("https://sunnyekb.ru/api/v1/categories/", {
+      method: "GET",
+      credentials: "include",
+    });
 
-  return response;
+    return response;
+  } catch (e) {
+    return null;
+  }
 };
 
 export default function Catalogs() {
-  const data = useLoaderData() as DataProps[];
+  const data = useLoaderData() as DataProps[] | null;
   return (
     <section className={styles.section}>
       <header className={styles.catalog__header}>
@@ -35,9 +39,10 @@ export default function Catalogs() {
       <main className={styles.catalog__content}>
         <div className={styles.catalog__title}>На районе</div>
         <div className={styles.catalog__itemList}>
-          {data.map((card) => {
-            return <CardCatalog key={card.id} card={card} />;
-          })}
+          {data &&
+            data.map((card) => {
+              return <CardCatalog key={card.id} card={card} />;
+            })}
         </div>
       </main>
       <Footer />
