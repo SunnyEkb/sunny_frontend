@@ -34,7 +34,6 @@ const PasswordRecovery: FC = () => {
   const [errMsg, setErrMsg] = useState<string | null>(null)
 
   const onSubmit = async (data: Inputs) => {
-    console.log(data)
     try {
       const rasswordRespons = await passwordRecovery(data).unwrap()
       rasswordRespons
