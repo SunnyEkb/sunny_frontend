@@ -1,4 +1,5 @@
-import { FC } from "react";
+import { FC, useState } from "react";
+import styles from "./newPassword.module.scss"
 import { Inputs, newPasswordFields } from "../../components/input/constans";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
@@ -19,8 +20,10 @@ const NewPassword: FC = () => {
   const urlParams = new URLSearchParams(window.location.search);
   const token = urlParams.get("token");
 
+  const goToPage = (path: string) => navigate(path);
+
   if (!token) {
-    navigate(paths.auth);
+    goToPage(paths.index);
   }
 
   const defaultValues: FormValuesNewPassword = {
@@ -29,6 +32,8 @@ const NewPassword: FC = () => {
   };
 
   const [changePassword] = usePasswordForgetMutation();
+
+  const [errMsg, setErrMsg] = useState<string | null>(null)
 
   const {
     register,
@@ -45,16 +50,16 @@ const NewPassword: FC = () => {
       (await changePassword({ password: data.password, token: token })
         .unwrap()
         .then(() => {
-          navigate(paths.auth);
+          goToPage(paths.auth);
         })
         .catch((e) => {
           console.error(e);
+          e.data ? setErrMsg('Возникла ошибка и пароль не изменён') : null;
         }));
-    console.log(data);
   };
 
   return (
-    <AuthPageLayout title="Новый пароль" onGoBack={() => navigate(-1)}>
+    <AuthPageLayout title="Новый пароль" onGoBack={() => goToPage(paths.index)}>
       <UserForm
         name="newPassword"
         onSubmit={handleSubmit(onSubmit)}
@@ -82,6 +87,12 @@ const NewPassword: FC = () => {
           title="Сохранить"
         />
       </UserForm>
+
+      {errMsg &&
+        <p className={styles.errorText}>
+          {errMsg}
+        </p>
+      }
     </AuthPageLayout>
   );
 };
