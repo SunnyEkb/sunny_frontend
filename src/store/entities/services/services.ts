@@ -4,7 +4,6 @@ import { BASE_URL } from "../../../utils/constans";
 import { AdsInfo } from "../../../common/model/ads";
 
 const SERVICES_URL = "/services";
-// const BASE_URL = "https://sunnyekb.ru/api/v1";
 
 type ParamsServices = {
   limit?: number;
@@ -41,9 +40,6 @@ export const servicesApi = createApi({
         }&type_id=${typeId}`.replace(/\s+/g, ""), // regex удаляет все пробелы в строке
         method: "GET",
         credentials: "include",
-        // headers: {
-        //   Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-        // },
       }),
       merge: (currentState, incomingState) => {
         return servicesAdapter.addMany(
@@ -68,7 +64,6 @@ export const servicesApi = createApi({
           search: queryArgs.search,
         });
       },
-
       providesTags: (result, error, args) =>
         result
           ? [
@@ -84,44 +79,38 @@ export const servicesApi = createApi({
         url: `/services/`,
         method: "POST",
         credentials: "include",
-        data: JSON.stringify(data),
         body: JSON.stringify(data),
         headers: {
           "Content-Type": "application/json",
         },
-        // headers: {
-        //   Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-        // },
       }),
+      invalidatesTags: [{ type: "Services", id: "PARTIAL-LIST" }],
     }),
     update: build.mutation({
       query: (data: AdsInfo) => ({
         url: `/services/${data.id}/`,
         method: "PATCH",
         credentials: "include",
-        data: JSON.stringify(data),
         body: JSON.stringify(data),
         headers: {
           "Content-Type": "application/json",
         },
-        // headers: {
-        //   Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-        // },
       }),
+      invalidatesTags: [{ type: "Services", id: "PARTIAL-LIST" }],
     }),
     addToFavorites: build.mutation({
       query: (id) => ({
         url: `/services/${id}/add-to-favorites/`,
         ...getRequestConfig("POST"),
       }),
-      invalidatesTags: [{ type: "Services", id: "PARTIAL-LIST" }],
+      invalidatesTags: (result, error, id) => [{ type: "Services", id: "PARTIAL-LIST" }, { type: "Services", id }], // edited line
     }),
     deleteFromFavorites: build.mutation({
       query: (id) => ({
         url: `/services/${id}/delete-from-favorites/`,
         ...getRequestConfig("DELETE"),
       }),
-      invalidatesTags: [{ type: "Services", id: "PARTIAL-LIST" }],
+      invalidatesTags: (result, error, id) => [{ type: "Services", id: "PARTIAL-LIST" }, { type: "Services", id }], // edited line
     }),
   }),
 });
