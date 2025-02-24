@@ -1,5 +1,5 @@
 import React from "react";
-import style from './style.module.scss';
+import style from './authorCard.module.scss';
 import star from '../../../assets/icon/Star.svg';
 import { AdsInfo } from "../../../common/model/ads";
 
@@ -8,8 +8,12 @@ interface Props {
 }
 
 export default function CardCatalogAuthor({card}: Props) {
+  const handleGoAds = () => {
+    // Add your navigation logic here
+  };
+
   return (
-    <React.Fragment>
+    <div className={style.author__card}>
       <div className={style.catalog__cardAuthor}>
         {`${card.provider.first_name || card.provider.username || card.provider.email} `} / {card.salon_name  || 'Название салона'}
       </div>
@@ -25,8 +29,18 @@ export default function CardCatalogAuthor({card}: Props) {
           <img src={star} alt="звезда" className={style.arrowBack} />
         </div>
 
-        <div className={style.catalog__cardCount}>{card.comments_quantity} отзывов</div>
+
       </div>
-    </React.Fragment>
+      <div className={style.catalog__cardCount}>{card.comments_quantity} отзывов</div>
+
+      <div className={style.catalog__buttons}>
+        <button className={style.catalog__cardButton} onClick={handleGoAds}>
+          Позвонить
+        </button>
+        <button className={style.catalog__cardButton} onClick={handleGoAds}>
+          Написать
+        </button>
+      </div>
+    </div>
   );
 }

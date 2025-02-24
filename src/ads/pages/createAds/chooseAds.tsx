@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./style.module.scss";
+import styles from "./main.module.scss";
 import { useLocation, useNavigate } from "react-router-dom";
 import { defaultAds } from "./helpers";
 import arrowBack from "../../../assets/icon/arrowLeft.svg";

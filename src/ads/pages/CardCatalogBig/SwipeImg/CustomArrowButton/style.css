@@ -13,3 +13,7 @@
   transition: all ease .3s;
 
 }
+.body
+{
+  margin: 0;
+}

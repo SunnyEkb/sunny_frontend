@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./style.module.scss";
+import styles from "./main.module.scss";
 import arrowBack from "../../../assets/icon/arrowLeft.svg";
 import { useNavigate } from "react-router-dom";
 import { Controller, useFormContext, useWatch } from "react-hook-form";

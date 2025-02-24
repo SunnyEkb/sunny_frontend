@@ -1,4 +1,4 @@
-import style from "./style.module.scss";
+import style from "./footerMain.module.scss";
 import { useNavigate } from "react-router-dom";
 import {
   useLazyCheckAuthQuery,

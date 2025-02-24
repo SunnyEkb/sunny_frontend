@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./style.module.scss";
+import styles from "./main.module.scss";
 import { Outlet } from "react-router-dom";
 import { FormProvider, useForm } from "react-hook-form";
 import { useCreateServiceMutation } from "../../../store/entities/services/services";
@@ -39,7 +39,7 @@ export default function CreateAds() {
     mode: "onChange",
   });
 
-  const [createAds, _] = useCreateServiceMutation();
+  const [createAds,] = useCreateServiceMutation();
 
   const onSubmit = async (data: PropsForm) => {
     console.log(data);

@@ -1,6 +1,6 @@
 import React from "react";
 import { TypeCatalog } from "../TypeCatalog";
-import style from "../style.module.scss";
+import style from "../type.module.scss";
 import checkCircle from "../../../../assets/icon/check-circle.svg";
 
 interface Props {

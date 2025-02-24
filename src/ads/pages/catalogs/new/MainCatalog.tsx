@@ -1,8 +1,9 @@
-import styles from "./catalogs.module.scss";
-// import { mockCatalog } from "./constantsMock";
-import CardCatalog from "./CardCatalog/CardCatalog";
+import styles from "./mainCatalog.module.scss";
+import CardCatalog from "../CardCatalog/CardCatalog";
+import PcFooter from "../../../../user/components/footer/PcFooter.tsx";
+import MobileHeader from "../../../../user/components/header/MobileHeader";
+import PcHeader from "../../../../user/components/header/PcHeader";
 import { useLoaderData } from "react-router-dom";
-import PcFooter from "../../../user/components/footer/PcFooter";
 
 interface DataProps {
   id: number;
@@ -20,13 +21,15 @@ export const loaderCatagories = async () => {
   return response;
 };
 
-export default function Catalogs() {
+const isMobile = () => window.innerWidth <= 768;
+
+export default function MainCatalog() {
   const data = useLoaderData() as DataProps[];
+  const mobile = isMobile();
+
   return (
     <section className={styles.section}>
-      <header className={styles.catalog__header}>
-        <h1 className={styles.catalog__headerTitle}>Солнечный Екб</h1>
-      </header>
+      {mobile ? <MobileHeader /> : <PcHeader />}
 
       <section className={styles.sectionImg}>
         <div className={styles.img} />
@@ -40,6 +43,7 @@ export default function Catalogs() {
           })}
         </div>
       </main>
+
       <PcFooter />
     </section>
   );

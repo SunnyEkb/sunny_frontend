@@ -1,54 +1,67 @@
 .catalog__footer {
   margin-top: 100px;
-  box-sizing: border-box;
   padding: 60px 20px;
   background-color: #76a05e;
+  position: relative;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .catalog__footerLinks {
   display: flex;
   flex-direction: column;
   gap: 16px;
-  font-family: Inter;
+  font-family: Inter, sans-serif;
   font-size: 16px;
   font-weight: 400;
   line-height: 20px;
   text-align: left;
-  color: #FFFFFF
+  color: #FFFFFF;
 }
 
 .catalog__footerLink {
   opacity: 1;
   transition: all ease-in-out 0.3s;
 }
+
 .catalog__footerLink:hover {
   opacity: 0.8;
 }
 
 .catalog__footerSocial {
-  margin-top: 16px;
+
+  margin: 16px 0px 0px 16px;
   margin-bottom: 52px;
   display: flex;
   flex-direction: row;
   gap: 16px;
+
+  @media (min-width: 480px) {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    margin: 0;
+  }
+
+
 }
 
 .catalog__footerSocialImg {
   width: 40px;
   height: 40px;
   border-radius: 10px;
-  transition: all ease .3s;
+  transition: all ease 0.3s;
 }
 
 .catalog__footerSocialImg:hover {
   opacity: 0.8;
+  color: #050803;
 }
 
 .catalog__footerInfo {
-font-family: Inter;
-font-size: 16px;
-font-weight: 400;
-line-height: 20px;
-color: white
-
+  font-family: Inter, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 20px;
+  color: white;
 }

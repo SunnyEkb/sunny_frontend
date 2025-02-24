@@ -1,13 +1,16 @@
 .footer {
   position: fixed;
   bottom: 0;
-  max-width: 480px;
+  left: 0; /* Ensure the footer starts from the left edge */
+  right: 0; /* Ensure the footer extends to the right edge */
   width: 100%;
   height: 56px;
   background-color: #ffffff;
 }
 
 .footerList {
+  max-width: 480px; /* Center the content within the footer */
+  margin: 0 auto; /* Center the content within the footer */
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -23,10 +26,10 @@
   min-width: 32px;
   width: 100%;
   height: 56px;
-  padding: 8px 0px 8px 0px;
+  padding: 8px 0px;
   gap: 4px;
   cursor: pointer;
-  transition: all ease-in-out .3s;
+  transition: all ease-in-out 0.3s;
 
   &:hover {
     opacity: 0.8;
@@ -41,7 +44,7 @@
 }
 
 .linkTitle {
-  font-family: Inter;
+  font-family: Inter, sans-serif;
   font-size: 10px;
   font-weight: 400;
   line-height: 12px;

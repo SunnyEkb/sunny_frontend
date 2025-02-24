@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./style.module.scss";
+import styles from "./main.module.scss";
 import photoContainer from "../../../assets/PhotoContainer.png";
 import { useFormContext, useWatch } from "react-hook-form";
 import { IPhoto } from "./CreateAds";

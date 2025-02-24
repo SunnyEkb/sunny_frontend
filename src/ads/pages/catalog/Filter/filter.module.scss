@@ -1,0 +1,180 @@
+.filter {
+  width: 260px;
+  padding: 16px;
+  border-radius: 8px;
+
+  &__title {
+    font-size: 16px;
+    margin-bottom: 8px;
+    color: #2C555B;
+    text-align: left;
+  }
+
+  &__list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0 0 16px 0;
+  }
+
+  &__item {
+    padding: 8px 12px;
+    margin-bottom: 4px;
+    border-radius: 4px;
+    color: #2C555B;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: #eaeaea;
+    }
+  }
+
+  &__itemSelected {
+    background-color: #eaeaea;
+    border: 1px solid #2C555B;
+  }
+
+  &__priceRange {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  &__priceInput {
+    width: 48%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+  }
+
+  &__buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 16px;
+  }
+
+  .resetButton,
+  .applyButton {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+  }
+
+  .resetButton {
+    background-color: #dadada;
+    color: #000000;
+    border: 1px solid #c9c9c9;
+
+    &:hover {
+      background-color: #c9c9c9;
+    }
+  }
+
+  .applyButton {
+    background-color: #76a05e;
+    color: #fff;
+
+    &:hover {
+      background-color: #5e8b4a;
+    }
+  }
+}
+
+.desktopOnly {
+  @media (max-width: 768px) {
+    display: none;
+  }
+}
+
+.mobileFilterButton {
+  display: none;
+  position: fixed;
+  bottom: 16px;
+  right: 16px;
+  background-color: #2C555B;
+  color: #fff;
+  padding: 12px;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 1000;
+
+  @media (max-width: 768px) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.mobileFilterOverlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #fff; /* Fullscreen background */
+  z-index: 1001; /* Higher z-index than the button */
+  transition: all 0.3s ease;
+
+  &.open {
+    display: flex;
+    flex-direction: column; /* Ensure proper flex direction */
+  }
+}
+
+.mobileFilter {
+  background-color: #fff;
+  padding: 16px;
+  width: calc(100% - 32px); /* Full width minus padding */
+  height: calc(100% - 32px); /* Full height minus padding */
+  overflow-y: auto; /* Allow scrolling if content is too tall */
+  position: fixed; /* Fixed positioning */
+  top: 16px; /* Padding from top */
+  left: 16px; /* Padding from left */
+  z-index: 1002; /* Higher z-index than the overlay */
+  box-sizing: border-box; /* Include padding in width and height */
+
+  .resetButton,
+  .applyButton {
+    padding: 8px 36px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+  }
+
+  .resetButton {
+    background-color: #dadada;
+    color: #000000;
+    border: 1px solid #c9c9c9;
+
+    &:hover {
+      background-color: #c9c9c9;
+    }
+  }
+
+  .applyButton {
+    background-color: #76a05e;
+    color: #fff;
+
+    &:hover {
+      background-color: #5e8b4a;
+    }
+  }
+}
+
+.closeButton {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background-color: transparent;
+  border: none;
+  color: #2C555B;
+  font-size: 24px;
+  cursor: pointer;
+}
