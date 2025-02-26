@@ -1,5 +1,4 @@
 import React from "react";
-import style from "./cardCatalog.module.scss";
 import defaultPhoto from "../../../../assets/icon/Foto.png";
 import heartLike from "../../../../assets/icon/Heart.svg";
 import heardLiked from "../../../../assets/icon/Heart_liked.svg";
@@ -8,6 +7,7 @@ import CardCatalogAuthor from "../../../../user/components/authorCardCatalog/Car
 import PriceLists from "../../CardCatalogBig/PriceList/PriceLists";
 import { useAddToFavoritesMutation, useDeleteFromFavoritesMutation } from "../../../../store/entities/services/services";
 import { AdsInfo } from "../../../../common/model/ads";
+import style from "./cardCatalog.module.scss";
 
 interface Props {
   title: string;
@@ -47,19 +47,19 @@ export default function CardCatalog({ title, card }: Props) {
         <div className={style.catalog__cardInfo}>
           <div className={style.catalog__cardTitle} onClick={handleGoAds}>
             <div className={style.catalog__cardTitleText}>{title}</div>
-            <div className={style.catalog__cardSubtitleText}>
-              1000 ₽ за услугу
-            </div>
+            <img
+              src={card.is_favorited ? heardLiked : heartLike}
+              alt="like"
+              onClick={handleClickLike}
+              className={style.catalog__cardLike}
+            />
+          </div>
+          <div className={style.catalog__cardSubtitleText}>
+            1000 ₽ за услугу
           </div>
 
           <PriceLists variant="smallInfo" cardData={card} />
         </div>
-        <img
-          src={card.is_favorited ? heardLiked : heartLike}
-          alt="like"
-          onClick={handleClickLike}
-          className={style.catalog__cardLike}
-        />
 
         <div className={style.catalog__cardPublisher}>
           <CardCatalogAuthor card={card} />

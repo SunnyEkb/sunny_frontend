@@ -16,7 +16,7 @@ export default function PcFooter() {
           </ul>
           <div className={styles.catalog__footerSocial}>
             <img src={telegram} alt="телеграм" className={styles.catalog__footerSocialImg} />
-            <img src={vk} alt="вк" className={styles.catalog__footerSocialImg}/>
+            {/* <img src={vk} alt="вк" className={styles.catalog__footerSocialImg}/> */}
             <a href="mailto:solnechniy_ekb@mail.ru">
               <img src={email} alt="почта" className={styles.catalog__footerSocialImg}/>
             </a>

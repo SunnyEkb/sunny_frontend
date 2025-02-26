@@ -1,6 +1,5 @@
 import styles from "./mainCatalog.module.scss";
 import CardCatalog from "../CardCatalog/CardCatalog";
-import PcFooter from "../../../../user/components/footer/PcFooter.tsx";
 import MobileHeader from "../../../../user/components/header/MobileHeader";
 import PcHeader from "../../../../user/components/header/PcHeader";
 import { useLoaderData } from "react-router-dom";

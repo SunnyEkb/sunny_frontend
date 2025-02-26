@@ -98,8 +98,7 @@
     }
 
     @media (max-width: 600px) {
-      width: auto;
-      padding: 8px 16px;
+      display: none; /* Hide create button on small screens */
     }
   }
 
@@ -107,15 +106,15 @@
     width: 100%;
     padding: 8px 16px;
     box-sizing: border-box;
-    background-color: #f8f9fa;
+
     font-size: 14px;
 
     a {
-      color: #007bff;
+      color: #6c757d;
       text-decoration: none;
 
       &:hover {
-        text-decoration: underline;
+        color: #5e8b4a;
       }
     }
 
@@ -129,12 +128,6 @@
     padding: 16px;
     box-sizing: border-box;
     overflow-x: hidden;
-  }
-
-  &__filter {
-    @media (max-width: 600px) {
-      display: none;
-    }
   }
 
   &__content {
@@ -161,19 +154,23 @@
   @media (max-width: 600px) {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: start;
     margin-right: 16px;
-    width: 262px; /* Match the width of the create button */
-    height: 52px; /* Match the height of the create button */
-    background-color: #76a05e;
-    border: none;
+    width: 100%; /* Full width on small screens */
+    height: 40px;
+    padding: 8px 16px;
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
     border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     cursor: pointer;
-    color: #fff;
-    font-size: 14px; /* Match the font size of the create button */
+    font-size: 16px;
+    color: #888;
+    text-align: left;
+    gap: 16px;
 
     &:hover {
-      background-color: #5e8b4a;
+      background-color: #e9ecef;
     }
 
     .icon {
