@@ -44,7 +44,6 @@ export default function MainCatalog() {
         </div>
       </main>
 
-      <PcFooter />
     </section>
   );
 }

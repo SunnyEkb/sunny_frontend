@@ -103,6 +103,27 @@
     }
   }
 
+  &__breadcrumbs {
+    width: 100%;
+    padding: 8px 16px;
+    box-sizing: border-box;
+    background-color: #f8f9fa;
+    font-size: 14px;
+
+    a {
+      color: #007bff;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
+    span {
+      color: #6c757d;
+    }
+  }
+
   &__main {
     display: flex;
     padding: 16px;

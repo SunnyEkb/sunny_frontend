@@ -82,6 +82,10 @@ export default function Catalog() {
         </button>
       </form>
 
+      <nav className={style.catalog__breadcrumbs}>
+        <a href="/">Главная</a> / <span>Каталог</span>
+      </nav>
+
       <div className={style.catalog__main}>
         <div className={style.catalog__filter}>
           <Filter />

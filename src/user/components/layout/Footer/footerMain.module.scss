@@ -6,6 +6,11 @@
   width: 100%;
   height: 56px;
   background-color: #ffffff;
+  display: none; /* Hide footer by default */
+
+  @media (max-width: 600px) {
+    display: block; /* Show footer on mobile screens or smaller */
+  }
 }
 
 .footerList {

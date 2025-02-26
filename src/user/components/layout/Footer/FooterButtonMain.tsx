@@ -1,4 +1,3 @@
-import style from "./footerMain.module.scss";
 import { useNavigate } from "react-router-dom";
 import {
   useLazyCheckAuthQuery,
@@ -6,6 +5,7 @@ import {
 } from "../../../../store/auth-api/authApi";
 import mockLinkMenu, { mockLogin } from "./constans";
 import React from "react";
+import style from "./footerMain.module.scss";
 
 export default function FooterButtonMain() {
   const navigate = useNavigate();

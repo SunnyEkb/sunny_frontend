@@ -1,4 +1,3 @@
-import style from "./cardCatalogBig.module.scss";
 import arrowBack from "../../../assets/icon/arrow-left.svg";
 import share from "../../../assets/icon/Share.svg";
 import heart from "../../../assets/icon/Heart.svg";
@@ -7,6 +6,7 @@ import SwipeImg from "./SwipeImg/SwipeImg";
 import CardCatalogAuthor from "../../../user/components/authorCardCatalog/CardCatalogAuthor";
 import DescriptionList from "./DescriptionList/DescriptionList";
 import PriceLists from "./PriceList/PriceLists";
+import style from "./cardCatalogBig.module.scss";
 
 import {
   LoaderFunctionArgs,
@@ -138,7 +138,7 @@ export default function CardCatalogBig() {
         <div className={style.cardBig__info}> Просмотров 790</div>
       </section>
 
-      <PcFooter />
+
     </div>
   );
 }
