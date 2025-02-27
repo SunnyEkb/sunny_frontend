@@ -31,17 +31,18 @@ export default function MainFormAds() {
       </div>
 
       <div className={styles.content}>
+
         <div className={styles.field}>
           <div className={styles.label__field}>Вид услуги</div>
           <Controller
             control={control}
-            name="viewAds"
+            name="type_id"
             render={({ field }) => (
               <input
                 className={styles.input}
                 {...field}
                 type="text"
-                name="viewAds"
+                name="type_id"
                 placeholder={"вид услуги"}
               />
             )}
@@ -59,6 +60,23 @@ export default function MainFormAds() {
                 {...field}
                 type="text"
                 placeholder={"тип услуги"}
+              />
+            )}
+          />
+        </div>
+
+        <div className={styles.field}>
+          <div className={styles.label__field}>Название услуги</div>
+          <Controller
+            control={control}
+            name="title"
+            render={({ field }) => (
+              <input
+                className={styles.input}
+                {...field}
+                type="text"
+                name="title"
+                placeholder={"название услуги"}
               />
             )}
           />
