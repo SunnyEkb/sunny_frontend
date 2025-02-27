@@ -13,7 +13,7 @@ interface AuthPageLayoutProps {
 const AuthPageLayout: FC<AuthPageLayoutProps> = ({ title, onGoBack, children }) => (
   <div className={styles.authPageLayout}>
     <div className={styles.containerCloseButton}>
-      <CrossCloseButton onClick={onGoBack} />
+      <CrossCloseButton onClick={() => onGoBack()} />
     </div>
     <div className={styles.authPageLayout_containerTitle}>
       <PageTitle title={title} />
