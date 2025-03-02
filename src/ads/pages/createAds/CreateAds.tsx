@@ -1,8 +1,10 @@
 import React from "react";
 import styles from "./style.module.scss";
 import { Outlet } from "react-router-dom";
-import { FormProvider, useForm } from "react-hook-form";
+import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { useCreateServiceMutation } from "../../../store/entities/services/services";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { createAdsValidSchema } from "./helpers";
 
 export interface itemAds {
   nameAds: string;
@@ -10,38 +12,40 @@ export interface itemAds {
 }
 
 export interface IPhoto {
-  url: string;
-  file: File;
+  url?: string;
+  file?: object;
 }
 
 interface PropsForm {
-  viewAds: string;
-  photo: IPhoto[];
-  typeAds: string;
-  experience: string;
+  viewAds?: string;
+  photo?: IPhoto[] | null | undefined;
+  experience: number;
+  type_id: string;
+  title: string;
   description: string;
-  itemAds: itemAds[];
+  itemAds: itemAds[] | null | undefined;
   venue: string; //место встречи
 }
 
 export default function CreateAds() {
   const methods = useForm({
     defaultValues: {
-      itemAds: [],
-      photo: [],
+      itemAds: null,
+      photo: null,
       viewAds: "",
-      typeAds: "",
+      type_id: "",
       venue: "",
-      experience: "",
+      experience: 0,
       description: "",
+      title: "",
     },
-    // resolver: yupResolver(),
-    mode: "onChange",
+    resolver: yupResolver(createAdsValidSchema),
+    mode: "all",
   });
 
   const [createAds, _] = useCreateServiceMutation();
 
-  const onSubmit = async (data: PropsForm) => {
+  const onSubmit = async (data: SubmitHandler<PropsForm>) => {
     console.log(data);
     await createAds(data);
     // navigate('/');
