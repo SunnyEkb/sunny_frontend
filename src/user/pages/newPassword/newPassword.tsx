@@ -1,5 +1,5 @@
-import { FC, useState } from "react";
-import styles from "./newPassword.module.scss"
+import React, { FC, useState } from "react";
+import styles from "./newPassword.module.scss";
 import { Inputs, newPasswordFields } from "../../components/input/constans";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
@@ -20,11 +20,15 @@ const NewPassword: FC = () => {
   const urlParams = new URLSearchParams(window.location.search);
   const token = urlParams.get("token");
 
-  const goToPage = (path: string) => navigate(path);
+  const goToPage = (path: string) => {
+    navigate(path);
+  };
 
-  if (!token) {
-    goToPage(paths.index);
-  }
+  React.useEffect(() => {
+    if (!token) {
+      goToPage(paths.index);
+    }
+  }, [token]);
 
   const defaultValues: FormValuesNewPassword = {
     password: "",
@@ -33,7 +37,7 @@ const NewPassword: FC = () => {
 
   const [changePassword] = usePasswordForgetMutation();
 
-  const [errMsg, setErrMsg] = useState<string | null>(null)
+  const [errMsg, setErrMsg] = useState<string | null>(null);
 
   const {
     register,
@@ -54,7 +58,7 @@ const NewPassword: FC = () => {
         })
         .catch((e) => {
           console.error(e);
-          e.data ? setErrMsg('Возникла ошибка и пароль не изменён') : null;
+          e.data ? setErrMsg("Возникла ошибка и пароль не изменён") : null;
         }));
   };
 
@@ -88,11 +92,7 @@ const NewPassword: FC = () => {
         />
       </UserForm>
 
-      {errMsg &&
-        <p className={styles.errorText}>
-          {errMsg}
-        </p>
-      }
+      {errMsg && <p className={styles.errorText}>{errMsg}</p>}
     </AuthPageLayout>
   );
 };
