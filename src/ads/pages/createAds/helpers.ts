@@ -1,3 +1,33 @@
+import * as Yup from "yup";
+
+export const createAdsValidSchema = Yup.object().shape({
+  viewAds: Yup.string().trim(),
+  type_id: Yup.string().required(),
+  venue: Yup.string().trim(),
+  experience: Yup.number()
+    .max(50, "Число не должно быть больше 50")
+    .required(),
+  description: Yup.string(),
+  title: Yup.string().required(),
+  itemAds: Yup.array()
+  .of(
+    Yup.object().shape({
+      nameAds: Yup.string(),
+      price: Yup.number()
+    })
+  )
+  .nullable(),
+  photo: Yup.array()
+  .of(
+    Yup.object().shape({
+      url: Yup.string(),
+      file: Yup.object()
+    })
+  )
+  .nullable()
+
+});
+
 export const defaultAds = [
   {
     id: 1,

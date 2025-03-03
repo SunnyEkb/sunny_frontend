@@ -73,6 +73,7 @@ export const router = createBrowserRouter(
             {
               path: paths.createAds,
               element: <ChooseAds />,
+              loader: () => loaderCatagories(),
             },
             {
               path: paths.createAds + "/type",

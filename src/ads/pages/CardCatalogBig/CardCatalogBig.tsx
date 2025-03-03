@@ -38,7 +38,6 @@ export const loaderAdsByCatalogId = async ({
 export default function CardCatalogBig() {
   const navigate = useNavigate();
   const cardData = useLoaderData() as AdsInfo;
-  console.log(cardData);
   function handleGoBack() {
     navigate(-1);
   }
