@@ -2,7 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import { paths } from "./paths";
 import Login from "../user/pages/logIn/logIn";
 import UserLK from "../user/pages/userLK/userLK";
-import Catalogs, { loaderCatagories } from "../ads/pages/catalogs/catalogs";
+import MainCatalog, { loaderCatagories } from "../ads/pages/catalogs/new/MainCatalog";
 import Catalog from "../ads/pages/catalog/catalog";
 import CardCatalogBig, {
   loaderAdsByCatalogId,
@@ -24,6 +24,7 @@ import PasswordRecovery from "../user/pages/passwordRecovery/passwordRecovery";
 import NewPassword from "../user/pages/newPassword/newPassword";
 import RegisterActivatePage from "../user/pages/registerActivate/registerActivate";
 import ChatPage from "../ads/pages/chatPage/chatPage";
+
 
 export const router = createBrowserRouter(
   [
@@ -90,7 +91,7 @@ export const router = createBrowserRouter(
         },
         {
           path: paths.index,
-          element: <Catalogs />,
+          element: <MainCatalog />,
           loader: () => loaderCatagories(),
         },
       ],

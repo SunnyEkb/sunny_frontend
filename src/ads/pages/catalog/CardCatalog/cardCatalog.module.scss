@@ -1,0 +1,184 @@
+.catalog__cardList {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+  padding: 0 16px; /* Add padding to ensure spacing from screen edges */
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.catalog__card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 16px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 100%; /* Ensure card does not exceed screen width */
+  position: relative;
+  transition: all 0.3s ease;
+
+
+  &:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  @media (min-width: 768px) {
+    flex-direction: row;
+    height: auto;
+    max-width: 980px; /* Set max-width for larger screens */
+  }
+
+  @media (max-width: 768px) {
+    border: none;
+    box-shadow: none;
+    padding: 0;
+    &:hover {
+      box-shadow: none;
+    }
+  }
+}
+
+.catalog__imageWrapper {
+  width: 100%;
+  height: 0;
+  padding-bottom: 60%;
+  border-radius: 16px;
+  overflow: hidden;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.3s ease;
+
+  &:hover img {
+    transform: scale(1.1);
+  }
+
+  @media (min-width: 768px) {
+    width: 288px;
+    height: 288px;
+    padding-bottom: 0;
+  }
+
+  @media (max-width: 768px) {
+    margin-bottom: 16px;
+  }
+}
+
+.catalog__cardPhoto {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: all 0.3s ease;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.catalog__cardLike {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: absolute;
+  top: 16px;
+  right: 16px;
+
+  &:hover {
+    transform: scale(1.1);
+  }
+
+  @media (max-width: 768px) {
+    position: static;
+    margin-left: auto;
+  }
+}
+
+.catalog__cardInfo {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 2;
+  padding: 0 16px;
+
+  @media (max-width: 768px) {
+    padding: 0;
+  }
+}
+
+.catalog__cardTitle {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+  font-size: 19px;
+  cursor: pointer;
+  margin-bottom: 16px;
+  position: relative;
+
+  @media (max-width: 768px) {
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
+.catalog__cardTitleText {
+  font-family: Inter;
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 20px;
+  text-align: left;
+  color: #2c555b;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+
+  &:hover {
+    color: #5e8b4a;
+    cursor: pointer;
+  }
+
+  @media (min-width: 768px) {
+    font-size: 19px;
+    line-height: 24px;
+  }
+}
+
+.catalog__cardSubtitleText {
+  font-family: Inter;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 20px;
+  text-align: left;
+  color: #2c555b;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  @media (min-width: 768px) {
+    font-size: 19px;
+    line-height: 24px;
+  }
+}
+
+.catalog__cardCity {
+  font-family: Inter;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 16px;
+  text-align: left;
+  color: #b2bdc7;
+}
+
+.catalog__cardPublisher {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 1;
+  margin-top: 8px;
+
+  @media (max-width: 768px) {
+    margin-top: 16px;
+  }
+}

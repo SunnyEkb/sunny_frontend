@@ -1,4 +1,4 @@
-import style from "./style.module.scss";
+import React from "react";
 import defaultPhoto from "../../../../assets/icon/Foto.png";
 import heartLike from "../../../../assets/icon/Heart.svg";
 import heardLiked from "../../../../assets/icon/Heart_liked.svg";
@@ -7,6 +7,7 @@ import CardCatalogAuthor from "../../../../user/components/authorCardCatalog/Car
 import PriceLists from "../../CardCatalogBig/PriceList/PriceLists";
 import { useAddToFavoritesMutation, useDeleteFromFavoritesMutation } from "../../../../store/entities/services/services";
 import { AdsInfo } from "../../../../common/model/ads";
+import style from "./cardCatalog.module.scss";
 
 interface Props {
   title: string;
@@ -15,14 +16,13 @@ interface Props {
 
 export default function CardCatalog({ title, card }: Props) {
   const navigate = useNavigate();
-
   const params = useParams();
 
   function handleGoAds() {
     navigate(`/catalogs/${params.id}/ads/${card.id}`);
   }
 
- const [addToFavorite] = useAddToFavoritesMutation();
+  const [addToFavorite] = useAddToFavoritesMutation();
   const [deleteFromFavorite] = useDeleteFromFavoritesMutation();
 
   const handleClickLike = async () => {
@@ -36,43 +36,33 @@ export default function CardCatalog({ title, card }: Props) {
   return (
     <section className={style.catalog__cardList}>
       <div className={style.catalog__card}>
-        <img
-          src={card.images[0]?.image || defaultPhoto}
-          alt="услуга"
-          className={style.catalog__cardPhoto}
-          onClick={handleGoAds}
-        />
-
-        <div className={style.catalog__cardTitle}>
-          <div className={style.catalog__cardTitleWrapper}>
-            <div className={style.catalog__cardTitleText}>{title}</div>
-            <div className={style.catalog__cardSubtitleText}>
-              1000 ₽ за услугу
-            </div>
-          </div>
+        <div className={style.catalog__imageWrapper} onClick={handleGoAds}>
           <img
-            src={card.is_favorited ? heardLiked : heartLike}
-            alt="like"
-            onClick={handleClickLike}
-            className={style.catalog__cardLike}
+            src={card.images[0]?.image || defaultPhoto}
+            alt="услуга"
+            className={style.catalog__cardPhoto}
           />
         </div>
 
-        <PriceLists variant="smallInfo" cardData={card} />
+        <div className={style.catalog__cardInfo}>
+          <div className={style.catalog__cardTitle} onClick={handleGoAds}>
+            <div className={style.catalog__cardTitleText}>{title}</div>
+            <img
+              src={card.is_favorited ? heardLiked : heartLike}
+              alt="like"
+              onClick={handleClickLike}
+              className={style.catalog__cardLike}
+            />
+          </div>
+          <div className={style.catalog__cardSubtitleText}>
+            1000 ₽ за услугу
+          </div>
 
-        <div className={style.catalog__cardCity}>{card.address}</div>
-      </div>
+          <PriceLists variant="smallInfo" cardData={card} />
+        </div>
 
-      <div className={style.catalog__cardContact}>
-        <CardCatalogAuthor card={card} />
-
-        <div className={style.catalog__buttons}>
-          <button className={style.catalog__cardButton} onClick={handleGoAds}>
-            Позвонить
-          </button>
-          <button className={style.catalog__cardButton} onClick={handleGoAds}>
-            Написать
-          </button>
+        <div className={style.catalog__cardPublisher}>
+          <CardCatalogAuthor card={card} />
         </div>
       </div>
     </section>

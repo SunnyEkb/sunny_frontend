@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import styles from "./styles.module.scss";
+import styles from "./card.module.scss";
 import { paths } from "../../../../app/paths";
 import imgDefault from "../../../../assets/icon/cake.svg";
 

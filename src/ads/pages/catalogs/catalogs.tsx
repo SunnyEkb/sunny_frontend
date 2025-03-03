@@ -1,8 +1,8 @@
-import styles from "./styles.module.scss";
+import styles from "./catalogs.module.scss";
 // import { mockCatalog } from "./constantsMock";
 import CardCatalog from "./CardCatalog/CardCatalog";
-import Footer from "../../../user/components/footer/Footer";
 import { useLoaderData } from "react-router-dom";
+import PcFooter from "../../../user/components/footer/PcFooter";
 
 interface DataProps {
   id: number;
@@ -45,7 +45,6 @@ export default function Catalogs() {
             })}
         </div>
       </main>
-      <Footer />
     </section>
   );
 }

@@ -1,5 +1,5 @@
 import { createPortal } from "react-dom";
-import styles from "./style.module.scss";
+import styles from "./rootModalStyle.module.scss";
 
 interface Props {
   backdropFilter?: "blur";

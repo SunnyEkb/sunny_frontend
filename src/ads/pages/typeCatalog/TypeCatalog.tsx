@@ -1,5 +1,5 @@
 import React from "react";
-import style from "./style.module.scss";
+import style from "./type.module.scss";
 import InputForm from "../../../user/components/input/InputForm";
 import { useForm } from "react-hook-form";
 import { useAppDispatch } from "../../../store/store";

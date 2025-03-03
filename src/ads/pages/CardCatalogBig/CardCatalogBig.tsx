@@ -1,4 +1,3 @@
-import style from "./style.module.scss";
 import arrowBack from "../../../assets/icon/arrow-left.svg";
 import share from "../../../assets/icon/Share.svg";
 import heart from "../../../assets/icon/Heart.svg";
@@ -7,7 +6,8 @@ import SwipeImg from "./SwipeImg/SwipeImg";
 import CardCatalogAuthor from "../../../user/components/authorCardCatalog/CardCatalogAuthor";
 import DescriptionList from "./DescriptionList/DescriptionList";
 import PriceLists from "./PriceList/PriceLists";
-import Footer from "../../../user/components/footer/Footer";
+import style from "./cardCatalogBig.module.scss";
+
 import {
   LoaderFunctionArgs,
   useLoaderData,
@@ -16,9 +16,9 @@ import {
 import {
   useAddToFavoritesMutation,
   useDeleteFromFavoritesMutation,
-  useUpdateMutation,
 } from "../../../store/entities/services/services";
 import { AdsInfo } from "../../../common/model/ads";
+import PcFooter from "../../../user/components/footer/PcFooter";
 
 interface LoaderParams {
   idAds: string;
@@ -138,7 +138,7 @@ export default function CardCatalogBig() {
         <div className={style.cardBig__info}> Просмотров 790</div>
       </section>
 
-      <Footer />
+
     </div>
   );
 }
