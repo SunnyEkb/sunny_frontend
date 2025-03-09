@@ -47,7 +47,7 @@ export const router = createBrowserRouter(
       ],
     },
     {
-      element: <MainLayout isShowFooter={false} />,
+      element: <MainLayout/>,
       children: [
         {
           path: paths.chat,

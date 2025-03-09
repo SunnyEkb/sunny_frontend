@@ -1,0 +1,76 @@
+.card {
+  width: 270px;
+  height: 300px;
+  border-radius: 16px;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border: 1px solid transparent;
+  transition: all ease-in-out 0.3s;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 16px;
+  box-sizing: border-box;
+
+  &:hover {
+    border: 1px solid #2c555b;
+    opacity: 0.8;
+  }
+}
+
+.card__imgWrapper {
+  display: flex;
+  justify-content: space-between;
+}
+
+.card__img {
+  width: 100%;
+  border-radius: 16px;
+}
+
+.card__like {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}
+
+.card__content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card__title {
+  font-family: 'Inter', sans-serif;
+  font-size: 19px;
+  font-weight: 600;
+  line-height: 24px;
+  color: #2c555b;
+  margin: 8px 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.card__price {
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: #2c555b;
+}
+
+.card__location {
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  color: #2c555b;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

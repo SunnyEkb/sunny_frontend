@@ -1,8 +1,7 @@
-import styles from "./catalogs.module.scss";
-// import { mockCatalog } from "./constantsMock";
+
 import CardCatalog from "./CardCatalog/CardCatalog";
 import { useLoaderData } from "react-router-dom";
-import PcFooter from "../../../user/components/footer/PcFooter";
+import styles from "./catalogs.module.scss";
 
 interface DataProps {
   id: number;
@@ -38,7 +37,7 @@ export default function Catalogs() {
 
       <main className={styles.catalog__content}>
         <div className={styles.catalog__title}>На районе</div>
-        <div className={styles.catalog__itemList}>
+        <div >
           {data &&
             data.map((card) => {
               return <CardCatalog key={card.id} card={card} />;

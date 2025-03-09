@@ -40,47 +40,6 @@ export default function Catalog() {
 
   return (
     <div className={style.catalog}>
-      <header className={style.catalog__header}>
-        <FontAwesomeIcon
-          icon={faArrowLeft}
-          className={style.catalog__buttonArrow}
-          onClick={handleGoBack}
-        />
-        <h1 className={style.catalog__headerTitle}>Солнечный Екб</h1>
-      </header>
-
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className={style.catalog__searchContainer}
-      >
-        <button type="button" className={style.catalog__searchButton} onClick={toggleSearchWindow}>
-          <FontAwesomeIcon icon={faSearch} className="icon" />
-          <span className={style.catalog__searchButtonText}>Поиск</span>
-        </button>
-        <div className={style.catalog__searchWrapper}>
-          <FontAwesomeIcon icon={faSearch} className={style.catalog__searchIcon} />
-          <input
-            {...register("search", {
-              required: "Введите название услуги",
-              minLength: {
-                value: 2,
-                message: "Минимум два символа",
-              },
-              maxLength: {
-                value: 40,
-                message: "Максимум сорок символов",
-              },
-            })}
-            type="text"
-            placeholder="Поиск услуги"
-            className={style.catalog__searchInput}
-          />
-          {errors.search && <p className={style.catalog__error}>{errors.search.message}</p>}
-        </div>
-        <button type="submit" className={style.catalog__createButton}>
-          Создать объявление
-        </button>
-      </form>
 
       <nav className={style.catalog__breadcrumbs}>
         <a href="/">Главная</a> / <span>Каталог</span>

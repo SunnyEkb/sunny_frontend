@@ -2,38 +2,128 @@
   border-radius: 16px;
   background-color: #ffffff;
   min-width: 88px;
-  max-width: 136px;
-  height: 88px;
+  max-width: 260px;
+  height: 200px;
+  max-height: 200px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   border: 1px solid transparent;
   transition: all ease-in-out 0.3s;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 8px;
+  box-sizing: border-box;
+
+  @media (max-width: 768px) {
+    max-width: 200px;
+    height: 150px;
+    padding: 6px;
+  }
+
+  @media (max-width: 480px) {
+    max-width: 150px;
+    height: 120px;
+    padding: 4px;
+  }
 }
 
 .card:hover {
-    border: 1px solid #2c555b;
-    opacity: 0.8;
+  border: 1px solid #2c555b;
+  opacity: 0.8;
 }
 
 .card__title {
-  font-family: Inter;
-  font-size: 13px;
+  font-family: Inter, sans-serif;
+  font-size: 23px;
   font-weight: 400;
   line-height: 16px;
   color: #2c555b;
-  padding: 8px;
-  padding-bottom: 0;
+  margin: 8px 0;
+  padding: 0;
+
+  @media (max-width: 768px) {
+    font-size: 12px;
+    margin: 6px 0;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 11px;
+    margin: 4px 0;
+  }
 }
 
 .card__img {
-  width: 40px;
-  height: 40px;
+  width: 100px;
+  height: 100px;
+  margin: 8px;
+
+  @media (max-width: 768px) {
+    width: 35px;
+    height: 35px;
+    margin: 6px;
+  }
+
+  @media (max-width: 480px) {
+    width: 30px;
+    height: 30px;
+    margin: 4px;
+  }
 }
 
 .card__imgWrapper {
-    display: flex;
-    justify-content: flex-end;
-    padding: 4px;
-    margin-bottom: 8px;
+  display: flex;
+  justify-content: flex-end;
+  padding: 4px;
+  margin-bottom: 8px;
+
+  @media (max-width: 768px) {
+    padding: 3px;
+    margin-bottom: 6px;
+  }
+
+  @media (max-width: 480px) {
+    padding: 2px;
+    margin-bottom: 4px;
+  }
+}
+
+.title {
+  font-family: Inter, sans-serif;
+  font-weight: 400;
+  font-size: 23px;
+  line-height: 28px;
+  letter-spacing: 0;
+  text-align: left;
+  width: 168px;
+  height: 56px;
+  padding: 16px;
+  margin: 16px 0;
+
+  @media (max-width: 768px) {
+    font-size: 20px;
+    line-height: 24px;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 18px;
+    line-height: 22px;
+  }
+}
+
+.icon {
+  width: 100px;
+  height: 100px;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+
+  @media (max-width: 768px) {
+    width: 80px;
+    height: 80px;
+  }
+
+  @media (max-width: 480px) {
+    width: 60px;
+    height: 60px;
+  }
 }

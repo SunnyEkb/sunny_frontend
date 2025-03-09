@@ -1,7 +1,6 @@
 import styles from "./mainCatalog.module.scss";
 import CardCatalog from "../CardCatalog/CardCatalog";
-import MobileHeader from "../../../../user/components/header/MobileHeader";
-import PcHeader from "../../../../user/components/header/PcHeader";
+import MiniAdCard from "../../catalog/MiniAdCard/MiniAdCard";
 import { useLoaderData } from "react-router-dom";
 
 interface DataProps {
@@ -20,15 +19,23 @@ export const loaderCatagories = async () => {
   return response;
 };
 
-const isMobile = () => window.innerWidth <= 768;
-
 export default function MainCatalog() {
   const data = useLoaderData() as DataProps[];
-  const mobile = isMobile();
+
+  // Mock data for MiniAdCards
+  const mockAds = [
+    { id: 1, title: "Ad 1", price: "1000₽", location: "Location 1" },
+    { id: 2, title: "Ad 2", price: "2000₽", location: "Location 2" },
+    { id: 3, title: "Ad 3", price: "3000₽", location: "Location 3" },
+    { id: 4, title: "Ad 4", price: "4000₽", location: "Location 4" },
+  ];
 
   return (
     <section className={styles.section}>
-      {mobile ? <MobileHeader /> : <PcHeader />}
+
+      <section className={styles.breadcrumbs}>
+        <a href="/">Главная</a> &gt; <span>На районе</span>
+      </section>
 
       <section className={styles.sectionImg}>
         <div className={styles.img} />
@@ -43,6 +50,14 @@ export default function MainCatalog() {
         </div>
       </main>
 
+      <section className={styles.newSection}>
+        <div className={styles.newSectionTitle}>Новое</div>
+        <div className={styles.newSectionGrid}>
+          {mockAds.map((ad) => (
+            <MiniAdCard key={ad.id} ad={ad} />
+          ))}
+        </div>
+      </section>
     </section>
   );
 }

@@ -1,0 +1,147 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+  background-color: #fff;
+  padding: 16px;
+  box-sizing: border-box;
+  max-width: 1440px;
+  margin: 0 auto;
+
+  @media (max-width: 768px) {
+    padding: 8px;
+  }
+}
+
+.topRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+
+  @media (max-width: 768px) {
+
+    align-items: flex-start;
+  }
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+  color: #FFCC33;
+  margin: 0;
+
+  @media (max-width: 768px) {
+    font-size: 20px;
+  }
+}
+
+.authButton {
+  font-size: 14px;
+  color: #76a05e;
+  background: none;
+  border: none;
+  cursor: pointer;
+
+  &:hover {
+    color: #5e8b4a;
+  }
+}
+
+.bottomRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-top: 16px;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 8px;
+  }
+}
+
+.searchContainer {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  margin-right: 40px;
+
+  @media (max-width: 768px) {
+    width: 100%;
+    margin-right: 0;
+    margin-bottom: 8px;
+  }
+}
+
+.searchWrapper {
+  position: relative;
+  width: 100%;
+  margin-right: 40px;
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
+}
+
+.searchInput {
+  width: 100%;
+  height: 42px;
+  max-height: 42px;
+  padding: 6px 6px 6px 32px; /* Adjusted padding to fit within 52px height */
+  margin-right: 40px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f8f9fa;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-size: 16px;
+
+  @media (max-width: 768px) {
+    height: 40px;
+    font-size: 14px;
+  }
+}
+
+.searchIcon {
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  color: #888;
+}
+
+.error {
+  color: red;
+  font-size: 12px;
+  margin-top: 4px;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+}
+
+.createButton {
+  width: 262px;
+  height: 52px;
+  padding: 16px 32px;
+  font-size: 14px;
+  color: #fff;
+  background-color: #76a05e;
+  border: 1px solid #76a05e;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #5e8b4a;
+  }
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
+}

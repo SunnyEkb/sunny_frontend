@@ -18,7 +18,7 @@ import {
   useDeleteFromFavoritesMutation,
 } from "../../../store/entities/services/services";
 import { AdsInfo } from "../../../common/model/ads";
-import PcFooter from "../../../user/components/footer/PcFooter";
+
 
 interface LoaderParams {
   idAds: string;
