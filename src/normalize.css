@@ -1,0 +1,10 @@
+@import url('./shared/vendor/font/font.css');
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+html {
+  min-height: 100vh;
+}
