@@ -3,6 +3,7 @@ import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import styles from "./header.module.scss";
+import { paths } from "../../../app/paths";
 
 interface SearchFormProps {
   search: string;
@@ -20,7 +21,7 @@ export default function Header() {
     <header className={styles.header}>
       <div className={styles.topRow}>
         <h1 className={styles.logo}>Солнечный Екб</h1>
-        <button className={styles.authButton} onClick={() => navigate('/login')}>Вход и регистрация</button>
+        <button className={styles.authButton} onClick={() => navigate(paths.auth)}>Вход и регистрация</button>
       </div>
       <div className={styles.bottomRow}>
         <form onSubmit={handleSubmit(onSubmit)} className={styles.searchContainer}>
@@ -45,7 +46,7 @@ export default function Header() {
             {errors.search && <p className={styles.error}>{errors.search.message}</p>}
           </div>
         </form>
-        <button type="button" className={styles.createButton} onClick={() => navigate('/create')}>Создать объявление</button>
+        <button type="button" className={styles.createButton} onClick={() => navigate(paths.createAds)}>Создать объявление</button>
       </div>
     </header>
   );
