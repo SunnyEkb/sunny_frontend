@@ -1,6 +1,8 @@
 import { FC } from "react";
 import { Link } from "react-router-dom";
 import styles from "./checkboxContainer.module.scss";
+import { paths } from "../../../app/paths";
+
 
 interface CheckboxContainerProps {
   checked: boolean;
@@ -21,11 +23,11 @@ const CheckboxContainer: FC<CheckboxContainerProps> = ({ checked, onToggle }) =>
       ></span>
       <label htmlFor="consent" className={styles.consentText}>
         Я даю согласие на обработку персональных данных в соответствии с&nbsp;
-        <Link to="/policy" className={styles.consentText__link}>
+        <Link to={paths.policy} className={styles.consentText__link}>
           Политикой конфиденциальности
         </Link>
         &nbsp; и принимаю&nbsp;
-        <Link to="/policy" className={styles.consentText__link}>
+        <Link to={paths.policy} className={styles.consentText__link}>
           Условия работы сервиса
         </Link>
         .

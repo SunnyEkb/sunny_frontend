@@ -63,7 +63,7 @@ const LogIn: FC = () => {
         dispatch(setAuthenticated(true));
 
         // Перенаправляем на страницу каталога
-        navigate("/");
+        navigate(paths.index);
       }
     } catch (err: any) {
       console.error("Ошибка при логине или запросе данных");
@@ -75,7 +75,7 @@ const LogIn: FC = () => {
     <AuthPageLayout
       title="Вход"
       onGoBack={() => {
-        navigate("/");
+        navigate(paths.index);
       }}
     >
       <div className={styles.LogIn_containerForm}>
