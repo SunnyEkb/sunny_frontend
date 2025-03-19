@@ -29,6 +29,13 @@
 			height: 45px;
 			background-image: url(../../../assets/icon/eye-default.svg);
 			background-size: contain;
+      cursor: pointer;
+      opacity: 1;
+      transition: all ease-in-out 0.3s;
+
+      &:hover{
+        opacity: 0.5;
+      }
 		}
 
 		&__login_button {
@@ -52,9 +59,12 @@
 			line-height: 24px;
 			color: #000;
 			text-decoration: none;
+      opacity: .6;
+      transition: all ease-in-out 0.3s;
+
 
 			&:hover {
-				border: 2px solid #a48dd3;
+        opacity: 1;
 			}
 
 			&:active {

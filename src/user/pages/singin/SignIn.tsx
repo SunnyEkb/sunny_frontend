@@ -14,6 +14,7 @@ import CheckboxContainer from "../../components/checkboxContainer/checkboxContai
 //import { inputFields, Inputs } from "./constans";
 import AuthPageLayout from "../../layout/authPageLayout/AuthPageLayout";
 import { Inputs, registerFields } from "../../components/input/constans";
+import { paths } from "../../../app/paths";
 
 const Registr: FC = () => {
   const navigate = useNavigate();
@@ -57,7 +58,7 @@ const Registr: FC = () => {
       await registerUser(data)
         .unwrap()
         .then(() => {
-          navigate("/auth");
+          navigate(paths.auth);
         });
     } catch (error: any) {
       if (error.data) {
