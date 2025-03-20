@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useLazyCheckAuthQuery, useLogoutMutation } from "../../../store/auth-api/authApi"; // update the import path as needed
 import styles from "./header.module.scss";
+import { paths } from "../../../app/paths";
 
 interface SearchFormProps {
   search: string;
@@ -62,7 +63,7 @@ export default function Header() {
             {errors.search && <p className={styles.error}>{errors.search.message}</p>}
           </div>
         </form>
-        <button type="button" className={styles.createButton} onClick={() => navigate('/create')}>Создать объявление</button>
+        <button type="button" className={styles.createButton} onClick={() => navigate(paths.createAds)}>Создать объявление</button>
       </div>
     </header>
   );

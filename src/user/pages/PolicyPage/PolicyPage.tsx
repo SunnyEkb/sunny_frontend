@@ -1,14 +1,21 @@
 import { FC } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Table from './Table/Table';
 import styles from './PolicyPage.module.scss';
 import { paths } from '../../../app/paths';
 import { linkSunnyEkb, linkSunnyEkbPolicy } from './constans';
 
-const PolicyPage:FC = () => (
+const PolicyPage:FC = () => {
+
+  const navigate = useNavigate();
+
+  return (
 	<main className={styles.PolicyPage}>
 		<header className={styles.PolicyPage__header}>
-			<div className={styles.PolicyPage__header__logo} />
+			<div
+        onClick={() => navigate(-1)}
+        className={styles.PolicyPage__header__logo}
+      />
 			<Link
 				to={paths.register}
 				className={styles.PolicyPage__header__login_button}>
@@ -522,6 +529,6 @@ const PolicyPage:FC = () => (
 			</li>
 		</ul>
 	</main>
-);
+)};
 
 export default PolicyPage;
