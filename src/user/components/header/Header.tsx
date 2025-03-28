@@ -22,7 +22,7 @@ export default function Header() {
 
   const handleLogout = async () => {
     await logout();
-    navigate('/');
+    navigate(paths.index);
   };
 
   // Trigger the checkAuth query to determine if the user is logged in
@@ -37,7 +37,7 @@ export default function Header() {
         {user ? (
           <button className={styles.authButton} onClick={handleLogout}>Выйти</button>
         ) : (
-          <button className={styles.authButton} onClick={() => navigate('/login')}>Вход и регистрация</button>
+          <button className={styles.authButton} onClick={() => navigate(paths.auth)}>Вход и регистрация</button>
         )}
       </div>
       <div className={styles.bottomRow}>
