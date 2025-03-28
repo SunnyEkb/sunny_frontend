@@ -11,8 +11,14 @@
   margin: 0 auto;
 
   @media (max-width: 768px) {
-    padding: 8px;
+
+
   }
+}
+body, html {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden; /* Prevents any element from causing horizontal scroll */
 }
 
 .topRow {
