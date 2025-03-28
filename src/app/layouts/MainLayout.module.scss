@@ -8,3 +8,9 @@
   flex: 1; /* Ensures that the content takes up the remaining space */
   width: 100%;
 }
+
+body {
+    margin: 0;  /* Removes the default 8px margin */
+    padding: 0;
+    overflow-x: hidden; /* Ensures no horizontal scrolling */
+}
