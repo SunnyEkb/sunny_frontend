@@ -45,12 +45,15 @@ body, html {
 }
 
 .authButton {
+  display: none;
   font-size: 14px;
   color: #76a05e;
   background: none;
   border: none;
   cursor: pointer;
-
+  @media (min-width: 768px) {
+    display: block;
+  }
   &:hover {
     color: #5e8b4a;
   }
