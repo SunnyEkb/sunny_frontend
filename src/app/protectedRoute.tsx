@@ -7,17 +7,23 @@ import { paths } from "./paths";
 const ProtectedRoute: FC = () => {
   const [checkAuth, data] = useLazyCheckAuthQuery();
 
+  const initCheckAuth = async () => {
+    return await checkAuth();
+  };
+
+
   useEffect(() => {
-    checkAuth();
+    initCheckAuth();
   }, []);
 
   if (data.isLoading) {
     return <div>Loading...</div>;
   }
 
-  if (data.error) {
+  if (data.error || data.isError || data.status == "rejected") {
     return <Navigate to={paths.auth} />;
   }
+
 
   return <Outlet />;
 };
