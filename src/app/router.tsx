@@ -65,19 +65,15 @@ export const router = createBrowserRouter(
           element: <CardCatalogBig />,
           loader: (params) => loaderAdsByCatalogId(params),
         },
+
         {
-          element: <ProtectedRoute />,
+          path: paths.createAds,
+          element: <CreateAds />,
           children: [
             {
               path: paths.createAds,
-              element: <CreateAds />,
-              children: [
-                {
-                  path: paths.createAds,
-                  element: <MainFormAds />,
-                  loader: () => loaderCatagories(),
-                },
-              ],
+              element: <MainFormAds />,
+              loader: () => loaderCatagories(),
             },
           ],
         },
