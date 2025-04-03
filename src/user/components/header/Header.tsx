@@ -26,9 +26,9 @@ export default function Header() {
   };
 
   // Trigger the checkAuth query to determine if the user is logged in
-  if (!isLoading && !user) {
-    trigger();
-  }
+  // if (!isLoading && !user) {
+  //   trigger();
+  // }
 
   return (
     <header className={styles.header}>
