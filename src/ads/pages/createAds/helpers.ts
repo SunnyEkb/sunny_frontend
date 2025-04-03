@@ -2,26 +2,26 @@ import * as Yup from "yup";
 
 export const createAdsValidSchema = Yup.object().shape({
   viewAds: Yup.string().trim(),
-  type_id: Yup.string().required(),
+  type_id: Yup.string().required("Это поле обязательное"),
   venue: Yup.string().trim(),
   experience: Yup.number()
     .max(50, "Число не должно быть больше 50")
     .required(),
-  description: Yup.string(),
-  title: Yup.string().required(),
+  description: Yup.string().required('Это поле обязательное'),
+  title: Yup.string().required('Это поле обязательное'),
   itemAds: Yup.array()
   .of(
     Yup.object().shape({
-      nameAds: Yup.string(),
-      price: Yup.number()
+      nameAds: Yup.string().required(),
+      price: Yup.number().required(),
     })
   )
   .nullable(),
   photo: Yup.array()
   .of(
     Yup.object().shape({
-      url: Yup.string(),
-      file: Yup.object()
+      url:  Yup.string().optional(),
+      file:Yup.mixed()
     })
   )
   .nullable()
