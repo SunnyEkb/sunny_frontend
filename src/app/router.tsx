@@ -24,8 +24,7 @@ import PasswordRecovery from "../user/pages/passwordRecovery/passwordRecovery";
 import NewPassword from "../user/pages/newPassword/newPassword";
 import RegisterActivatePage from "../user/pages/registerActivate/registerActivate";
 import ChatPage from "../ads/pages/chatPage/chatPage";
-
-
+import ModerationPage from "../ads/pages/moderation/ModerationPage"; // Importing ModerationPage
 
 export const router = createBrowserRouter(
   [
@@ -44,20 +43,20 @@ export const router = createBrowserRouter(
           path: paths.user_profile_edit,
           element: <UserProfileEdit />,
         },
-      ],
-    },
-    {
-      element: <MainLayout/>,
-      children: [
-        {
-          path: paths.chat,
-          element: <ChatPage />,
-        },
+        // Remove the moderation route from here after development
       ],
     },
     {
       element: <MainLayout />,
       children: [
+        {
+          path: paths.moderation, // Adding the moderation route here for development
+          element: <ModerationPage />,
+        },
+        {
+          path: paths.chat,
+          element: <ChatPage />,
+        },
         {
           path: paths.catalog,
           element: <Catalog />,

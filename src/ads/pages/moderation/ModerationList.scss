@@ -1,0 +1,28 @@
+.moderation-list {
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+
+  .items-list {
+    display: flex;
+    flex-direction: column;
+
+    .item {
+      padding: 15px;
+      border-bottom: 1px solid #eee;
+      cursor: pointer;
+
+      &:hover {
+        background-color: #f9f9f9;
+      }
+
+      h2 {
+        margin: 0 0 5px;
+      }
+
+      p {
+        margin: 0;
+      }
+    }
+  }
+}
