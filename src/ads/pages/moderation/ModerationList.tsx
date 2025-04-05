@@ -1,21 +1,58 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import MiniAdCard from './MiniAdCard';
 import './ModerationList.scss';
 
+const BASE_URL = 'https://sunnyekb.ru/api/v1/';
+
 const ModerationList = ({ type, onItemSelect }) => {
-  // Placeholder data
-  const items = [
-    { id: 1, title: `${type} Title 1`, description: `${type} Description 1` },
-    { id: 2, title: `${type} Title 2`, description: `${type} Description 2` },
-    { id: 3, title: `${type} Title 3`, description: `${type} Description 3` },
-  ];
+  const [items, setItems] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        let response;
+        if (type === 'ads') {
+          response = await fetch(`${BASE_URL}moderator/ads/`);
+        } else if (type === 'services') {
+          response = await fetch(`${BASE_URL}moderator/services/`);
+        } else if (type === 'comments') {
+          response = await fetch(`${BASE_URL}moderator/comments/`);
+        }
+        if (response.status === 401) {
+          throw new Error('Пользователь не авторизован');
+        }
+        if (!response.ok) {
+          throw new Error(`Error fetching data: ${response.statusText}`);
+        }
+        const data = await response.json();
+        setItems(data.results);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+        setError(error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [type]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div className="error-message">{error}</div>;
+  }
 
   return (
     <div className="moderation-list">
       <div className="items-list">
         {items.map((item) => (
           <div key={item.id} className="item" onClick={() => onItemSelect(item)}>
-            <h2>{item.title}</h2>
-            <p>{item.description}</p>
+            <MiniAdCard ad={item} />
           </div>
         ))}
       </div>

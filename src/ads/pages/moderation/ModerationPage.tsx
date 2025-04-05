@@ -1,26 +1,69 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ModerationList from './ModerationList';
 import ModerationDetail from './ModerationDetail';
 import './ModerationPage.scss';
+
+const BASE_URL = 'https://sunnyekb.ru/api/v1/';
 
 const ModerationPage = () => {
   const [visibleComponent, setVisibleComponent] = useState('menu');
   const [selectedItem, setSelectedItem] = useState(null);
   const [itemType, setItemType] = useState('');
   const [history, setHistory] = useState([]);
+  const [counts, setCounts] = useState({ ads: 0, services: 0, comments: 0 });
+  const [error, setError] = useState('');
 
-  const adsCount = 123;
-  const servicesCount = 456;
-  const commentsCount = 789;
-  const totalCount = adsCount + servicesCount + commentsCount;
+  useEffect(() => {
+    const fetchCounts = async () => {
+      try {
+        const adsResponse = await fetch(`${BASE_URL}moderator/ads/`);
+        if (adsResponse.status === 401) {
+          throw new Error('Пользователь не авторизован');
+        }
+        if (!adsResponse.ok) {
+          throw new Error(`Error fetching ads: ${adsResponse.statusText}`);
+        }
+        const adsData = await adsResponse.json();
 
-  const handleComponentSwitch = (component) => {
+        const servicesResponse = await fetch(`${BASE_URL}moderator/services/`);
+        if (servicesResponse.status === 401) {
+          throw new Error('Пользователь не авторизован');
+        }
+        if (!servicesResponse.ok) {
+          throw new Error(`Error fetching services: ${servicesResponse.statusText}`);
+        }
+        const servicesData = await servicesResponse.json();
+
+        const commentsResponse = await fetch(`${BASE_URL}moderator/comments/`);
+        if (commentsResponse.status === 401) {
+          throw new Error('Пользователь не авторизован');
+        }
+        if (!commentsResponse.ok) {
+          throw new Error(`Error fetching comments: ${commentsResponse.statusText}`);
+        }
+        const commentsData = await commentsResponse.json();
+
+        setCounts({
+          ads: adsData.count,
+          services: servicesData.count,
+          comments: commentsData.count,
+        });
+      } catch (error) {
+        console.error('Error fetching counts:', error);
+        setError(error.message);
+      }
+    };
+
+    fetchCounts();
+  }, []);
+
+  const handleComponentSwitch = (component: string) => {
     setHistory([...history, visibleComponent]);
     setVisibleComponent(component);
     setItemType(component);
   };
 
-  const handleItemSelect = (item) => {
+  const handleItemSelect = (item: any) => {
     setHistory([...history, visibleComponent]);
     setSelectedItem(item);
     setVisibleComponent('detail');
@@ -57,40 +100,41 @@ const ModerationPage = () => {
       </div>
       <div className="divider"></div>
       <div className="content">
-        {visibleComponent === 'menu' && (
+        {error && <div className="error-message">{error}</div>}
+        {visibleComponent === 'menu' && !error && (
           <div className="menu">
             <div className="menu-item" onClick={() => handleComponentSwitch('moderation')}>
               <span>На модерацию</span>
-              <span>{totalCount}</span>
+              <span>{counts.ads + counts.services + counts.comments}</span>
             </div>
           </div>
         )}
-        {visibleComponent === 'moderation' && (
+        {visibleComponent === 'moderation' && !error && (
           <div className="menu">
             <div className="menu-item" onClick={() => handleComponentSwitch('ads')}>
               <span>Объявления</span>
-              <span>{adsCount}</span>
+              <span>{counts.ads}</span>
             </div>
             <div className="menu-item" onClick={() => handleComponentSwitch('services')}>
               <span>Услуги</span>
-              <span>{servicesCount}</span>
+              <span>{counts.services}</span>
             </div>
             <div className="menu-item" onClick={() => handleComponentSwitch('comments')}>
               <span>Комментарии</span>
-              <span>{commentsCount}</span>
+              <span>{counts.comments}</span>
             </div>
           </div>
         )}
-        {visibleComponent === 'ads' && (
+        {visibleComponent === 'ads' && !error && (
           <ModerationList type="ads" onItemSelect={handleItemSelect} />
         )}
-        {visibleComponent === 'services' && (
+        {visibleComponent === 'services' && !error && (
           <ModerationList type="services" onItemSelect={handleItemSelect} />
         )}
-        {visibleComponent === 'comments' && (
+        {visibleComponent === 'comments' && !error && (
           <ModerationList type="comments" onItemSelect={handleItemSelect} />
         )}
-        {visibleComponent === 'detail' && selectedItem && (
+        {visibleComponent === 'detail' && selectedItem && !error && (
           <ModerationDetail item={selectedItem} type={itemType} />
         )}
       </div>
