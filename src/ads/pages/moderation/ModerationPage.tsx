@@ -16,12 +16,16 @@ const ModerationPage = () => {
   useEffect(() => {
     const fetchCounts = async () => {
       try {
-        const adsResponse = await fetch(`${BASE_URL}moderator/ads/`, {
+        const adsRequestOptions = {
           credentials: 'include',
           headers: {
-            'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
+            'Content-Type': 'application/json',
           },
-        });
+        };
+        console.log('Ads Request URL:', `${BASE_URL}moderator/ads/`);
+        console.log('Ads Request Options:', adsRequestOptions);
+
+        const adsResponse = await fetch(`${BASE_URL}moderator/ads/`, adsRequestOptions);
         if (adsResponse.status === 401) {
           throw new Error('Пользователь не авторизован');
         }
@@ -29,13 +33,18 @@ const ModerationPage = () => {
           throw new Error(`Ошибка при получении объявлений: ${adsResponse.statusText}`);
         }
         const adsData = await adsResponse.json();
+        console.log('Ads Data:', adsData);
 
-        const servicesResponse = await fetch(`${BASE_URL}moderator/services/`, {
+        const servicesRequestOptions = {
           credentials: 'include',
           headers: {
-            'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
+            'Content-Type': 'application/json',
           },
-        });
+        };
+        console.log('Services Request URL:', `${BASE_URL}moderator/services/`);
+        console.log('Services Request Options:', servicesRequestOptions);
+
+        const servicesResponse = await fetch(`${BASE_URL}moderator/services/`, servicesRequestOptions);
         if (servicesResponse.status === 401) {
           throw new Error('Пользователь не авторизован');
         }
@@ -43,13 +52,18 @@ const ModerationPage = () => {
           throw new Error(`Ошибка при получении услуг: ${servicesResponse.statusText}`);
         }
         const servicesData = await servicesResponse.json();
+        console.log('Services Data:', servicesData);
 
-        const commentsResponse = await fetch(`${BASE_URL}moderator/comments/`, {
+        const commentsRequestOptions = {
           credentials: 'include',
           headers: {
-            'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
+            'Content-Type': 'application/json',
           },
-        });
+        };
+        console.log('Comments Request URL:', `${BASE_URL}moderator/comments/`);
+        console.log('Comments Request Options:', commentsRequestOptions);
+
+        const commentsResponse = await fetch(`${BASE_URL}moderator/comments/`, commentsRequestOptions);
         if (commentsResponse.status === 401) {
           throw new Error('Пользователь не авторизован');
         }
@@ -57,6 +71,7 @@ const ModerationPage = () => {
           throw new Error(`Ошибка при получении комментариев: ${commentsResponse.statusText}`);
         }
         const commentsData = await commentsResponse.json();
+        console.log('Comments Data:', commentsData);
 
         setCounts({
           ads: adsData.count,
