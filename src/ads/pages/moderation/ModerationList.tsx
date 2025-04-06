@@ -12,13 +12,20 @@ const ModerationList = ({ type, onItemSelect }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        const requestOptions = {
+          credentials: 'include',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        };
+
         let response;
         if (type === 'ads') {
-          response = await fetch(`${BASE_URL}moderator/ads/`);
+          response = await fetch(`${BASE_URL}moderator/ads/`, requestOptions);
         } else if (type === 'services') {
-          response = await fetch(`${BASE_URL}moderator/services/`);
+          response = await fetch(`${BASE_URL}moderator/services/`, requestOptions);
         } else if (type === 'comments') {
-          response = await fetch(`${BASE_URL}moderator/comments/`);
+          response = await fetch(`${BASE_URL}moderator/comments/`, requestOptions);
         }
         if (response.status === 401) {
           throw new Error('Пользователь не авторизован');

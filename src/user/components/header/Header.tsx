@@ -2,7 +2,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { useLazyCheckAuthQuery, useLogoutMutation } from '../../../store/auth-api/authApi'; // update the import path as needed
+import { useLazyCheckAuthQuery, useLogoutMutation } from '../../../store/auth-api/authApi';
 import styles from './header.module.scss';
 import { paths } from '../../../app/paths';
 
@@ -21,10 +21,25 @@ export default function Header() {
   };
 
   const handleLogout = async () => {
-    await logout();
-    if (isSuccess) {
-      navigate(paths.index);
+    const csrfToken = document.cookie
+      .split('; ')
+      .find(row => row.startsWith('csrftoken='))
+      ?.split('=')[1];
+
+    if (!csrfToken) {
+      console.error('CSRF token not found');
+      return;
     }
+
+    await logout({
+      headers: {
+        'X-CSRFToken': csrfToken,
+      },
+    }).unwrap().then(() => {
+      navigate(paths.index);
+    }).catch(error => {
+      console.error('Logout failed:', error);
+    });
   };
 
   // Trigger the checkAuth query to determine if the user is logged in

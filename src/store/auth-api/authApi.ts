@@ -38,13 +38,14 @@ export const authApi = createApi({
         ...getRequestConfig("POST"),
       }),
     }),
-    logout: build.mutation<string, void>({
-      query: () => ({
+    logout: build.mutation<string, { headers: { 'X-CSRFToken': string } }>({
+      query: ({ headers }) => ({
         url: "logout/",
         method: "POST",
         credentials: "include",
         headers: {
           "Content-Type": "application/json",
+          ...headers,
         },
       }),
     }),
