@@ -29,7 +29,7 @@ import ModerationPage from "../ads/pages/moderation/ModerationPage"; // Importin
 export const router = createBrowserRouter(
   [
     {
-      element: <ProtectedRoute />,
+      element: <ProtectedRoute />, // Wrap ModerationPage in ProtectedRoute
       children: [
         {
           path: paths.profile,
@@ -43,16 +43,15 @@ export const router = createBrowserRouter(
           path: paths.user_profile_edit,
           element: <UserProfileEdit />,
         },
-        // Remove the moderation route from here after development
+        {
+          path: paths.moderation, // Adding the moderation route here
+          element: <ModerationPage />,
+        },
       ],
     },
     {
       element: <MainLayout />,
       children: [
-        {
-          path: paths.moderation, // Adding the moderation route here for development
-          element: <ModerationPage />,
-        },
         {
           path: paths.chat,
           element: <ChatPage />,

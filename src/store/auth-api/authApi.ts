@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { BASE_URL } from "../../utils/constans";
 import { User } from "../slices/authSlice";
 
-//export const BASE_URL: string = 'https://sunnyekb.ru/api/v1/';
+// export const BASE_URL: string = 'https://sunnyekb.ru/api/v1/';
 
 const getRequestConfig = (method: string, data?: any) => ({
   method,
@@ -41,7 +41,11 @@ export const authApi = createApi({
     logout: build.mutation<string, void>({
       query: () => ({
         url: "logout/",
-        ...getRequestConfig("POST"),
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
       }),
     }),
     register: build.mutation<string, { email?: string; password?: string }>({
@@ -56,7 +60,6 @@ export const authApi = createApi({
         ...getRequestConfig("GET"),
       }),
     }),
-    //updateUserProfile: build.mutation<any, {id: number,  username?: string; first_name?: string | null, last_name?: string | null, email?: string; phone?: string,  password?: string, avatar?: File }>({
     updateUserProfile: build.mutation<any, Partial<User> & { id?: number }>({
       query: ({ id, ...data }) => ({
         url: `users/${id}/`,
@@ -70,11 +73,9 @@ export const authApi = createApi({
           method: "PATCH",
           credentials: "include" as RequestCredentials,
           headers: {
-            // "Content-Type": "multipart/form-data",
             "Content-Type": "application/json",
           },
           data: JSON.stringify({ avatar: avatar }),
-
           body: JSON.stringify({ avatar: avatar }),
         };
       },
@@ -85,7 +86,7 @@ export const authApi = createApi({
         ...getRequestConfig("POST", data),
       }),
     }),
-    passwordForget: build.mutation<string, { password?: string, token?: string }>({
+    passwordForget: build.mutation<string, { password?: string; token?: string }>({
       query: (data) => ({
         url: "password_reset/confirm/",
         ...getRequestConfig("POST", data),
@@ -99,8 +100,6 @@ export const authApi = createApi({
     }),
   }),
 });
-
-
 
 export const {
   useLoginQuery,
@@ -118,4 +117,4 @@ export const {
 } = authApi;
 
 export type AuthApi = typeof authApi;
-//export type AuthApiEndpoints = ReturnType<AuthApi['endpoints']>;
+// export type AuthApiEndpoints = ReturnType<AuthApi['endpoints']>;

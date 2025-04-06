@@ -1,10 +1,10 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
-import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
-import { useLazyCheckAuthQuery, useLogoutMutation } from "../../../store/auth-api/authApi"; // update the import path as needed
-import styles from "./header.module.scss";
-import { paths } from "../../../app/paths";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
+import { useLazyCheckAuthQuery, useLogoutMutation } from '../../../store/auth-api/authApi'; // update the import path as needed
+import styles from './header.module.scss';
+import { paths } from '../../../app/paths';
 
 interface SearchFormProps {
   search: string;
@@ -14,7 +14,7 @@ export default function Header() {
   const { register, handleSubmit, formState: { errors } } = useForm<SearchFormProps>();
   const navigate = useNavigate();
   const [trigger, { data: user, isLoading }] = useLazyCheckAuthQuery();
-  const [logout] = useLogoutMutation();
+  const [logout, { isSuccess }] = useLogoutMutation();
 
   const onSubmit = (data: SearchFormProps) => {
     console.log(data);
@@ -22,7 +22,9 @@ export default function Header() {
 
   const handleLogout = async () => {
     await logout();
-    navigate(paths.index);
+    if (isSuccess) {
+      navigate(paths.index);
+    }
   };
 
   // Trigger the checkAuth query to determine if the user is logged in
@@ -45,15 +47,15 @@ export default function Header() {
           <div className={styles.searchWrapper}>
             <FontAwesomeIcon icon={faSearch} className={styles.searchIcon} />
             <input
-              {...register("search", {
-                required: "Введите название услуги",
+              {...register('search', {
+                required: 'Введите название услуги',
                 minLength: {
                   value: 2,
-                  message: "Минимум два символа",
+                  message: 'Минимум два символа',
                 },
                 maxLength: {
                   value: 40,
-                  message: "Максимум сорок символов",
+                  message: 'Максимум сорок символов',
                 },
               })}
               type="text"

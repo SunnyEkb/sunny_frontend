@@ -16,30 +16,45 @@ const ModerationPage = () => {
   useEffect(() => {
     const fetchCounts = async () => {
       try {
-        const adsResponse = await fetch(`${BASE_URL}moderator/ads/`);
+        const adsResponse = await fetch(`${BASE_URL}moderator/ads/`, {
+          credentials: 'include',
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
+          },
+        });
         if (adsResponse.status === 401) {
           throw new Error('Пользователь не авторизован');
         }
         if (!adsResponse.ok) {
-          throw new Error(`Error fetching ads: ${adsResponse.statusText}`);
+          throw new Error(`Ошибка при получении объявлений: ${adsResponse.statusText}`);
         }
         const adsData = await adsResponse.json();
 
-        const servicesResponse = await fetch(`${BASE_URL}moderator/services/`);
+        const servicesResponse = await fetch(`${BASE_URL}moderator/services/`, {
+          credentials: 'include',
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
+          },
+        });
         if (servicesResponse.status === 401) {
           throw new Error('Пользователь не авторизован');
         }
         if (!servicesResponse.ok) {
-          throw new Error(`Error fetching services: ${servicesResponse.statusText}`);
+          throw new Error(`Ошибка при получении услуг: ${servicesResponse.statusText}`);
         }
         const servicesData = await servicesResponse.json();
 
-        const commentsResponse = await fetch(`${BASE_URL}moderator/comments/`);
+        const commentsResponse = await fetch(`${BASE_URL}moderator/comments/`, {
+          credentials: 'include',
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
+          },
+        });
         if (commentsResponse.status === 401) {
           throw new Error('Пользователь не авторизован');
         }
         if (!commentsResponse.ok) {
-          throw new Error(`Error fetching comments: ${commentsResponse.statusText}`);
+          throw new Error(`Ошибка при получении комментариев: ${commentsResponse.statusText}`);
         }
         const commentsData = await commentsResponse.json();
 
@@ -49,7 +64,7 @@ const ModerationPage = () => {
           comments: commentsData.count,
         });
       } catch (error) {
-        console.error('Error fetching counts:', error);
+        console.error('Ошибка при получении количества:', error);
         setError(error.message);
       }
     };
