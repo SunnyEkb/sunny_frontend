@@ -2,7 +2,9 @@ import { createBrowserRouter } from "react-router-dom";
 import { paths } from "./paths";
 import Login from "../user/pages/logIn/logIn";
 import UserLK from "../user/pages/userLK/userLK";
-import MainCatalog, { loaderCatagories } from "../ads/pages/catalogs/new/MainCatalog";
+import MainCatalog, {
+  loaderCatagories,
+} from "../ads/pages/catalogs/new/MainCatalog";
 import Catalog from "../ads/pages/catalog/catalog";
 import CardCatalogBig, {
   loaderAdsByCatalogId,
@@ -17,14 +19,13 @@ import MainLayout from "./layouts/MainLayout";
 import SettingsUser from "../user/pages/settingsUser/SettingsUser";
 import UserProfileEdit from "../user/pages/UserProfileEdit/UserProfileEdit";
 import CreateAds from "../ads/pages/createAds/CreateAds";
-import ChooseAds from "../ads/pages/createAds/chooseAds";
-import ChooseTypeAds from "../ads/pages/createAds/chooseTypeAds";
 import MainFormAds from "../ads/pages/createAds/mainForm";
 import PasswordRecovery from "../user/pages/passwordRecovery/passwordRecovery";
 import NewPassword from "../user/pages/newPassword/newPassword";
 import RegisterActivatePage from "../user/pages/registerActivate/registerActivate";
 import ChatPage from "../ads/pages/chatPage/chatPage";
 import ModerationPage from "../ads/pages/moderation/ModerationPage"; // Importing ModerationPage
+
 
 export const router = createBrowserRouter(
   [
@@ -65,25 +66,19 @@ export const router = createBrowserRouter(
           element: <CardCatalogBig />,
           loader: (params) => loaderAdsByCatalogId(params),
         },
+
         {
           path: paths.createAds,
           element: <CreateAds />,
           children: [
             {
               path: paths.createAds,
-              element: <ChooseAds />,
-              loader: () => loaderCatagories(),
-            },
-            {
-              path: paths.createAds + "/type",
-              element: <ChooseTypeAds />,
-            },
-            {
-              path: paths.createAds + "/type" + "/ads",
               element: <MainFormAds />,
+              loader: () => loaderCatagories(),
             },
           ],
         },
+
         {
           path: paths.typeCatalog,
           element: <TypeCatalog />,

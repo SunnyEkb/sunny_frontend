@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { authApi } from '../auth-api/authApi';
 
 export type AvatarType = File | string | null
 
@@ -42,6 +43,17 @@ const authSlice = createSlice({
         state.user = { ...state.user, ...action.payload };
       }
     },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addMatcher(authApi.endpoints.checkAuth.matchFulfilled, (state, action) => {
+        state.isAuthenticated = true;
+        state.user = action.payload;
+      })
+      .addMatcher(authApi.endpoints.checkAuth.matchRejected, (state) => {
+        state.isAuthenticated = false;
+        state.user = null;
+      });
   },
 });
 

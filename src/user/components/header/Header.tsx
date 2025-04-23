@@ -1,17 +1,26 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
-import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
-import { useLazyCheckAuthQuery, useLogoutMutation } from '../../../store/auth-api/authApi';
-import styles from './header.module.scss';
-import { paths } from '../../../app/paths';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import {
+  useLazyCheckAuthQuery,
+  useLogoutMutation,
+} from "../../../store/auth-api/authApi"; // update the import path as needed
+import styles from "./header.module.scss";
+import { paths } from "../../../app/paths";
+import React from "react";
+
 
 interface SearchFormProps {
   search: string;
 }
 
 export default function Header() {
-  const { register, handleSubmit, formState: { errors } } = useForm<SearchFormProps>();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<SearchFormProps>();
   const navigate = useNavigate();
   const [trigger, { data: user, isLoading }] = useLazyCheckAuthQuery();
   const [logout, { isSuccess }] = useLogoutMutation();
@@ -42,23 +51,35 @@ export default function Header() {
     });
   };
 
-  // Trigger the checkAuth query to determine if the user is logged in
-  if (!isLoading && !user) {
-    trigger();
-  }
+    // Trigger the checkAuth query to determine if the user is logged in
+  React.useEffect(() => {
+    if (!isLoading && !user) {
+      trigger();
+    }
+  }, []);
 
   return (
     <header className={styles.header}>
       <div className={styles.topRow}>
         <h1 className={styles.logo}>Солнечный Екб</h1>
         {user ? (
-          <button className={styles.authButton} onClick={handleLogout}>Выйти</button>
+          <button className={styles.authButton} onClick={handleLogout}>
+            Выйти
+          </button>
         ) : (
-          <button className={styles.authButton} onClick={() => navigate(paths.auth)}>Вход и регистрация</button>
+          <button
+            className={styles.authButton}
+            onClick={() => navigate(paths.auth)}
+          >
+            Вход и регистрация
+          </button>
         )}
       </div>
       <div className={styles.bottomRow}>
-        <form onSubmit={handleSubmit(onSubmit)} className={styles.searchContainer}>
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className={styles.searchContainer}
+        >
           <div className={styles.searchWrapper}>
             <FontAwesomeIcon icon={faSearch} className={styles.searchIcon} />
             <input
@@ -77,10 +98,18 @@ export default function Header() {
               placeholder="Поиск услуги"
               className={styles.searchInput}
             />
-            {errors.search && <p className={styles.error}>{errors.search.message}</p>}
+            {errors.search && (
+              <p className={styles.error}>{errors.search.message}</p>
+            )}
           </div>
         </form>
-        <button type="button" className={styles.createButton} onClick={() => navigate(paths.createAds)}>Создать объявление</button>
+        <button
+          type="button"
+          className={styles.createButton}
+          onClick={() => navigate(paths.createAds)}
+        >
+          Создать объявление
+        </button>
       </div>
     </header>
   );
