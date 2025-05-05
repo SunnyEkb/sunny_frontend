@@ -1,10 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import MiniAdCard from './MiniAdCard';
 import './ModerationList.scss';
+import { fetchAds, fetchComments, fetchServices } from '../../../shared/api/moderationApi';
 
-const BASE_URL = 'https://sunnyekb.ru/api/v1/';
+interface Props {
+  type: string;
+  onItemSelect: (item: []) => void;
+}
 
-const ModerationList = ({ type, onItemSelect }) => {
+
+const ModerationList = ({ type, onItemSelect }: Props) => {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -12,20 +17,15 @@ const ModerationList = ({ type, onItemSelect }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const requestOptions = {
-          credentials: 'include',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        };
+
 
         let response;
         if (type === 'ads') {
-          response = await fetch(`${BASE_URL}moderator/ads/`, requestOptions);
+          response = await fetchAds();
         } else if (type === 'services') {
-          response = await fetch(`${BASE_URL}moderator/services/`, requestOptions);
+          response = await fetchServices();
         } else if (type === 'comments') {
-          response = await fetch(`${BASE_URL}moderator/comments/`, requestOptions);
+          response = await fetchComments()
         }
         if (response.status === 401) {
           throw new Error('Пользователь не авторизован');
