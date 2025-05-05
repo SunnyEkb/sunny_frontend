@@ -24,11 +24,13 @@ import PasswordRecovery from "../user/pages/passwordRecovery/passwordRecovery";
 import NewPassword from "../user/pages/newPassword/newPassword";
 import RegisterActivatePage from "../user/pages/registerActivate/registerActivate";
 import ChatPage from "../ads/pages/chatPage/chatPage";
+import ModerationPage from "../ads/pages/moderation/ModerationPage"; // Importing ModerationPage
+
 
 export const router = createBrowserRouter(
   [
     {
-      element: <ProtectedRoute />,
+      element: <ProtectedRoute />, // Wrap ModerationPage in ProtectedRoute
       children: [
         {
           path: paths.profile,
@@ -42,6 +44,10 @@ export const router = createBrowserRouter(
           path: paths.user_profile_edit,
           element: <UserProfileEdit />,
         },
+        {
+          path: paths.moderation, // Adding the moderation route here
+          element: <ModerationPage />,
+        },
       ],
     },
     {
@@ -51,11 +57,6 @@ export const router = createBrowserRouter(
           path: paths.chat,
           element: <ChatPage />,
         },
-      ],
-    },
-    {
-      element: <MainLayout />,
-      children: [
         {
           path: paths.catalog,
           element: <Catalog />,

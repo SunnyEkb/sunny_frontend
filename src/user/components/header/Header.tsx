@@ -10,6 +10,7 @@ import styles from "./header.module.scss";
 import { paths } from "../../../app/paths";
 import React from "react";
 
+
 interface SearchFormProps {
   search: string;
 }
@@ -22,15 +23,32 @@ export default function Header() {
   } = useForm<SearchFormProps>();
   const navigate = useNavigate();
   const [trigger, { data: user, isLoading }] = useLazyCheckAuthQuery();
-  const [logout] = useLogoutMutation();
+  const [logout, { isSuccess }] = useLogoutMutation();
 
   const onSubmit = (data: SearchFormProps) => {
     console.log(data);
   };
 
   const handleLogout = async () => {
-    await logout();
-    navigate(paths.index);
+    const csrfToken = document.cookie
+      .split('; ')
+      .find(row => row.startsWith('csrftoken='))
+      ?.split('=')[1];
+
+    if (!csrfToken) {
+      console.error('CSRF token not found');
+      return;
+    }
+
+    await logout({
+      headers: {
+        'X-CSRFToken': csrfToken,
+      },
+    }).unwrap().then(() => {
+      navigate(paths.index);
+    }).catch(error => {
+      console.error('Logout failed:', error);
+    });
   };
 
     // Trigger the checkAuth query to determine if the user is logged in
@@ -65,15 +83,15 @@ export default function Header() {
           <div className={styles.searchWrapper}>
             <FontAwesomeIcon icon={faSearch} className={styles.searchIcon} />
             <input
-              {...register("search", {
-                required: "Введите название услуги",
+              {...register('search', {
+                required: 'Введите название услуги',
                 minLength: {
                   value: 2,
-                  message: "Минимум два символа",
+                  message: 'Минимум два символа',
                 },
                 maxLength: {
                   value: 40,
-                  message: "Максимум сорок символов",
+                  message: 'Максимум сорок символов',
                 },
               })}
               type="text"

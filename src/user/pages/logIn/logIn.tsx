@@ -15,14 +15,12 @@ import { useDispatch } from "react-redux";
 import { setAuthenticated, setUser } from "../../../store/slices/authSlice";
 import { yupResolver } from "@hookform/resolvers/yup";
 import loginValidationSchema from "./loginValidationSchema";
-//import { inputFields, Inputs } from "./constans";
 import AuthPageLayout from "../../layout/authPageLayout/AuthPageLayout";
 import { paths } from "../../../app/paths";
 import { Inputs, loginFields } from "../../components/input/constans";
 
 const LogIn: FC = () => {
   const navigate = useNavigate();
-
   const dispatch = useDispatch();
 
   const {
@@ -36,7 +34,7 @@ const LogIn: FC = () => {
   });
 
   const [login, { isLoading: isLoginLoading }] = useLazyLoginQuery();
-  const [fetcUserMe] = useLazyCheckAuthQuery();
+  const [fetchUserMe] = useLazyCheckAuthQuery();
 
   useEffect(() => {
     const defaultValues: Inputs = {
@@ -50,24 +48,23 @@ const LogIn: FC = () => {
 
   const onSubmit = async (data: Inputs) => {
     try {
-      // Выполняем запрос логина
+      // Perform login request
       const loginResponse = await login(data).unwrap();
       if (loginResponse) {
-        // Если логин успешен, запрашиваем рефреш токен
-        //пока рефреш не запрашиваем
-        //await refrechToken().unwrap();
+        // Save auth token to local storage
+        localStorage.setItem('authToken', loginResponse.token);
 
-        // Получаем данные пользователя
-        const userResponse = await fetcUserMe().unwrap();
+        // Fetch user data
+        const userResponse = await fetchUserMe().unwrap();
         dispatch(setUser(userResponse));
         dispatch(setAuthenticated(true));
 
-        // Перенаправляем на страницу каталога
+        // Navigate to the index page
         navigate(paths.index);
       }
     } catch (err: any) {
-      console.error("Ошибка при логине или запросе данных");
-      err.data ? setErrMsg("Неправильная почта или пароль") : "";
+      console.error("Ошибка при логине или запросе данных", err);
+      setErrMsg(err.data ? "Неправильная почта или пароль" : "Произошла ошибка");
     }
   };
 

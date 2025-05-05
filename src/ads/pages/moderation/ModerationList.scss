@@ -1,0 +1,16 @@
+.moderation-list {
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+  overflow-y: auto; /* Enable vertical scrolling */
+}
+
+.items-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px; /* Space between items */
+}
+
+.item {
+  cursor: pointer;
+}

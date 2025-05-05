@@ -35,7 +35,6 @@ export default function SwipeImg({ imgList }: Props) {
     setValue(index);
   };
 
-  console.log(imgList);
   return (
     <div className={style.section__swipe}>
       {imgList.length > 0 ? (

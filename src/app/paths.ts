@@ -18,5 +18,6 @@ export const paths = {
   newPassword: "...",
   forgetPassword: "/password-forget",
   registryActivate: "/registry-activate",
-  chat: '/chat'
+  chat: '/chat',
+  moderation: '/moderation' // Added path for moderation mainpage
 };

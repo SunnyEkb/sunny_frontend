@@ -1,0 +1,35 @@
+.moderation-detail-page {
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+
+  h1 {
+    margin-top: 0;
+  }
+
+  p {
+    margin: 0 0 15px;
+  }
+
+  .approve-button, .reject-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+
+  .approve-button {
+    background-color: #4CAF50;
+    color: #fff;
+  }
+
+  .reject-button {
+    background-color: #f44336;
+    color: #fff;
+  }
+}
