@@ -47,8 +47,6 @@ export default function MainFormAds() {
     label: ad.title,
   }));
 
-  console.log("typeId", typeId);
-
   const errors = formState.errors as FieldErrors<PropsForm>;
 
   const fetchTypesAds = async (type_id: string) => {
@@ -65,7 +63,6 @@ export default function MainFormAds() {
         setTypesAds(optionsTypes);
       }
 
-      console.log("data", data);
     } catch (e) {
       console.log("error", e);
     }
