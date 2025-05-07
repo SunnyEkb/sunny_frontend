@@ -25,6 +25,7 @@ export interface PropsForm {
   description: string;
   itemAds?: itemAds[] | null;
   venue?: string; //место встречи
+  typeAds?: string;
 }
 
 export default function CreateAds() {
@@ -38,6 +39,7 @@ export default function CreateAds() {
       experience: 0,
       description: "",
       title: "",
+      typeAds: ""
     },
     resolver: yupResolver(createAdsValidSchema),
     mode: "all",
