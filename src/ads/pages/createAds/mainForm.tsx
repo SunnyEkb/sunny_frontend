@@ -12,18 +12,26 @@ import { itemAds, PropsForm } from "./CreateAds";
 import FieldPhoto from "./fieldPhoto";
 import ButtonForm from "../../../shared/button/button";
 import Select from "react-select";
+import { BASE_URL } from "../../../utils/constans";
 
 interface CategoriesAds {
   id: number;
   title: string;
-  subcategories: Array<unknown> | null;
+  subcategories: Array<CategoriesAds> | null;
   img?: string;
+}
+
+interface Options {
+  value: number;
+  label: string;
 }
 
 export default function MainFormAds() {
   const navigate = useNavigate();
-  const { setValue, control, formState } = useFormContext();
+  const { setValue, control, formState, watch } = useFormContext();
   const CategoriesAds = useLoaderData() as CategoriesAds[];
+  const [selectTypes, setSelectTypes] = React.useState(false);
+  const [typesAds, setTypesAds] = React.useState<Options[]>([]);
 
   const itemAds = useWatch({ control, name: "itemAds" });
 
@@ -32,12 +40,45 @@ export default function MainFormAds() {
     setValue("itemAds", newItemAds, { shouldValidate: true });
   };
 
+  const typeId = watch("type_id");
+
   const options = CategoriesAds.map((ad) => ({
     value: ad.id,
     label: ad.title,
   }));
 
+  console.log("typeId", typeId);
+
   const errors = formState.errors as FieldErrors<PropsForm>;
+
+  const fetchTypesAds = async (type_id: string) => {
+    try {
+      const response = await fetch(`${BASE_URL}types/${type_id}/`);
+      const data = (await response.json()) as CategoriesAds;
+
+      if (data.subcategories) {
+        const optionsTypes = data.subcategories.map((ad) => ({
+          value: ad.id,
+          label: ad.title,
+        }));
+
+        setTypesAds(optionsTypes);
+      }
+
+      console.log("data", data);
+    } catch (e) {
+      console.log("error", e);
+    }
+  };
+
+  React.useEffect(() => {
+    if (typeId !== "") {
+      fetchTypesAds(typeId);
+      setSelectTypes(true);
+    } else {
+      setSelectTypes(false);
+    }
+  }, [typeId]);
 
   return (
     <section className={styles.section}>
@@ -78,21 +119,28 @@ export default function MainFormAds() {
           )}
         </div>
 
-        {/* <div className={styles.field}>
+        <div className={styles.field}>
           <div className={styles.label__field}>Тип услуги</div>
           <Controller
             control={control}
             name="typeAds"
-            render={({ field }) => (
-              <input
-                className={styles.input}
-                {...field}
-                type="text"
-                placeholder={"тип услуги"}
+            render={({ field: { onChange, onBlur, value, ref } }) => (
+              <Select
+                noOptionsMessage={() => {
+                  return "У этой услуги нету типов";
+                }}
+                ref={ref}
+                name="typeAds"
+                onChange={(selectedOption) => onChange(selectedOption?.value)}
+                onBlur={onBlur}
+                value={typesAds.find((item) => item.value == value)}
+                options={typesAds}
+                placeholder="Тип услуги"
+                isDisabled={!selectTypes}
               />
             )}
           />
-        </div> */}
+        </div>
 
         <div className={styles.field}>
           <div className={styles.label__field}>Название услуги</div>
@@ -109,7 +157,7 @@ export default function MainFormAds() {
               />
             )}
           />
-         {errors.title && (
+          {errors.title && (
             <div className={styles.errorsWrapper}>
               <div>{errors.title.message}</div>
             </div>
@@ -164,7 +212,7 @@ export default function MainFormAds() {
               />
             )}
           />
-        {errors.description && (
+          {errors.description && (
             <div className={styles.errorsWrapper}>
               <div>{errors.description.message}</div>
             </div>
