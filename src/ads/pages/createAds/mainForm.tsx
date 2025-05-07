@@ -12,7 +12,7 @@ import { itemAds, PropsForm } from "./CreateAds";
 import FieldPhoto from "./fieldPhoto";
 import ButtonForm from "../../../shared/button/button";
 import Select from "react-select";
-import { BASE_URL } from "../../../utils/constans";
+import { fetchAdsTypes } from "../../../shared/api/typeAdsApi";
 
 interface CategoriesAds {
   id: number;
@@ -53,8 +53,8 @@ export default function MainFormAds() {
 
   const fetchTypesAds = async (type_id: string) => {
     try {
-      const response = await fetch(`${BASE_URL}types/${type_id}/`);
-      const data = (await response.json()) as CategoriesAds;
+      const response = await fetchAdsTypes(type_id);
+      const data = response as CategoriesAds;
 
       if (data.subcategories) {
         const optionsTypes = data.subcategories.map((ad) => ({
