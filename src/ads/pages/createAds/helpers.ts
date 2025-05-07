@@ -4,28 +4,28 @@ export const createAdsValidSchema = Yup.object().shape({
   viewAds: Yup.string().trim(),
   type_id: Yup.string().required("Это поле обязательное"),
   venue: Yup.string().trim(),
-  experience: Yup.number()
-    .max(50, "Число не должно быть больше 50")
-    .required(),
-  description: Yup.string().required('Это поле обязательное'),
-  title: Yup.string().required('Это поле обязательное'),
+  experience: Yup.number().max(50, "Число не должно быть больше 50").required(),
+  description: Yup.string().required("Это поле обязательное"),
+  title: Yup.string().required("Это поле обязательное"),
+  typeAds: Yup.string().trim(),
   itemAds: Yup.array()
-  .of(
-    Yup.object().shape({
-      nameAds: Yup.string().required(),
-      price: Yup.number().required(),
-    })
-  )
-  .nullable(),
+    .of(
+      Yup.object().shape({
+        nameAds: Yup.string().required(),
+        price: Yup.number()
+          .required()
+          .positive("Цифра должна быть положительной"),
+      })
+    )
+    .nullable(),
   photo: Yup.array()
-  .of(
-    Yup.object().shape({
-      url:  Yup.string().optional(),
-      file:Yup.mixed()
-    })
-  )
-  .nullable()
-
+    .of(
+      Yup.object().shape({
+        url: Yup.string().optional(),
+        file: Yup.mixed(),
+      })
+    )
+    .nullable(),
 });
 
 export const defaultAds = [
