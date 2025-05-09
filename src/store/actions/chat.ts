@@ -19,9 +19,13 @@ export interface ChatMessages {
 }
 
 export interface CHATProps extends RequestProps, WsProps {
-    chat: ChatMessages[],
-    total?: number;
+  text: string
   }
+
+  export interface CHATPropsMessage {
+    text: string
+    }
+
 
 
 const CHAT_WS_CONNECT = 'CHAT_WS_CONNECT';
@@ -38,7 +42,7 @@ export const CHATWsDisconnect = createAction(CHAT_WS_DISCONNECT);
 export const CHATWsConnecting = createAction(CHAT_WS_CONNECTING);
 export const CHATWsOnOpen = createAction(CHAT_WS_ON_OPEN);
 export const CHATWsOnClose = createAction<WsProps, typeof CHAT_WS_ON_CLOSE>(CHAT_WS_ON_CLOSE);
-export const CHATWsOnMessage = createAction<CHATProps, typeof CHAT_WS_ON_MESSAGE>(CHAT_WS_ON_MESSAGE); // receive messages
+export const CHATWsOnMessage = createAction<CHATPropsMessage, typeof CHAT_WS_ON_MESSAGE>(CHAT_WS_ON_MESSAGE); // receive messages
 export const CHATWsOnError = createAction<string, typeof CHAT_WS_ON_ERROR>(CHAT_WS_ON_ERROR);
 
 export const wsCHATActions = {

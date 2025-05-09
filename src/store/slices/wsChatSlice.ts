@@ -59,14 +59,14 @@ export const wsCHATSlice = createSlice({
       .addCase(CHATWsOnMessage, (state, action) => {
         state.status = "init";
 
-        if (action.payload.chat && action.payload.chat.length) {
-          state.chat = action.payload.chat;
-          state.isSuccess = true;
-        } else {
-          state.chat = [];
-        }
+        // if (action.payload.chat && action.payload.chat.length) {
+        //   state.chat = action.payload.chat;
+        //   state.isSuccess = true;
+        // } else {
+        //   state.chat = [];
+        // }
 
-        state.total = action.payload?.total ?? 0;
+        // state.total = action.payload?.total ?? 0;
       });
   },
 });
