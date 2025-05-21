@@ -30,7 +30,9 @@ export const loaderAdsByCatalogId = async ({
   params,
 }: LoaderFunctionArgs<LoaderParams>) => {
   const response = await fetch(
-    `https://sunnyekb.ru/api/v1/services/${params.idAds}/`
+    `https://sunnyekb.ru/api/v1/services/${params.idAds}/`, {
+      credentials: "include"
+    }
   );
   return response;
 };

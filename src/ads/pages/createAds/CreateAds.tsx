@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./main.module.scss";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import { FormProvider, useForm } from "react-hook-form";
 import { useCreateServiceMutation } from "../../../store/entities/services/services";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -29,6 +29,7 @@ export interface PropsForm {
 }
 
 export default function CreateAds() {
+  const navigate = useNavigate()
   const methods = useForm<PropsForm>({
     defaultValues: {
       itemAds: [],
@@ -39,7 +40,7 @@ export default function CreateAds() {
       experience: 0,
       description: "",
       title: "",
-      typeAds: ""
+      typeAds: "",
     },
     resolver: yupResolver(createAdsValidSchema),
     mode: "all",
@@ -48,11 +49,10 @@ export default function CreateAds() {
   const [createAds] = useCreateServiceMutation();
 
   const onSubmit = async (data: PropsForm) => {
-    console.log(data);
-    await createAds({
+    const response = await createAds({
       ...data,
     });
-    // navigate('/');
+    navigate(`/catalogs/${data.type_id}/ads/${response.data.id}`);
   };
   const formRef = React.useRef<HTMLFormElement>(null);
 
