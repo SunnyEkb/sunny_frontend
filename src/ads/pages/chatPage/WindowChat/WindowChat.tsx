@@ -2,6 +2,8 @@ import React from "react";
 import styles from "./styles.module.scss";
 import Message from "../Message/Message";
 import camera from "../../../../assets/icon/camera.svg";
+import { useAppDispatch } from "../../../../store/store";
+import { CHATWsOnMessage } from "../../../../store/actions/chat";
 
 const mockMessage = [
   {
@@ -24,6 +26,7 @@ const mockMessage = [
 export default function WindowChat() {
   const [value, setValue] = React.useState("");
   const today: Date = new Date("2024-10-05");
+  const dispatch = useAppDispatch();
 
   function formatDate(date: Date): string {
     const options: Intl.DateTimeFormatOptions = {
@@ -40,6 +43,10 @@ export default function WindowChat() {
     e.preventDefault();
     setValue(e.currentTarget.value);
   };
+
+  const handleSend =() => {
+    dispatch(CHATWsOnMessage({ text: "text" }));
+  }
 
   return (
     <div className={styles.window}>
@@ -59,7 +66,7 @@ export default function WindowChat() {
           onChange={(e) => handleChange(e)}
         />
 
-        <img src={camera} alt="button" className={styles.window__iconButton} />
+        <img src={camera} alt="button" className={styles.window__iconButton} onClick={() => handleSend()}/>
       </div>
     </div>
   );

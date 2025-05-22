@@ -5,6 +5,7 @@ import {
   MiddlewareAPI,
   PayloadAction,
 } from '@reduxjs/toolkit';
+import { io, Socket } from "socket.io-client";
 
 export interface WsProps {
   code: number;
@@ -52,7 +53,15 @@ export const webSocketMiddleware = (wsActions: TwsActionTypes): Middleware => {
 
       if (wsConnect.match(action)) {
         const wsUrl = action.payload as unknown as string | URL;
-        socket = new WebSocket(wsUrl);
+            const testUrl = `ws://sunnyekb.ru/ws/chat/ad/27/23/`
+        socket = new WebSocket(testUrl);
+
+        console.log('wsUrl', wsUrl);
+
+
+        const test = io(testUrl as string, {
+          withCredentials: true,
+        })
         dispatch(wsConnecting());
       }
 
