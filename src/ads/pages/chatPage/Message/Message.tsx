@@ -8,6 +8,7 @@ interface Props {
 
 interface IMessage {
   id: string;
+  receiverId: string;
   text: string;
   avatar?: string;
   time: string;

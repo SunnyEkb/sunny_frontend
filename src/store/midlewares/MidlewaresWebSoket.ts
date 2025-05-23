@@ -54,14 +54,14 @@ export const webSocketMiddleware = (wsActions: TwsActionTypes): Middleware => {
       if (wsConnect.match(action)) {
         const wsUrl = action.payload as unknown as string | URL;
             const testUrl = `wss://sunnyekb.ru/ws/chat/ad/27/23/`
-        socket = new WebSocket(testUrl);
+        socket = new WebSocket(wsUrl);
 
         console.log('wsUrl', wsUrl);
 
 
-        const test = io(testUrl as string, {
-          withCredentials: true,
-        })
+        // const test = io(testUrl as string, {
+        //   withCredentials: true,
+        // })
         dispatch(wsConnecting());
       }
 
@@ -72,8 +72,10 @@ export const webSocketMiddleware = (wsActions: TwsActionTypes): Middleware => {
           dispatch(wsOnMessage(JSON.parse(data)));
         };
 
+
+
         // send
-        if (wsSendMessage?.match(wsSendMessage)) {
+        if (wsSendMessage?.match(action)) {
           if (WS_DEBUG_MIDDLE) {
             console.log('webSocket:message', action.payload);
           }
