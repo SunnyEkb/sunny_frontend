@@ -8,7 +8,7 @@
   background-color: #ffffff;
   display: none; /* Hide footer by default */
 
-  @media (max-width: 600px) {
+  @media (max-width: 768px) {
     display: block; /* Show footer on mobile screens or smaller */
   }
 }

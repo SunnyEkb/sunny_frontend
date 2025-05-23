@@ -1,7 +1,6 @@
 import main from "../../../../assets/icon/menu/main.svg";
 import search from "../../../../assets/icon/menu/search.svg";
 import plusAds from "../../../../assets/icon/menu/plus-circle.svg";
-import info from "../../../../assets/icon/menu/info.svg";
 import logIn from "../../../../assets/icon/menu/log-in.svg";
 import user from "../../../../assets/icon/menu/user.svg";
 
@@ -14,7 +13,7 @@ const mockLinkMenu = [
   },
   {
     id: 2,
-    title: "Поск",
+    title: "Поиск",
     icon: search,
     link: "/",
   },

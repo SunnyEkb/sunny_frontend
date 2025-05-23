@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import styles from "./mainCatalog.module.scss";
 import CardCatalog from "../CardCatalog/CardCatalog";
 import MiniAdCard from "../../catalog/MiniAdCard/MiniAdCard";
@@ -23,12 +24,12 @@ export default function MainCatalog() {
   const data = useLoaderData() as DataProps[];
 
   // Mock data for MiniAdCards
-  const mockAds = [
+  /* const mockAds: any = [
     { id: 1, title: "Ad 1", price: "1000₽", location: "Location 1" },
     { id: 2, title: "Ad 2", price: "2000₽", location: "Location 2" },
     { id: 3, title: "Ad 3", price: "3000₽", location: "Location 3" },
     { id: 4, title: "Ad 4", price: "4000₽", location: "Location 4" },
-  ];
+  ]; */
 
   return (
     <section className={styles.section}>
@@ -50,14 +51,14 @@ export default function MainCatalog() {
         </div>
       </main>
 
-      <section className={styles.newSection}>
+      {/* <section className={styles.newSection}>
         <div className={styles.newSectionTitle}>Новое</div>
         <div className={styles.newSectionGrid}>
-          {mockAds.map((ad) => (
+          {mockAds?.map((ad: any) => (
             <MiniAdCard key={ad.id} ad={ad} />
           ))}
         </div>
-      </section>
+      </section> */}
     </section>
   );
 }
