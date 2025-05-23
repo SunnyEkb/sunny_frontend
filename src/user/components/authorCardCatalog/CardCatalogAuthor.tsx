@@ -1,21 +1,34 @@
 import React from "react";
-import style from './authorCard.module.scss';
-import star from '../../../assets/icon/Star.svg';
+import style from "./authorCard.module.scss";
+import star from "../../../assets/icon/Star.svg";
 import { AdsInfo } from "../../../common/model/ads";
+import { useNavigate } from "react-router-dom";
+import { useAppSelector } from "../../../store/store";
 
 interface Props {
   card: AdsInfo;
 }
 
-export default function CardCatalogAuthor({card}: Props) {
+export default function CardCatalogAuthor({ card }: Props) {
+  const user = useAppSelector((state) => state.auth.user);
+  const navigate = useNavigate();
   const handleGoAds = () => {
-    // Add your navigation logic here
+    if (user) {
+      navigate(`/chat/service/${card.id}/${user.id}`);
+    } else {
+      console.warn("Вы не авторизованы");
+    }
   };
 
   return (
     <div className={style.author__card}>
       <div className={style.catalog__cardAuthor}>
-        {`${card.provider.first_name || card.provider.username || card.provider.email} `} / {card.salon_name  || 'Название салона'}
+        {`${
+          card.provider.first_name ||
+          card.provider.username ||
+          card.provider.email
+        } `}{" "}
+        / {card.salon_name || "Название салона"}
       </div>
 
       <div className={style.catalog__cardRaiting}>
@@ -28,10 +41,10 @@ export default function CardCatalogAuthor({card}: Props) {
           <img src={star} alt="звезда" className={style.arrowBack} />
           <img src={star} alt="звезда" className={style.arrowBack} />
         </div>
-
-
       </div>
-      <div className={style.catalog__cardCount}>{card.comments_quantity} отзывов</div>
+      <div className={style.catalog__cardCount}>
+        {card.comments_quantity} отзывов
+      </div>
 
       <div className={style.catalog__buttons}>
         <button className={style.catalog__cardButton} onClick={handleGoAds}>

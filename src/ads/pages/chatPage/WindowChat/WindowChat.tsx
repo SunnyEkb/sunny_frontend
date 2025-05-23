@@ -2,8 +2,11 @@ import React from "react";
 import styles from "./styles.module.scss";
 import Message from "../Message/Message";
 import camera from "../../../../assets/icon/camera.svg";
-import { useAppDispatch } from "../../../../store/store";
-import { CHATWsOnMessage } from "../../../../store/actions/chat";
+import { useAppDispatch, useAppSelector } from "../../../../store/store";
+import {
+  CHATWsOnMessage,
+  CHATWsSendMessage,
+} from "../../../../store/actions/chat";
 
 const mockMessage = [
   {
@@ -27,6 +30,7 @@ export default function WindowChat() {
   const [value, setValue] = React.useState("");
   const today: Date = new Date("2024-10-05");
   const dispatch = useAppDispatch();
+  const { chat } = useAppSelector((state) => state.wsChat);
 
   function formatDate(date: Date): string {
     const options: Intl.DateTimeFormatOptions = {
@@ -44,9 +48,10 @@ export default function WindowChat() {
     setValue(e.currentTarget.value);
   };
 
-  const handleSend =() => {
-    dispatch(CHATWsOnMessage({ text: "text" }));
-  }
+  const handleSend = () => {
+    dispatch(CHATWsSendMessage({ text: value }));
+    setValue("");
+  };
 
   return (
     <div className={styles.window}>
@@ -64,9 +69,20 @@ export default function WindowChat() {
           value={value}
           name="message"
           onChange={(e) => handleChange(e)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              e.preventDefault();
+              handleSend();
+            }
+          }}
         />
 
-        <img src={camera} alt="button" className={styles.window__iconButton} onClick={() => handleSend()}/>
+        <img
+          src={camera}
+          alt="button"
+          className={styles.window__iconButton}
+          onClick={() => handleSend()}
+        />
       </div>
     </div>
   );

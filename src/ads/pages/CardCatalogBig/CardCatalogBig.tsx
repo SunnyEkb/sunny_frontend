@@ -18,6 +18,7 @@ import {
   useDeleteFromFavoritesMutation,
 } from "../../../store/entities/services/services";
 import { AdsInfo } from "../../../common/model/ads";
+import { useAppSelector } from "../../../store/store";
 
 
 interface LoaderParams {
@@ -43,6 +44,15 @@ export default function CardCatalogBig() {
   function handleGoBack() {
     navigate(-1);
   }
+
+    const user = useAppSelector((state) => state.auth.user);
+    const handleGoAds = () => {
+      if (user) {
+        navigate(`/chat/service/${cardData.id}/${user.id}`);
+      } else {
+        console.warn("Вы не авторизованы");
+      }
+    };
 
   const [addToFavorite] = useAddToFavoritesMutation();
   const [deleteFromFavorite] = useDeleteFromFavoritesMutation();
@@ -118,7 +128,7 @@ export default function CardCatalogBig() {
       <div className={style.cardBig__cardContact}>
         <CardCatalogAuthor card={cardData} />
 
-        <button className={style.cardBig__cardButton}>Написать</button>
+        <button className={style.cardBig__cardButton} onClick={() => handleGoAds()}>Написать</button>
       </div>
 
       <DescriptionList card={cardData} />
