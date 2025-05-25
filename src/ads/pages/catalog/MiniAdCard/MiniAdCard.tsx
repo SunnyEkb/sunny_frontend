@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react';
 import styles from './miniAdCard.module.scss';
 import heartLike from '../../../../assets/icon/Heart.svg';

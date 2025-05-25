@@ -45,7 +45,7 @@ export default function MainCatalog() {
       <main className={styles.catalog__content}>
         <div className={styles.catalog__title}>На районе</div>
         <div className={styles.catalog__itemList}>
-          {data.map((card) => {
+          {data?.map((card) => {
             return <CardCatalog key={card.id} card={card} />;
           })}
         </div>

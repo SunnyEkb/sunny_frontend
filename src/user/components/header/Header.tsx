@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { useForm } from "react-hook-form";
@@ -30,21 +31,8 @@ export default function Header() {
   };
 
   const handleLogout = async () => {
-    const csrfToken = document.cookie
-      .split('; ')
-      .find(row => row.startsWith('csrftoken='))
-      ?.split('=')[1];
 
-    if (!csrfToken) {
-      console.error('CSRF token not found');
-      return;
-    }
-
-    await logout({
-      headers: {
-        'X-CSRFToken': csrfToken,
-      },
-    }).unwrap().then(() => {
+    await logout().unwrap().then(() => {
       navigate(paths.index);
     }).catch(error => {
       console.error('Logout failed:', error);
