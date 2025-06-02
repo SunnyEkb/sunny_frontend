@@ -3,12 +3,19 @@
   flex-direction: row;
   max-width: 340px;
   gap: 8px;
+
+  &_reverse {
+    flex-direction: row-reverse;
+  }
 }
 
 .message__avatar {
   width: 28px;
   height: 28px;
   cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .message__content {
@@ -36,4 +43,10 @@
  justify-content: flex-end;
   flex-direction: column;
   color: rgb(178, 189, 199);
+}
+
+.message__avatarImg {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
 }

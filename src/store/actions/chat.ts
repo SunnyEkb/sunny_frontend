@@ -10,17 +10,18 @@ export interface RequestProps {
   success: boolean;
 }
 
-// export interface ChatMessages {
-//   created_at: string;
-//   id: number;
-//   message: string;
-//   sender_username: string;
-//   updated_at: string;
-// }
-
 export interface ChatMessages {
+  created_at: string;
+  id: number;
   message: string;
+  sender_username: string;
+  updated_at: string;
+  avatar?: string;
 }
+
+// export interface ChatMessages {
+//   message: string;
+// }
 
 export interface CHATProps extends RequestProps, WsProps {
   text: string;
@@ -60,7 +61,7 @@ export const CHATWsOnMessage = createAction<
   CHATPropsMessageSocket,
   typeof CHAT_WS_ON_MESSAGE
 >(CHAT_WS_ON_MESSAGE); // receive messages
-export const CHATWsSendMessage = createAction<{ text: string }>(
+export const CHATWsSendMessage = createAction<{ message: string }>(
   CHAT_WS_SEND_MESSAGE
 );
 export const CHATWsOnError = createAction<string, typeof CHAT_WS_ON_ERROR>(
