@@ -10,6 +10,7 @@ import {
 
 interface State {
   chat: ChatMessages[];
+  currentMessages: ChatMessages[];
   isSuccess: boolean;
   total: number;
   connectingErrorMessage: string;
@@ -19,6 +20,7 @@ interface State {
 export const defaultWsCHATState: State = {
   chat: [],
   isSuccess: false,
+  currentMessages: [],
   total: 0,
   connectingErrorMessage: "",
   status: "init",
@@ -61,8 +63,13 @@ export const wsCHATSlice = createSlice({
 
         const newMessage = action.payload;
 
-        if (action.payload && action.payload) {
+        if (Array.isArray(newMessage)) {
+          state.currentMessages = newMessage;
+        }
+        if (newMessage) {
           state.chat = [...state.chat, newMessage];
+
+          state.currentMessages = [...state.currentMessages, newMessage];
           state.isSuccess = true;
         } else {
           state.chat = [];

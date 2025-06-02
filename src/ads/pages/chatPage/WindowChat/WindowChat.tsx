@@ -30,7 +30,7 @@ export default function WindowChat() {
   const [value, setValue] = React.useState("");
   const today: Date = new Date("2024-10-05");
   const dispatch = useAppDispatch();
-  const { chat } = useAppSelector((state) => state.wsChat);
+  const { currentMessages } = useAppSelector((state) => state.wsChat);
 
   function formatDate(date: Date): string {
     const options: Intl.DateTimeFormatOptions = {
@@ -49,7 +49,7 @@ export default function WindowChat() {
   };
 
   const handleSend = () => {
-    dispatch(CHATWsSendMessage({ text: value }));
+    dispatch(CHATWsSendMessage({ message: value }));
     setValue("");
   };
 
@@ -58,8 +58,12 @@ export default function WindowChat() {
       <div className={styles.window__dayTitle}>{formattedDate}</div>
 
       <div className={styles.window__listMessage}>
-        <Message message={mockMessage[0]} />
-        <Message message={mockMessage[1]} />
+        {currentMessages.map((item) => {
+          if (Array.isArray(item)) {
+            return null;
+          }
+          return <Message key={item.id} message={item} />;
+        })}
       </div>
 
       <div className={styles.window__wrapperSendInput}>
