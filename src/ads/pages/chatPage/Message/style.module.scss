@@ -3,6 +3,8 @@
   flex-direction: row;
   max-width: 340px;
   gap: 8px;
+  word-break: break-word;
+  align-items: center;
 
   &_reverse {
     flex-direction: row-reverse;

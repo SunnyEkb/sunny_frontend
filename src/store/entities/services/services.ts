@@ -31,7 +31,7 @@ export const servicesApi = createApi({
   reducerPath: "servicesApi",
   baseQuery: fetchBaseQuery({ baseUrl: BASE_URL }),
   tagTypes: ["Services", "UNAUTHORIZED", "UNKNOWN_ERROR"],
-  keepUnusedDataFor: 180, //3 минуты
+  keepUnusedDataFor: 1, //1 секунда
   endpoints: (build) => ({
     getServices: build.query<EntityState<any, number>, ParamsServices>({
       query: ({ limit = 15, page = 1, search, typeId }) => ({
