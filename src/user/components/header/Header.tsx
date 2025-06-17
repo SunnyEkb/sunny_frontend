@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
@@ -24,7 +25,7 @@ export default function Header() {
   } = useForm<SearchFormProps>();
   const navigate = useNavigate();
   const [trigger, { data: user, isLoading }] = useLazyCheckAuthQuery();
-  const [logout, { isSuccess }] = useLogoutMutation();
+  const [logout] = useLogoutMutation();
 
   const onSubmit = (data: SearchFormProps) => {
     console.log(data);
