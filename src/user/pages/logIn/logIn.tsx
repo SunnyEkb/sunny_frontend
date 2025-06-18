@@ -46,7 +46,6 @@ const LogIn: FC = () => {
   }, [watch]);
 
   const onSubmit = async (data: Inputs) => {
-    console.log(data)
     try {
       setErrMsg("");
       // каждый раз перезаписываем ...data,
