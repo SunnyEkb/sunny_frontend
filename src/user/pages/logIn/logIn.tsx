@@ -27,7 +27,8 @@ const LogIn: FC = () => {
     register,
     formState: { errors, isValid, isDirty },
     handleSubmit,
-    reset,
+    //reset,
+    watch,
   } = useForm<Inputs>({
     mode: "onChange",
     resolver: yupResolver<any>(loginValidationSchema),
@@ -36,24 +37,22 @@ const LogIn: FC = () => {
   const [login, { isLoading: isLoginLoading }] = useLazyLoginQuery();
   const [fetchUserMe] = useLazyCheckAuthQuery();
 
-  useEffect(() => {
-    const defaultValues: Inputs = {
-      password: "",
-      email: "",
-    };
-    reset(defaultValues);
-  }, [reset]);
-
   const [errMsg, setErrMsg] = useState("");
 
-  const onSubmit = async (data: Inputs) => {
-    try {
-      // Perform login request
-      const loginResponse = await login(data).unwrap();
-      if (loginResponse) {
-        // Save auth token to local storage
-        localStorage.setItem('authToken', loginResponse.token);
+  // Сбрасываем ошибку при изменении полей
+  useEffect(() => {
+    const subscription = watch(() => setErrMsg(""));
+    return () => subscription.unsubscribe();
+  }, [watch]);
 
+  const onSubmit = async (data: Inputs) => {
+    console.log(data)
+    try {
+      setErrMsg("");
+      // каждый раз перезаписываем ...data,
+      // чтобы отправлялись свежие данные
+      const loginResponse = await login({ ...data }).unwrap();
+      if (loginResponse) {
         // Fetch user data
         const userResponse = await fetchUserMe().unwrap();
         dispatch(setUser(userResponse));
@@ -89,7 +88,6 @@ const LogIn: FC = () => {
               key={field.name}
               type={field.type}
               {...register(field.name)}
-              name={field.name}
               placeholder={field.placeholder}
               inputTitle={field.inputTitle}
               errors={errors}
