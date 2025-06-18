@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { FC, forwardRef, useState } from "react";
+import { FC, forwardRef, InputHTMLAttributes, useState } from "react";
 import "./input.scss";
 import eye from "../../../assets/icon/eye-default.svg";
 import eyeHidden from "../../../assets/icon/eye-hidden.svg";
 
-interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   type: string;
   placeholder?: string;
   errors?: any;
