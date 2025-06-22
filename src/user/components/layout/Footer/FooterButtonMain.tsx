@@ -6,6 +6,7 @@ import {
 import mockLinkMenu, { mockLogin } from "./constans";
 import React from "react";
 import style from "./footerMain.module.scss";
+import { paths } from "../../../../app/paths";
 
 export default function FooterButtonMain() {
   const navigate = useNavigate();
@@ -19,11 +20,14 @@ export default function FooterButtonMain() {
 
   const handleClick = async (item: (typeof mockLinkMenu)[number]) => {
     if (item.action === "logout") {
-      try {
+      try{
         await logout().unwrap();
-        navigate(item.link);
-      } catch (error) {
-        console.error("Возникла ошибка:", error);
+        await checkAuth();
+        navigate(paths.index);
+      }
+      catch(error) {
+        console.error('Logout failed:', error);
+        navigate(paths.index);
       }
     } else if (item.link) {
       navigate(item.link);

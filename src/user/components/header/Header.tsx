@@ -32,12 +32,15 @@ export default function Header() {
   };
 
   const handleLogout = async () => {
-
-    await logout().unwrap().then(() => {
+    try{
+      await logout().unwrap();
+      await trigger();
       navigate(paths.index);
-    }).catch(error => {
+    }
+    catch(error) {
       console.error('Logout failed:', error);
-    });
+      navigate(paths.index);
+    }
   };
 
     // Trigger the checkAuth query to determine if the user is logged in
