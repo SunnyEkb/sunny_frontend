@@ -39,12 +39,6 @@ const LogIn: FC = () => {
 
   const [errMsg, setErrMsg] = useState("");
 
-  // Сбрасываем ошибку при изменении полей
-  useEffect(() => {
-    const subscription = watch(() => setErrMsg(""));
-    return () => subscription.unsubscribe();
-  }, [watch]);
-
   const onSubmit = async (data: Inputs) => {
     try {
       setErrMsg("");
