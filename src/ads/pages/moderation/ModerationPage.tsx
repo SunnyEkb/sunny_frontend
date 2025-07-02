@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import ModerationList from "./ModerationList";
 import ModerationDetail from "./ModerationDetail";
 import "./ModerationPage.scss";
@@ -9,6 +9,7 @@ import {
 } from "../../../shared/api/moderationApi";
 
 const ModerationPage = () => {
+  
   const [visibleComponent, setVisibleComponent] = useState("menu");
   const [selectedItem, setSelectedItem] = useState(null);
   const [itemType, setItemType] = useState("");
@@ -24,13 +25,13 @@ const ModerationPage = () => {
         const commentsData = await fetchComments();
 
         setCounts({
-          ads: adsData.count,
-          services: servicesData.count,
-          comments: commentsData.count,
+          ads: adsData?.count,
+          services: servicesData?.count,
+          comments: commentsData?.count,
         });
       } catch (error) {
         console.error("Ошибка при получении количества:", error);
-        setError(error.message);
+        setError(error?.message);
       }
     };
 
@@ -65,7 +66,7 @@ const ModerationPage = () => {
     if (visibleComponent === "services") return "Услуги";
     if (visibleComponent === "comments") return "Комментарии";
     if (visibleComponent === "detail")
-      return selectedItem ? selectedItem.title : "";
+      return selectedItem ? selectedItem?.title : "";
     return "Модерация";
   };
 

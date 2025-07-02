@@ -25,6 +25,7 @@ import NewPassword from "../user/pages/newPassword/newPassword";
 import RegisterActivatePage from "../user/pages/registerActivate/registerActivate";
 import ChatPage from "../ads/pages/chatPage/chatPage";
 import ModerationPage from "../ads/pages/moderation/ModerationPage"; // Importing ModerationPage
+import ModeratorProtectedRoute from "./moderatorProtectedRoute";
 
 
 export const router = createBrowserRouter(
@@ -45,11 +46,22 @@ export const router = createBrowserRouter(
           element: <UserProfileEdit />,
         },
         {
-          path: paths.moderation, // Adding the moderation route here
-          element: <ModerationPage />,
+        // Отдельная группа для модерации
+          element: <ModeratorProtectedRoute />,
+          children: [
+            {
+              path: paths.moderation,
+              element: <ModerationPage />,
+            },
+          ],
         },
+        /* {
+          path: paths.moderation,
+          element: <ModerationPage />,
+        }, */
       ],
     },
+
     {
       element: <MainLayout />,
       children: [
