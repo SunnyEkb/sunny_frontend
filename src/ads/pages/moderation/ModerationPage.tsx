@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import ModerationList from "./ModerationList";
 import ModerationDetail from "./ModerationDetail";
 import "./ModerationPage.scss";
@@ -7,14 +7,22 @@ import {
   fetchComments,
   fetchServices,
 } from "../../../shared/api/moderationApi";
+import { useLazyCheckAuthQuery, useLogoutMutation } from "../../../store/auth-api/authApi";
+import { useNavigate } from "react-router-dom";
+import { paths } from "../../../app/paths";
 
 const ModerationPage = () => {
+
   const [visibleComponent, setVisibleComponent] = useState("menu");
   const [selectedItem, setSelectedItem] = useState(null);
   const [itemType, setItemType] = useState("");
   const [history, setHistory] = useState([]);
   const [counts, setCounts] = useState({ ads: 0, services: 0, comments: 0 });
   const [error, setError] = useState("");
+
+  const navigate = useNavigate();
+  const [trigger, { data: user, isLoading }] = useLazyCheckAuthQuery();
+  const [logout] = useLogoutMutation();
 
   useEffect(() => {
     const fetchCounts = async () => {
@@ -24,17 +32,20 @@ const ModerationPage = () => {
         const commentsData = await fetchComments();
 
         setCounts({
-          ads: adsData.count,
-          services: servicesData.count,
-          comments: commentsData.count,
+          ads: adsData?.count,
+          services: servicesData?.count,
+          comments: commentsData?.count,
         });
       } catch (error) {
         console.error("Ошибка при получении количества:", error);
-        setError(error.message);
+        setError(error?.message);
       }
     };
 
-    fetchCounts();
+
+      fetchCounts();
+
+
   }, []);
 
   const handleComponentSwitch = (component: string) => {
@@ -58,6 +69,18 @@ const ModerationPage = () => {
     }
   };
 
+  const handleLogout = async () => {
+      try{
+        await logout().unwrap();
+        await trigger();
+        navigate(paths.index);
+      }
+      catch(error) {
+        console.error('Logout failed:', error);
+        navigate(paths.index);
+      }
+    };
+
   const getHeaderTitle = () => {
     if (visibleComponent === "menu") return "Модерация";
     if (visibleComponent === "moderation") return "На модерацию";
@@ -65,7 +88,7 @@ const ModerationPage = () => {
     if (visibleComponent === "services") return "Услуги";
     if (visibleComponent === "comments") return "Комментарии";
     if (visibleComponent === "detail")
-      return selectedItem ? selectedItem.title : "";
+      return selectedItem ? selectedItem?.title : "";
     return "Модерация";
   };
 
@@ -132,7 +155,7 @@ const ModerationPage = () => {
         )}
       </div>
       <div className="footer">
-        <button className="logout-button">Выйти</button>
+        <button className="logout-button" onClick={handleLogout}>Выйти</button>
       </div>
     </div>
   );

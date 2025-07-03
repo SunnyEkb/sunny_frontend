@@ -25,7 +25,7 @@ import NewPassword from "../user/pages/newPassword/newPassword";
 import RegisterActivatePage from "../user/pages/registerActivate/registerActivate";
 import ChatPage from "../ads/pages/chatPage/chatPage";
 import ModerationPage from "../ads/pages/moderation/ModerationPage"; // Importing ModerationPage
-
+import ModeratorProtectedRoute from "./moderatorProtectedRoute";
 
 export const router = createBrowserRouter(
   [
@@ -33,62 +33,69 @@ export const router = createBrowserRouter(
       element: <ProtectedRoute />, // Wrap ModerationPage in ProtectedRoute
       children: [
         {
-          path: paths.profile,
-          element: <UserLK />,
-        },
-        {
-          path: paths.settings,
-          element: <SettingsUser />,
-        },
-        {
-          path: paths.user_profile_edit,
-          element: <UserProfileEdit />,
-        },
-        {
-          path: paths.moderation, // Adding the moderation route here
-          element: <ModerationPage />,
-        },
-      ],
-    },
-    {
-      element: <MainLayout />,
-      children: [
-        {
-          path: paths.chat,
-          element: <ChatPage />,
-        },
-        {
-          path: paths.catalog,
-          element: <Catalog />,
-        },
-        {
-          path: paths.catalogAds,
-          element: <CardCatalogBig />,
-          loader: (params) => loaderAdsByCatalogId(params),
-        },
-
-        {
-          path: paths.createAds,
-          element: <CreateAds />,
+          // Отдельная группа для модерации
+          element: <ModeratorProtectedRoute />,
           children: [
             {
+              path: paths.moderation,
+              element: <ModerationPage />,
+            },
+            {
+              path: paths.profile,
+              element: <UserLK />,
+            },
+            {
+              path: paths.settings,
+              element: <SettingsUser />,
+            },
+            {
+              path: paths.user_profile_edit,
+              element: <UserProfileEdit />,
+            },
+            {
+          element: <MainLayout />,
+          children: [
+            {
+              path: paths.chat,
+              element: <ChatPage />,
+            },
+            {
+              path: paths.catalog,
+              element: <Catalog />,
+            },
+            {
+              path: paths.catalogAds,
+              element: <CardCatalogBig />,
+              loader: (params) => loaderAdsByCatalogId(params),
+            },
+
+            {
               path: paths.createAds,
-              element: <MainFormAds />,
+              element: <CreateAds />,
+              children: [
+                {
+                  path: paths.createAds,
+                  element: <MainFormAds />,
+                  loader: () => loaderCatagories(),
+                },
+              ],
+            },
+
+            {
+              path: paths.typeCatalog,
+              element: <TypeCatalog />,
+              loader: loaderTypesCatalog,
+            },
+            {
+              path: paths.index,
+              element: <MainCatalog />,
               loader: () => loaderCatagories(),
             },
           ],
         },
+          ],
+        },
 
-        {
-          path: paths.typeCatalog,
-          element: <TypeCatalog />,
-          loader: loaderTypesCatalog,
-        },
-        {
-          path: paths.index,
-          element: <MainCatalog />,
-          loader: () => loaderCatagories(),
-        },
       ],
     },
     {

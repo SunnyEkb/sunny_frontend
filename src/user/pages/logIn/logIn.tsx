@@ -51,8 +51,13 @@ const LogIn: FC = () => {
         dispatch(setUser(userResponse));
         dispatch(setAuthenticated(true));
 
-        // Navigate to the index page
+        navigate(userResponse.role === 'moderator' ? paths.moderation : paths.index);
+
+        /* if (userResponse.role === "moderator") {
+        navigate(paths.moderation);
+      } else {
         navigate(paths.index);
+      } */
       }
     } catch (err: any) {
       console.error("Ошибка при логине или запросе данных", err);
