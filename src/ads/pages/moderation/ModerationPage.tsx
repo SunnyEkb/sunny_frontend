@@ -7,15 +7,22 @@ import {
   fetchComments,
   fetchServices,
 } from "../../../shared/api/moderationApi";
+import { useLazyCheckAuthQuery, useLogoutMutation } from "../../../store/auth-api/authApi";
+import { useNavigate } from "react-router-dom";
+import { paths } from "../../../app/paths";
 
 const ModerationPage = () => {
-  
+
   const [visibleComponent, setVisibleComponent] = useState("menu");
   const [selectedItem, setSelectedItem] = useState(null);
   const [itemType, setItemType] = useState("");
   const [history, setHistory] = useState([]);
   const [counts, setCounts] = useState({ ads: 0, services: 0, comments: 0 });
   const [error, setError] = useState("");
+
+  const navigate = useNavigate();
+  const [trigger, { data: user, isLoading }] = useLazyCheckAuthQuery();
+  const [logout] = useLogoutMutation();
 
   useEffect(() => {
     const fetchCounts = async () => {
@@ -35,7 +42,10 @@ const ModerationPage = () => {
       }
     };
 
-    fetchCounts();
+
+      fetchCounts();
+
+
   }, []);
 
   const handleComponentSwitch = (component: string) => {
@@ -58,6 +68,18 @@ const ModerationPage = () => {
       setSelectedItem(null);
     }
   };
+
+  const handleLogout = async () => {
+      try{
+        await logout().unwrap();
+        await trigger();
+        navigate(paths.index);
+      }
+      catch(error) {
+        console.error('Logout failed:', error);
+        navigate(paths.index);
+      }
+    };
 
   const getHeaderTitle = () => {
     if (visibleComponent === "menu") return "Модерация";
@@ -133,7 +155,7 @@ const ModerationPage = () => {
         )}
       </div>
       <div className="footer">
-        <button className="logout-button">Выйти</button>
+        <button className="logout-button" onClick={handleLogout}>Выйти</button>
       </div>
     </div>
   );
