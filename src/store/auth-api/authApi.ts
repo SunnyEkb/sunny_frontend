@@ -14,10 +14,18 @@ const getRequestConfig = (method: string, data?: any) => ({
   body: data ? JSON.stringify(data) : undefined,
 });
 
+// const cookieStore = document.cookie;
+
+// const cookieString = cookieStore
+//   .getAll()
+//   .map(({ name, value }) => `${name}=${value}`)
+//   .join("; ");
+
 export const authApi = createApi({
   reducerPath: "auth/api",
   baseQuery: fetchBaseQuery({
     baseUrl: BASE_URL,
+    credentials: 'include'
   }),
   endpoints: (build) => ({
     login: build.query<string, { email?: string; password?: string }>({
@@ -86,7 +94,10 @@ export const authApi = createApi({
         ...getRequestConfig("POST", data),
       }),
     }),
-    passwordForget: build.mutation<string, { password?: string; token?: string }>({
+    passwordForget: build.mutation<
+      string,
+      { password?: string; token?: string }
+    >({
       query: (data) => ({
         url: "password_reset/confirm/",
         ...getRequestConfig("POST", data),
