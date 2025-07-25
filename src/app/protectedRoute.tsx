@@ -30,16 +30,6 @@ const ProtectedRoute: FC = () => {
     return <Navigate to={paths.auth} />;
   }
 
-  // Если пользователь модератор и пытается попасть не на страницу модерации
-  if (userProfile?.role === 'moderator' && location.pathname !== paths.moderation) {
-    return <Navigate to={paths.moderation} replace />;
-  }
-
-  // Если обычный пользователь пытается попасть на страницу модерации
-  if (userProfile?.role !== 'moderator' && location.pathname === paths.moderation) {
-    return <Navigate to={paths.index} replace />;
-  }
-
   return <Outlet />;
 };
 
