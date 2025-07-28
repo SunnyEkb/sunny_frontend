@@ -37,7 +37,7 @@ jobs:
           passphrase: ${{ secrets.PASSPHRASE }}
           script: |
             cd ${{ secrets.TARGET_SERVER_PATH }}
-            docker-compose stop
-            docker-compose rm -f frontend
+            docker compose stop
+            docker compose rm -f frontend
             docker rmi ${{ secrets.DOCKER_HUB_USERNAME }}/sunny_ekb_frontend
-            docker-compose up -d
+            docker compose up -d
