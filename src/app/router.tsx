@@ -32,10 +32,10 @@ export const router = createBrowserRouter(
     {
       element: <ProtectedRoute />, // Wrap ModerationPage in ProtectedRoute
       children: [
-        {
-          // Отдельная группа для модерации
-          element: <ModeratorProtectedRoute />,
-          children: [
+        // {
+        //   // Отдельная группа для модерации
+        //   element: <ModeratorProtectedRoute />,
+        //   children: [
             {
               path: paths.moderation,
               element: <ModerationPage />,
@@ -54,6 +54,7 @@ export const router = createBrowserRouter(
             },
             {
           element: <MainLayout />,
+          path: paths.index,
           children: [
             {
               path: paths.chat,
@@ -96,8 +97,8 @@ export const router = createBrowserRouter(
           ],
         },
 
-      ],
-    },
+    //   ],
+    // },
     {
       path: paths.auth,
       element: <Login />,

@@ -7,7 +7,7 @@ import { useAppSelector } from "../store/store";
 //import { useAppSelector } from "../store/store";
 
 const ProtectedRoute: FC = () => {
-  const [checkAuth, {isLoading, isError }] = useLazyCheckAuthQuery();
+  const [checkAuth, { isLoading, isError }] = useLazyCheckAuthQuery();
   const location = useLocation();
 
   const initCheckAuth = async () => {
@@ -17,9 +17,9 @@ const ProtectedRoute: FC = () => {
   const userProfile = useAppSelector((state) => state.auth.user);
 
   useEffect(() => {
-    initCheckAuth()
+    initCheckAuth();
 
-    console.log(userProfile?.role)
+    console.log(userProfile?.role);
   }, []);
 
   if (isLoading) {
@@ -29,6 +29,15 @@ const ProtectedRoute: FC = () => {
   if (isError) {
     return <Navigate to={paths.auth} />;
   }
+
+    if (userProfile?.role === 'moderator' && location.pathname !== paths.moderation) {
+      return <Navigate to={paths.moderation} replace />;
+    }
+
+    // Если обычный пользователь пытается попасть на страницу модерации
+    if (userProfile?.role !== 'moderator' && location.pathname === paths.moderation) {
+      return <Navigate to={paths.index} replace />;
+    }
 
   return <Outlet />;
 };
