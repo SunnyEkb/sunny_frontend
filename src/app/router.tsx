@@ -36,66 +36,67 @@ export const router = createBrowserRouter(
         //   // Отдельная группа для модерации
         //   element: <ModeratorProtectedRoute />,
         //   children: [
-            {
-              path: paths.moderation,
-              element: <ModerationPage />,
-            },
-            {
-              path: paths.profile,
-              element: <UserLK />,
-            },
-            {
-              path: paths.settings,
-              element: <SettingsUser />,
-            },
-            {
-              path: paths.user_profile_edit,
-              element: <UserProfileEdit />,
-            },
-            {
-          element: <MainLayout />,
-          path: paths.index,
+        {
+          path: paths.moderation,
+          element: <ModerationPage />,
+        },
+        {
+          path: paths.profile,
+          element: <UserLK />,
+        },
+        {
+          path: paths.settings,
+          element: <SettingsUser />,
+        },
+        {
+          path: paths.user_profile_edit,
+          element: <UserProfileEdit />,
+        },
+      ],
+    },
+    {
+      element: <MainLayout />,
+      path: paths.index,
+      children: [
+        {
+          path: paths.chat,
+          element: <ChatPage />,
+        },
+        {
+          path: paths.catalog,
+          element: <Catalog />,
+        },
+        {
+          path: paths.catalogAds,
+          element: <CardCatalogBig />,
+          loader: (params) => loaderAdsByCatalogId(params),
+        },
+
+        {
+          path: paths.createAds,
+          element: <CreateAds />,
           children: [
             {
-              path: paths.chat,
-              element: <ChatPage />,
-            },
-            {
-              path: paths.catalog,
-              element: <Catalog />,
-            },
-            {
-              path: paths.catalogAds,
-              element: <CardCatalogBig />,
-              loader: (params) => loaderAdsByCatalogId(params),
-            },
-
-            {
               path: paths.createAds,
-              element: <CreateAds />,
-              children: [
-                {
-                  path: paths.createAds,
-                  element: <MainFormAds />,
-                  loader: () => loaderCatagories(),
-                },
-              ],
-            },
-
-            {
-              path: paths.typeCatalog,
-              element: <TypeCatalog />,
-              loader: loaderTypesCatalog,
-            },
-            {
-              path: paths.index,
-              element: <MainCatalog />,
+              element: <MainFormAds />,
               loader: () => loaderCatagories(),
             },
           ],
         },
-          ],
+
+        {
+          path: paths.typeCatalog,
+          element: <TypeCatalog />,
+          loader: loaderTypesCatalog,
         },
+        {
+          path: paths.index,
+          element: <MainCatalog />,
+          loader: () => loaderCatagories(),
+        },
+      ],
+    },
+    // ],
 
     //   ],
     // },
