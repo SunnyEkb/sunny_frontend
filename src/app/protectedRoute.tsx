@@ -1,23 +1,41 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { FC, useEffect } from "react";
-import { Navigate, Outlet, useLocation } from "react-router-dom";
-import { useLazyCheckAuthQuery } from "../store/auth-api/authApi";
+import { Navigate, Outlet, useLoaderData, useLocation } from "react-router-dom";
+import { authApi } from "../store/auth-api/authApi";
 import { paths } from "./paths";
-import { useAppSelector } from "../store/store";
+import store, { useAppSelector } from "../store/store";
+import React from "react";
 //import { useAppSelector } from "../store/store";
 
-const ProtectedRoute: FC = () => {
-  const [checkAuth, { isLoading, isError }] = useLazyCheckAuthQuery();
-  const location = useLocation();
+export const loaderProtectedRoute = async () => {
+  try {
+    const result = await store.dispatch(authApi.endpoints.checkAuth.initiate());
+    return result.data;
+  } catch (e) {
+    return { error: "Unknown error" };
+  }
+};
 
-  const initCheckAuth = async () => {
-    return await checkAuth();
-  };
+const ProtectedRoute: FC = () => {
+  // const [checkAuth, { isLoading, isError }] = useLazyCheckAuthQuery();
+  const location = useLocation();
+  const [isLoading, setLoading] = React.useState(true);
+
+  const user = useLoaderData();
+  // console.log('user', user)
+
+  // const initCheckAuth = async () => {
+  //   return await checkAuth();
+  // };
 
   const userProfile = useAppSelector((state) => state.auth.user);
 
   useEffect(() => {
-    initCheckAuth();
+    // initCheckAuth();
+
+    if (userProfile) {
+      setLoading(false);
+    }
 
     console.log(userProfile?.role);
   }, []);
@@ -26,18 +44,24 @@ const ProtectedRoute: FC = () => {
     return <div>Loading...</div>;
   }
 
-  if (isError) {
+  if (user.error) {
     return <Navigate to={paths.auth} />;
   }
 
-    if (userProfile?.role === 'moderator' && location.pathname !== paths.moderation) {
-      return <Navigate to={paths.moderation} replace />;
-    }
+  if (
+    userProfile?.role === "moderator" &&
+    location.pathname !== paths.moderation
+  ) {
+    return <Navigate to={paths.moderation} replace />;
+  }
 
-    // Если обычный пользователь пытается попасть на страницу модерации
-    if (userProfile?.role !== 'moderator' && location.pathname === paths.moderation) {
-      return <Navigate to={paths.index} replace />;
-    }
+  // Если обычный пользователь пытается попасть на страницу модерации
+  if (
+    userProfile?.role !== "moderator" &&
+    location.pathname === paths.moderation
+  ) {
+    return <Navigate to={paths.index} replace />;
+  }
 
   return <Outlet />;
 };

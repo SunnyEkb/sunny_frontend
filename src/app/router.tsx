@@ -10,7 +10,7 @@ import CardCatalogBig, {
   loaderAdsByCatalogId,
 } from "../ads/pages/CardCatalogBig/CardCatalogBig";
 import Registr from "../user/pages/singin/SignIn";
-import ProtectedRoute from "./protectedRoute";
+import ProtectedRoute, { loaderProtectedRoute } from "./protectedRoute";
 import PolicyPage from "../user/pages/PolicyPage/PolicyPage";
 import TypeCatalog, {
   loaderTypesCatalog,
@@ -30,7 +30,8 @@ import ModeratorProtectedRoute from "./moderatorProtectedRoute";
 export const router = createBrowserRouter(
   [
     {
-      element: <ProtectedRoute />, // Wrap ModerationPage in ProtectedRoute
+      element: <ProtectedRoute />,
+      loader: loaderProtectedRoute, // Wrap ModerationPage in ProtectedRoute
       children: [
         // {
         //   // Отдельная группа для модерации
