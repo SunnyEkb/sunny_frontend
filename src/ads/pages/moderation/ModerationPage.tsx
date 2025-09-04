@@ -7,12 +7,14 @@ import {
   fetchComments,
   fetchServices,
 } from "../../../shared/api/moderationApi";
-import { useLazyCheckAuthQuery, useLogoutMutation } from "../../../store/auth-api/authApi";
+import {
+  useLazyCheckAuthQuery,
+  useLogoutMutation,
+} from "../../../store/auth-api/authApi";
 import { useNavigate } from "react-router-dom";
 import { paths } from "../../../app/paths";
 
 const ModerationPage = () => {
-
   const [visibleComponent, setVisibleComponent] = useState("menu");
   const [selectedItem, setSelectedItem] = useState(null);
   const [itemType, setItemType] = useState("");
@@ -31,10 +33,14 @@ const ModerationPage = () => {
         const servicesData = await fetchServices();
         const commentsData = await fetchComments();
 
+        const adsDataParse = await adsData.json();
+        const serviceDataParse = await servicesData.json();
+        const commentsDataParse = await commentsData.json();
+
         setCounts({
-          ads: adsData?.count,
-          services: servicesData?.count,
-          comments: commentsData?.count,
+          ads: adsDataParse?.count,
+          services: serviceDataParse?.count,
+          comments: commentsDataParse?.count,
         });
       } catch (error) {
         console.error("Ошибка при получении количества:", error);
@@ -42,16 +48,13 @@ const ModerationPage = () => {
       }
     };
 
-
-      fetchCounts();
-
-
-  }, []);
+    fetchCounts();
+  }, [visibleComponent]);
 
   const handleComponentSwitch = (component: string) => {
     setHistory([...history, visibleComponent]);
     setVisibleComponent(component);
-    setItemType(component);
+    setItemType(component as "services" | "ads" | "comments");
   };
 
   const handleItemSelect = (item: any) => {
@@ -70,16 +73,15 @@ const ModerationPage = () => {
   };
 
   const handleLogout = async () => {
-      try{
-        await logout().unwrap();
-        await trigger();
-        navigate(paths.index);
-      }
-      catch(error) {
-        console.error('Logout failed:', error);
-        navigate(paths.index);
-      }
-    };
+    try {
+      await logout().unwrap();
+      await trigger();
+      navigate(paths.index);
+    } catch (error) {
+      console.error("Logout failed:", error);
+      navigate(paths.index);
+    }
+  };
 
   const getHeaderTitle = () => {
     if (visibleComponent === "menu") return "Модерация";
@@ -151,11 +153,17 @@ const ModerationPage = () => {
           <ModerationList type="comments" onItemSelect={handleItemSelect} />
         )}
         {visibleComponent === "detail" && selectedItem && !error && (
-          <ModerationDetail item={selectedItem} type={itemType} />
+          <ModerationDetail
+            item={selectedItem}
+            type={itemType as "services" | "ads" | "comments"}
+            setVisibleComponent={setVisibleComponent}
+          />
         )}
       </div>
       <div className="footer">
-        <button className="logout-button" onClick={handleLogout}>Выйти</button>
+        <button className="logout-button" onClick={handleLogout}>
+          Выйти
+        </button>
       </div>
     </div>
   );

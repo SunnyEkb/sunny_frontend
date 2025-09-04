@@ -21,7 +21,7 @@ export const fetchAds = async () => {
     );
   }
 
-  return await adsResponse.json();
+  return await adsResponse;
 };
 
 export const fetchServices = async () => {
@@ -45,9 +45,8 @@ export const fetchServices = async () => {
     );
   }
 
-  return await servicesResponse.json();
+  return await servicesResponse;
 };
-
 
 export const fetchComments = async () => {
   const commentsRequestOptions = {
@@ -70,5 +69,29 @@ export const fetchComments = async () => {
     );
   }
 
-  return await commentsResponse.json();
-}
+  return await commentsResponse;
+};
+
+export const permissionModeration = async (
+  id: string | number,
+  type: "services" | "ads" | "comments",
+  permission: "approve" | "reject"
+) => {
+  try {
+    const response = await fetch(
+      `${BASE_URL}moderator/${type}/${id}/${permission}/`,
+      {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    const data = await response.json();
+    return data;
+  } catch (e) {
+    console.error("e", e);
+  }
+};

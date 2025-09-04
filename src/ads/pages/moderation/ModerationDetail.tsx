@@ -1,13 +1,63 @@
-import React from 'react';
-import './ModerationDetail.scss';
+import React from "react";
+import "./ModerationDetail.scss";
+import { AdsInfo } from "../../../common/model/ads";
+import { permissionModeration } from "../../../shared/api/moderationApi";
+import { useNavigate } from "react-router-dom";
 
-const ModerationDetail = ({ item, type }) => {
-  const approveItem = () => {
-    alert(`${type === 'ads' ? 'Объявление' : type === 'services' ? 'Услуга' : 'Комментарий'} успешно одобрено`);
+interface Props {
+  item: AdsInfo;
+  type: "services" | "ads" | "comments";
+  setVisibleComponent: React.Dispatch<React.SetStateAction<string>>;
+}
+
+const ModerationDetail = ({ item, type, setVisibleComponent }: Props) => {
+  const navigate = useNavigate();
+  console.log("item", item);
+  const approveItem = async () => {
+    try {
+      const data = await permissionModeration(item.id, type, "approve");
+
+      if (data == "Объект одобрен.") {
+        alert(
+          `${
+            type === "ads"
+              ? "Объявление"
+              : type === "services"
+              ? "Услуга"
+              : "Комментарий"
+          } успешно одобрено`
+        );
+      }
+      setVisibleComponent("menu");
+      // navigate("/moderation");
+      return data;
+    } catch (e) {
+      console.error("error", e);
+    }
   };
 
-  const rejectItem = () => {
-    alert(`${type === 'ads' ? 'Объявление' : type === 'services' ? 'Услуга' : 'Комментарий'} успешно отклонено`);
+  const rejectItem = async () => {
+    try {
+      const data = await permissionModeration(item.id, type, "reject");
+
+      if (data == "Объект отклонен.") {
+        alert(
+          `${
+            type === "ads"
+              ? "Объявление"
+              : type === "services"
+              ? "Услуга"
+              : "Комментарий"
+          } успешно отклонено`
+        );
+      }
+      setVisibleComponent("menu");
+      // navigate("/moderation");
+
+      return data;
+    } catch (e) {
+      console.error("error", e);
+    }
   };
 
   return (
