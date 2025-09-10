@@ -86,6 +86,17 @@ export const servicesApi = createApi({
       }),
       invalidatesTags: [{ type: "Services", id: "PARTIAL-LIST" }],
     }),
+    publishService: build.mutation({
+      query: (id: string) => ({
+        url: `/services/${id}/publish/`,
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }),
+      invalidatesTags: [{ type: "Services", id: "PARTIAL-LIST" }],
+    }),
     update: build.mutation({
       query: (data: AdsInfo) => ({
         url: `/services/${data.id}/`,
@@ -103,18 +114,31 @@ export const servicesApi = createApi({
         url: `/services/${id}/add-to-favorites/`,
         ...getRequestConfig("POST"),
       }),
-      invalidatesTags: (result, error, id) => [{ type: "Services", id: "PARTIAL-LIST" }, { type: "Services", id }], // edited line
+      invalidatesTags: (result, error, id) => [
+        { type: "Services", id: "PARTIAL-LIST" },
+        { type: "Services", id },
+      ], // edited line
     }),
     deleteFromFavorites: build.mutation({
       query: (id) => ({
         url: `/services/${id}/delete-from-favorites/`,
         ...getRequestConfig("DELETE"),
       }),
-      invalidatesTags: (result, error, id) => [{ type: "Services", id: "PARTIAL-LIST" }, { type: "Services", id }], // edited line
+      invalidatesTags: (result, error, id) => [
+        { type: "Services", id: "PARTIAL-LIST" },
+        { type: "Services", id },
+      ], // edited line
     }),
   }),
 });
 
-export const { useGetServicesQuery, useCreateServiceMutation, useAddToFavoritesMutation, useUpdateMutation, useDeleteFromFavoritesMutation } = servicesApi;
+export const {
+  useGetServicesQuery,
+  useCreateServiceMutation,
+  usePublishServiceMutation,
+  useAddToFavoritesMutation,
+  useUpdateMutation,
+  useDeleteFromFavoritesMutation,
+} = servicesApi;
 
 export { servicesAdapter, servicesSelector };
