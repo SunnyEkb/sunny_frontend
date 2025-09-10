@@ -2,7 +2,10 @@ import React from "react";
 import styles from "./main.module.scss";
 import { Outlet, useNavigate } from "react-router-dom";
 import { FormProvider, useForm } from "react-hook-form";
-import { useCreateServiceMutation } from "../../../store/entities/services/services";
+import {
+  useCreateServiceMutation,
+  usePublishServiceMutation,
+} from "../../../store/entities/services/services";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { createAdsValidSchema } from "./helpers";
 
@@ -29,7 +32,7 @@ export interface PropsForm {
 }
 
 export default function CreateAds() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const methods = useForm<PropsForm>({
     defaultValues: {
       itemAds: [],
@@ -47,11 +50,14 @@ export default function CreateAds() {
   });
 
   const [createAds] = useCreateServiceMutation();
+  const [publishAds] = usePublishServiceMutation();
 
   const onSubmit = async (data: PropsForm) => {
     const response = await createAds({
       ...data,
     });
+    await publishAds(response.data?.id);
+
     navigate(`/catalogs/${data.type_id}/ads/${response.data.id}`);
   };
   const formRef = React.useRef<HTMLFormElement>(null);
