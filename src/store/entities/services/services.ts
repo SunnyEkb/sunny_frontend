@@ -97,6 +97,18 @@ export const servicesApi = createApi({
       }),
       invalidatesTags: [{ type: "Services", id: "PARTIAL-LIST" }],
     }),
+    addPhotoToService: build.mutation({
+      query: (data: {id: string, image: string}) => ({
+        url: `/services/${data.id}/add-photo/`,
+        method: "POST",
+        credentials: "include",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }),
+      invalidatesTags: [{ type: "Services", id: "PARTIAL-LIST" }],
+    }),
     update: build.mutation({
       query: (data: AdsInfo) => ({
         url: `/services/${data.id}/`,
@@ -137,6 +149,7 @@ export const {
   useCreateServiceMutation,
   usePublishServiceMutation,
   useAddToFavoritesMutation,
+  useAddPhotoToServiceMutation,
   useUpdateMutation,
   useDeleteFromFavoritesMutation,
 } = servicesApi;

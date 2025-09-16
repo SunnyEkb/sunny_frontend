@@ -3,6 +3,7 @@ import styles from "./main.module.scss";
 import { Outlet, useNavigate } from "react-router-dom";
 import { FormProvider, useForm } from "react-hook-form";
 import {
+  useAddPhotoToServiceMutation,
   useCreateServiceMutation,
   usePublishServiceMutation,
 } from "../../../store/entities/services/services";
@@ -51,11 +52,39 @@ export default function CreateAds() {
 
   const [createAds] = useCreateServiceMutation();
   const [publishAds] = usePublishServiceMutation();
+  const [addPhoto] = useAddPhotoToServiceMutation();
 
   const onSubmit = async (data: PropsForm) => {
     const response = await createAds({
       ...data,
     });
+
+    const id = response.data?.id;
+    if (!id) throw new Error("No ID returned from createAds");
+
+    if (data.photo && data.photo.length > 0 && data.photo[0].file) {
+      // Преобразуем файл в base64 с префиксом data:<mime>;base64,
+      const toBase64 = (file: File): Promise<string> =>
+        new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.readAsDataURL(file);
+          reader.onload = () => resolve(reader.result as string);
+          reader.onerror = (error) => reject(error);
+        });
+
+      for (const photo of data.photo) {
+        if (photo.file) {
+          const base64Image = await toBase64(photo.file);
+          const regex = new RegExp("^data:image/jpeg;");
+          const base64ImageCorrected = base64Image.replace(
+            regex,
+            "data:image/jpg;"
+          );
+
+          await addPhoto({ id, image: base64ImageCorrected });
+        }
+      }
+    }
     await publishAds(response.data?.id);
 
     navigate(`/catalogs/${data.type_id}/ads/${response.data.id}`);
