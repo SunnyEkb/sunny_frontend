@@ -52,7 +52,9 @@ body, html {
   border: none;
   cursor: pointer;
   @media (min-width: 768px) {
-    display: block;
+    display: flex;
+    gap: 8px;
+    align-items: center;
   }
   &:hover {
     color: #5e8b4a;
