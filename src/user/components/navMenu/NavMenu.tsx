@@ -69,7 +69,6 @@ const NavMenu: React.FC = () => {
         />
         <MenuItem
           title="Выйти из профиля"
-          subtitle="Сменить пользователя"
           onClick={handleOpen}
         />
       </nav>

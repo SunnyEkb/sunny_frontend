@@ -3,7 +3,7 @@ import styles from "./menuItem.module.scss";
 
 export interface MenuItemProps {
   title: string;
-  subtitle: string;
+  subtitle?: string;
   linkText?: string;
   danger?: boolean;
   onClick?: () => void;

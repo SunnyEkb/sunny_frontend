@@ -1,17 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-unused-vars */
+import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import {
-  useLazyCheckAuthQuery,
-  useLogoutMutation,
-} from "../../../store/auth-api/authApi"; // update the import path as needed
+import { useLazyCheckAuthQuery } from "../../../store/auth-api/authApi"; // update the import path as needed
 import styles from "./header.module.scss";
 import { paths } from "../../../app/paths";
-import React from "react";
-
+import userIcon from "../../../assets/icon/menu/user.svg";
 
 interface SearchFormProps {
   search: string;
@@ -25,25 +22,28 @@ export default function Header() {
   } = useForm<SearchFormProps>();
   const navigate = useNavigate();
   const [trigger, { data: user, isLoading }] = useLazyCheckAuthQuery();
-  const [logout] = useLogoutMutation();
 
   const onSubmit = (data: SearchFormProps) => {
     console.log(data);
   };
 
-  const handleLogout = async () => {
-    try{
-      await logout().unwrap();
-      await trigger();
-      navigate(paths.index);
+  const createAds = () => {
+    if (!user) {
+      navigate(paths.auth);
+      return;
     }
-    catch(error) {
-      console.error('Logout failed:', error);
-      navigate(paths.index);
-    }
+    navigate(paths.createAds);
   };
 
-    // Trigger the checkAuth query to determine if the user is logged in
+  const goToProfile = () => {
+    if (!user) {
+      navigate(paths.auth);
+      return;
+    }
+    navigate(paths.profile);
+  };
+
+  // Trigger the checkAuth query to determine if the user is logged in
   React.useEffect(() => {
     if (!isLoading && !user) {
       trigger();
@@ -55,8 +55,9 @@ export default function Header() {
       <div className={styles.topRow}>
         <h1 className={styles.logo}>Солнечный Екб</h1>
         {user ? (
-          <button className={styles.authButton} onClick={handleLogout}>
-            Выйти
+          <button className={styles.authButton} onClick={() => goToProfile()}>
+            <img src={userIcon} alt="User" className={styles.userIcon} />
+            Профиль
           </button>
         ) : (
           <button
@@ -75,15 +76,15 @@ export default function Header() {
           <div className={styles.searchWrapper}>
             <FontAwesomeIcon icon={faSearch} className={styles.searchIcon} />
             <input
-              {...register('search', {
-                required: 'Введите название услуги',
+              {...register("search", {
+                required: "Введите название услуги",
                 minLength: {
                   value: 2,
-                  message: 'Минимум два символа',
+                  message: "Минимум два символа",
                 },
                 maxLength: {
                   value: 40,
-                  message: 'Максимум сорок символов',
+                  message: "Максимум сорок символов",
                 },
               })}
               type="text"
@@ -98,7 +99,7 @@ export default function Header() {
         <button
           type="button"
           className={styles.createButton}
-          onClick={() => navigate(paths.createAds)}
+          onClick={() => createAds()}
         >
           Создать объявление
         </button>
