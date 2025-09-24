@@ -12,12 +12,18 @@ interface DataProps {
 }
 
 export const loaderCatagories = async () => {
-  const response = await fetch("https://sunnyekb.ru/api/v1/categories/", {
-    method: "GET",
-    credentials: "include",
-  });
-
-  return response;
+  try {
+    const response = await fetch("https://sunnyekb.ru/api/v1/categories/", {
+      method: "GET",
+      credentials: "include",
+    });
+    if (response.status == 401) {
+      window.location.href = "/auth";
+    }
+    return response;
+  } catch (e) {
+    window.location.href = "/auth";
+  }
 };
 
 export default function MainCatalog() {
@@ -33,7 +39,6 @@ export default function MainCatalog() {
 
   return (
     <section className={styles.section}>
-
       <section className={styles.breadcrumbs}>
         <a href="/">Главная</a> &gt; <span>На районе</span>
       </section>
