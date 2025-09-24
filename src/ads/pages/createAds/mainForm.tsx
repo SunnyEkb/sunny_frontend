@@ -40,6 +40,11 @@ export default function MainFormAds() {
     setValue("itemAds", newItemAds, { shouldValidate: true });
   };
 
+   const removeItemAds = (indexToRemove: number) => {
+    const newItemAds = itemAds.filter((_, index: number) => index !== indexToRemove);
+    setValue("itemAds", newItemAds, { shouldValidate: true });
+  };
+
   const typeId = watch("type_id");
 
   const options = CategoriesAds.map((ad) => ({
@@ -244,6 +249,15 @@ export default function MainFormAds() {
                     />
                   )}
                 />
+                    <button
+              type="button"
+              onClick={() => removeItemAds(index)}
+              className={styles.removeItemAdsButton}
+              aria-label="Удалить услугу"
+              title="Удалить услугу"
+            >
+             Убрать
+            </button>
               </div>
             );
           })}

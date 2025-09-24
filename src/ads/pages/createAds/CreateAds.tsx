@@ -72,6 +72,7 @@ export default function CreateAds() {
           reader.onerror = (error) => reject(error);
         });
 
+      let images: {image: string}[] = [];
       for (const photo of data.photo) {
         if (photo.file) {
           const base64Image = await toBase64(photo.file);
@@ -80,10 +81,12 @@ export default function CreateAds() {
             regex,
             "data:image/jpg;"
           );
+          images = [...images, {image: base64ImageCorrected}]
 
-          await addPhoto({ id, image: base64ImageCorrected });
+
         }
       }
+           await addPhoto({ id, images: images });
     }
     await publishAds(response.data?.id);
 

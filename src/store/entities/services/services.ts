@@ -98,7 +98,7 @@ export const servicesApi = createApi({
       invalidatesTags: [{ type: "Services", id: "PARTIAL-LIST" }],
     }),
     addPhotoToService: build.mutation({
-      query: (data: {id: string, image: string}) => ({
+      query: (data: {id: string, images: {image: string}[]}) => ({
         url: `/services/${data.id}/add-photo/`,
         method: "POST",
         credentials: "include",
