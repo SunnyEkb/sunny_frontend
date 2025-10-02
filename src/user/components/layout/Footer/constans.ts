@@ -21,7 +21,7 @@ const mockLinkMenu = [
     id: 3,
     title: "Объявление",
     icon: plusAds,
-    link: "/catalogs",
+    link: "/catalogs/1",
   },
   {
     id: 5,

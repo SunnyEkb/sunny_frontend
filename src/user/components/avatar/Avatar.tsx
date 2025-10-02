@@ -17,7 +17,7 @@ const Avatar: FC<AvatarProps> = ({ avatarUrl, initial, altText, editable, onAvat
   return (
     <div className={styles.avatar}>
       <label className={editable ? styles.editableAvatar : styles.nonEditableAvatar}>
-        {avatarUrl ? (
+        {imageUrl ? (
           <img
             src={imageUrl}
             alt={altText}
