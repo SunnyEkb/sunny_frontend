@@ -4,6 +4,8 @@ import CardCatalog from "../CardCatalog/CardCatalog";
 import MiniAdCard from "../../catalog/MiniAdCard/MiniAdCard";
 import { useLoaderData } from "react-router-dom";
 
+import { mockCards } from "./mockCards";
+
 interface DataProps {
   id: number;
   title: string;
@@ -50,7 +52,7 @@ export default function MainCatalog() {
       <main className={styles.catalog__content}>
         <div className={styles.catalog__title}>На районе</div>
         <div className={styles.catalog__itemList}>
-          {data?.map((card) => {
+          {mockCards?.map((card) => {
             return <CardCatalog key={card.id} card={card} />;
           })}
         </div>

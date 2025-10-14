@@ -20,7 +20,7 @@ export default function CardCatalog({ card }: Props) {
       className={styles.card}
       onClick={() => navigate(`${paths.catalogs}/${card.id}`)}
     >
-      <div className={styles.card__title}>{card.title}</div>
+      <h3 className={styles.card__title}>{card.title}</h3>
       <div className={styles.card__imgWrapper}>
         <img
           src={card.img || imgDefault}

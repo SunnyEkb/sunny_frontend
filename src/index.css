@@ -1,4 +1,9 @@
 body {
+  font-family: Inter, sans-serif;
   display: block;
   margin: 0px;
+}
+
+h3 {
+  margin: 0;
 }
