@@ -11,19 +11,33 @@
   border: 1px solid transparent;
   transition: all ease-in-out 0.3s;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  padding: 8px;
+  padding: 16px 10px 10px 16px;
   box-sizing: border-box;
+  cursor: pointer;
+
+  @media (max-width: 1024px) {
+    padding: 8px;
+    padding-right: 0;
+  }
 
   @media (max-width: 768px) {
     max-width: 200px;
     height: 150px;
-    padding: 6px;
   }
 
   @media (max-width: 480px) {
     max-width: 150px;
     height: 120px;
-    padding: 4px;
+    grid-column: span 2;
+    &:nth-child(4) {
+      grid-row: 2;
+      grid-column: 1 / span 3;
+    }
+
+    &:nth-child(5) {
+      grid-row: 2;
+      grid-column: 4 / span 3;
+    }
   }
 }
 
@@ -33,58 +47,46 @@
 }
 
 .card__title {
-  font-family: Inter, sans-serif;
+  max-width: 168px;
   font-size: 23px;
   font-weight: 400;
-  line-height: 16px;
+  line-height: 1.22;
   color: #2c555b;
-  margin: 8px 0;
-  padding: 0;
+  word-break: keep-all; /* не разбивать слова (для кириллицы почти не работает) */
+  overflow-wrap: break-word;
+  hyphens: manual;
 
   @media (max-width: 768px) {
-    font-size: 12px;
-    margin: 6px 0;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.25;
   }
 
-  @media (max-width: 480px) {
-    font-size: 11px;
-    margin: 4px 0;
+  @media (max-width: 320px) {
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1.23;
   }
 }
 
 .card__img {
   width: 100px;
-  height: 100px;
-  margin: 8px;
+
+  @media (max-width: 1024px) {
+    width: 83px;
+  }
 
   @media (max-width: 768px) {
-    width: 35px;
-    height: 35px;
-    margin: 6px;
+    width: 66px;
   }
 
   @media (max-width: 480px) {
-    width: 30px;
-    height: 30px;
-    margin: 4px;
+    width: 40px;
   }
 }
 
 .card__imgWrapper {
-  display: flex;
-  justify-content: flex-end;
-  padding: 4px;
-  margin-bottom: 8px;
-
-  @media (max-width: 768px) {
-    padding: 3px;
-    margin-bottom: 6px;
-  }
-
-  @media (max-width: 480px) {
-    padding: 2px;
-    margin-bottom: 4px;
-  }
+  margin-left: auto;
 }
 
 .title {

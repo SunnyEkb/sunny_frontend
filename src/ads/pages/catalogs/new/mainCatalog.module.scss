@@ -1,7 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap");
 
 body {
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
 }
 
 .container {
@@ -22,14 +22,14 @@ body {
 .breadcrumbs {
   font-size: 14px;
   padding: 16px 0;
-  color: #2C555B;
+  color: #2c555b;
   width: 100%;
   max-width: 1440px;
   margin: 0 auto;
   text-align: left;
 
   a {
-    color: #2C555B;
+    color: #2c555b;
     text-decoration: none;
     cursor: pointer;
 
@@ -39,7 +39,7 @@ body {
   }
 
   span {
-    color: #2C555B;
+    color: #2c555b;
   }
 }
 
@@ -95,23 +95,24 @@ body {
 .catalog__itemList {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 10px;
+  gap: 20px;
   width: 100%;
   max-width: 1104px;
   margin: 0 auto;
   padding: 40px 0;
   box-sizing: border-box;
 
-  @media (max-width: 1400px) {
-    grid-template-columns: repeat(3, 1fr);
+  @media (max-width: 1024px) {
+    column-gap: 34px;
   }
 
-  @media (max-width: 1024px) {
-    grid-template-columns: repeat(3, 1fr);
+  @media (max-width: 768px) {
+    gap: 16px;
   }
 
   @media (max-width: 468px) {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(6, 1fr);
+    gap: 8px;
   }
 }
 
@@ -129,7 +130,7 @@ body {
   line-height: 28px;
   margin-bottom: 20px;
   text-align: left;
-  color: #2C555B;
+  color: #2c555b;
 }
 
 .newSectionGrid {
