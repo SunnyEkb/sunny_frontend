@@ -2,7 +2,13 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
-  padding: 16px;
+}
+
+.catalog__title {
+  font-size: 19px;
+  font-weight: 600;
+  line-height: 1.27;
+  padding-block: 4px;
 }
 
 .catalog__cardRowInfo {
@@ -10,40 +16,24 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  cursor: pointer;
-  transition: all ease 0.3s;
-
-  &:hover {
-    opacity: 0.9;
-  }
-}
-
-.catalog__cardRowTitle {
-  overflow: hidden;
-  height: 16px;
-  font-family: Inter;
-  font-size: 13px;
-  font-weight: 400;
-  line-height: 16px;
-  text-align: left;
-  color: #2c555b;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  border-bottom: 1px solid #f0f2f4;
 }
 
 .catalog__cardRowPrice {
-  width: 52px;
-  height: 16px;
-  font-family: Inter;
-  font-size: 13px;
-  font-weight: 400;
-  line-height: 16px;
-  text-align: right;
-  color: #2c555b;
+  align-self: baseline;
+  white-space: nowrap;
 }
 
 .button {
   width: 103px;
   height: 32px;
-  padding: 8px 16px 8px 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   border-radius: 8px;
   background: #b2bdc733;
   font-family: Inter;
@@ -52,8 +42,9 @@
   line-height: 16px;
   text-align: left;
   color: #76a05e;
-  transition: all ease 0.3s;
+  transition: opacity ease 0.3s;
   border: none;
+  cursor: pointer;
 
   &:hover {
     opacity: 0.9;

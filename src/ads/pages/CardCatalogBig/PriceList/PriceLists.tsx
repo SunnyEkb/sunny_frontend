@@ -37,6 +37,8 @@ export default function PriceLists({ variant, cardData }: Props) {
   if (variant == "bigInfo") {
     return (
       <div className={style.catalog__cardInfo}>
+        <h4 className={style.catalog__title}>Прайс-лист</h4>
+
         {cardData.price &&
           typeof cardData.price === "object" &&
           !Array.isArray(cardData.price) &&

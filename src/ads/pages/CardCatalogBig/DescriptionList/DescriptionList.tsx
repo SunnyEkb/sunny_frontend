@@ -9,7 +9,7 @@ interface Props {
 export default function DescriptionList({card}: Props) {
   return (
     <section className={style.cardBig__descriptionSection}>
-      <h4 className={style.cardBig__descriptionTitle}>Описание</h4>
+      <h4 className={style.cardBig__descriptionTitle}>Подробности</h4>
 
       <div className={style.cardBig__descriptionInfo}>
         <div className={style.cardBig__descriptionRow}>
@@ -20,7 +20,7 @@ export default function DescriptionList({card}: Props) {
         </div>
 
         <div className={style.cardBig__descriptionRow}>
-          <div className={style.cardBig__descriptionCategory}>Тип услуги::</div>
+          <div className={style.cardBig__descriptionCategory}>Тип услуги:</div>
           <div className={style.cardBig__descriptionName}>Маникюр, педикюр</div>
         </div>
 

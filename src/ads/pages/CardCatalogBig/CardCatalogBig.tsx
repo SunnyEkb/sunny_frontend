@@ -6,8 +6,7 @@ import SwipeImg from "./SwipeImg/SwipeImg";
 import CardCatalogAuthor from "../../../user/components/authorCardCatalog/CardCatalogAuthor";
 import DescriptionList from "./DescriptionList/DescriptionList";
 import PriceLists from "./PriceList/PriceLists";
-import style from "./cardCatalogBig.module.scss";
-
+import { getFormatDate } from "../../../utils/getFormatDate";
 import {
   LoaderFunctionArgs,
   useLoaderData,
@@ -20,39 +19,33 @@ import {
 import { AdsInfo } from "../../../common/model/ads";
 import { useAppSelector } from "../../../store/store";
 
+import style from "./cardCatalogBig.module.scss";
 
 interface LoaderParams {
   idAds: string;
   id: string; //catalog
 }
 
-
 export const loaderAdsByCatalogId = async ({
   params,
 }: LoaderFunctionArgs<LoaderParams>) => {
   const response = await fetch(
-    `https://sunnyekb.ru/api/v1/services/${params.idAds}/`, {
-      credentials: "include"
+    `https://sunnyekb.ru/api/v1/services/${params.idAds}/`,
+    {
+      credentials: "include",
     }
   );
+
   return response;
 };
 
 export default function CardCatalogBig() {
   const navigate = useNavigate();
   const cardData = useLoaderData() as AdsInfo;
+
   function handleGoBack() {
     navigate(-1);
   }
-
-    const user = useAppSelector((state) => state.auth.user);
-    const handleGoAds = () => {
-      if (user) {
-        navigate(`/chat/service/${cardData.id}/${user.id}`);
-      } else {
-        console.warn("Вы не авторизованы");
-      }
-    };
 
   const [addToFavorite] = useAddToFavoritesMutation();
   const [deleteFromFavorite] = useDeleteFromFavoritesMutation();
@@ -64,92 +57,71 @@ export default function CardCatalogBig() {
       await addToFavorite(cardData.id).unwrap();
     }
   };
+  const formattedDate = getFormatDate(cardData.created_at);
 
-  const getFormatDate = (dateTime: string) => {
-    const date = new Date(dateTime);
-
-    const months = [
-      "января",
-      "февраля",
-      "марта",
-      "апреля",
-      "мая",
-      "июня",
-      "июля",
-      "августа",
-      "сентября",
-      "октября",
-      "ноября",
-      "декабря",
-    ];
-
-    const day = date.getDate();
-    const month = months[date.getMonth()];
-    const hours = String(date.getHours()).padStart(2, "0");
-    const minutes = String(date.getMinutes()).padStart(2, "0");
-
-    const formattedDate = `${day} ${month} ${hours}:${minutes}`;
-
-    return formattedDate;
-  };
   return (
     <div className={style.cardBig}>
-      <header className={style.cardBig__header}>
-        <h1 className={style.cardBig__headerTitle}>Солнечный Екб</h1>
-      </header>
+      <section className={style.breadcrumbs}>
+        <a href="/">Главная</a> &gt; <span>На районе</span> &gt;{" "}
+        <span>Красота и здоровье</span> &gt;{" "}
+        <span>
+          {" "}
+          <span>Маникюр, педикюр</span>
+        </span>
+      </section>
 
       <section className={style.cardBig__settings}>
-        <img
-          src={arrowBack}
-          alt="back"
-          className={style.cardBig__img}
+        <button
           onClick={handleGoBack}
-        />
+          className={style.cardBig__settings__button}
+        >
+          <img src={arrowBack} alt="back" className={style.cardBig__img} />
+        </button>
 
-        <div className={style.cardBig__panel}>
-          <img src={share} className={style.cardBig__img} />
-          <img
-            src={cardData.is_favorited ? heartLiked : heart}
-            className={style.cardBig__img}
-            onClick={handleClickLike}
-          />
+        <div className={style.cardBig__settings__panel}>
+          <button className={style.cardBig__settings__button}>
+            <img src={share} className={style.cardBig__img} />
+          </button>
+          <button className={style.cardBig__settings__button}>
+            <img
+              src={cardData.is_favorited ? heartLiked : heart}
+              className={style.cardBig__img}
+              onClick={handleClickLike}
+            />
+          </button>
         </div>
       </section>
 
       <SwipeImg imgList={cardData.images} />
 
-      <div className={style.cardBig__title}>
-        <h2 className={style.cardBig__cardTitleText}>{cardData.title}</h2>
-        <div className={style.cardBig__cardSubtitleText}>1000 ₽ за услугу</div>
+      <div>
+        <h1 className={style.cardBig__cardTitleText}>{cardData.title}</h1>
+        <span className={style.cardBig__cardSubtitleText}>
+          1000 ₽ за услугу
+        </span>
       </div>
 
-      <div className={style.cardBig__cardCity}>{cardData.address}</div>
+      {cardData.address && (
+        <address className={style.cardBig__address}>{cardData.address}</address>
+      )}
 
-      <div className={style.cardBig__cardContact}>
-        <CardCatalogAuthor card={cardData} />
-
-        <button className={style.cardBig__cardButton} onClick={() => handleGoAds()}>Написать</button>
-      </div>
+      <CardCatalogAuthor card={cardData} />
 
       <DescriptionList card={cardData} />
 
       <PriceLists variant="bigInfo" cardData={cardData} />
 
       <section className={style.cardBig__section}>
-        <h4 className={style.section__title}>Описание</h4>
+        <h4 className={style.cardBig__section__title}>Описание</h4>
 
-        <div className={style.section__description}>{cardData.description}</div>
+        <div className={style.cardBig__section__description}>{cardData.description}</div>
       </section>
 
       <section className={style.cardBig__section}>
         <div className={style.cardBig__info}> Объявление № {cardData.id}</div>
-        <div className={style.cardBig__info}>
-          Размещено {getFormatDate(cardData.created_at)}
-        </div>
+        <div className={style.cardBig__info}>Размещено {formattedDate}</div>
         <div className={style.cardBig__info}> Просмотров 790</div>
       </section>
-
-
     </div>
   );
 }

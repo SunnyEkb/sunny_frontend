@@ -1,18 +1,19 @@
 .cardBig__descriptionSection {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  padding: 16px;
+  gap: 8px;
+  padding-block: 16px;
+
+  @media (max-width: 430px) {
+    padding-block: 4px;
+  }
 }
 
 .cardBig__descriptionTitle {
-  margin: 0;
-  font-family: Inter;
   font-size: 19px;
   font-weight: 600;
-  line-height: 24px;
-  text-align: left;
-  color: #2c555b;
+  line-height: 1.27;
+  padding-block: 4px;
 }
 
 .cardBig__descriptionInfo {
@@ -24,27 +25,19 @@
 }
 
 .cardBig__descriptionRow {
+  width: 100%;
   display: flex;
   flex-direction: row;
   gap: 8px;
+  border-bottom: 1px solid #f0f2f4;
+  padding-block: 4px;
+
+  @media (max-width: 420px) {
+    padding-block: 0;
+  }
 }
 
 .cardBig__descriptionCategory {
-  white-space: wrap;
-  font-family: Inter;
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 20px;
-  text-align: left;
+  white-space: nowrap;
   color: #b2bdc7;
-}
-
-.cardBig__descriptionName {
-  white-space: wrap;
-  width: 188px;
-  font-family: Inter;
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 20px;
-  text-align: left;
 }
