@@ -1,11 +1,41 @@
+.breadcrumbs {
+  font-size: 14px;
+  color: #2c555b;
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto 100px;
+  text-align: left;
+
+  a {
+    color: #2c555b;
+    text-decoration: none;
+    cursor: pointer;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  span {
+    color: #2c555b;
+  }
+
+  @media (max-width: 430px) {
+    display: none;
+  }
+}
+
 .cardBig {
-  width: 824px;
-  min-height: 352px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  max-width: 944px;
+  width: 100%;
   margin: 0 auto;
+  padding-top: 48px;
   border-radius: 8px;
-  padding: 32px;
-  background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding-inline: 20px;
+  color: #2c555b;
 
   &__header {
     display: flex;
@@ -21,45 +51,74 @@
   }
 
   &__settings {
-    display: flex;
+    display: none;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 24px;
+    margin-bottom: 16px;
+    padding-block: 16px;
 
-    .cardBig__img {
+    &__button {
+      width: 24px;
+      height: 24px;
+      background-color: transparent;
+      padding: 0;
+      border: 0;
       cursor: pointer;
+
+      img {
+        width: 100%;
+        height: 100%;
+      }
     }
 
     &__panel {
       display: flex;
-      gap: 16px;
+      gap: 24px;
+    }
 
-      img {
-        cursor: pointer;
-      }
+    @media (max-width: 430px) {
+      display: flex;
     }
   }
 
-  &__title {
-    margin-bottom: 16px;
+  &__cardTitleText {
+    font-size: 40px;
+    line-height: 1.2;
+    font-weight: 400;
 
-    &__cardTitleText {
-      font-size: 20px;
-      font-weight: 500;
-      color: #333;
-    }
-
-    &__cardSubtitleText {
-      font-size: 16px;
-      font-weight: 400;
-      color: #999;
+    @media (max-width: 768px) {
+      font-size: 23px;
+      line-height: 1.22;
+      font-weight: 600;
     }
   }
 
-  &__cardCity {
-    margin-bottom: 16px;
+  &__cardSubtitleText {
+    display: inline-block;
+    margin-top: 20px;
+    font-size: 23px;
+    line-height: 1.22;
+    font-weight: 600;
+
+    @media (max-width: 768px) {
+      font-size: 19px;
+      line-height: 1.27;
+      margin-top: 8px;
+    }
+
+    @media (max-width: 430px) {
+      margin-top: 4px;
+    }
+  }
+
+  &__address {
+    font-style: normal;
     font-size: 16px;
-    color: #666;
+    line-height: 1.25;
+
+    @media (max-width: 430px) {
+      color: #b2bdc7;
+    }
   }
 
   &__cardContact {
@@ -84,24 +143,41 @@
   }
 
   &__section {
-    margin-bottom: 24px;
+    display: grid;
+    gap: 8px;
+    padding-block: 16px;
 
     &__title {
-      font-size: 18px;
+      font-size: 19px;
       font-weight: 600;
-      color: #333;
-      margin-bottom: 8px;
+      line-height: 1.27;
+      padding-block: 4px;
     }
 
     &__description {
       font-size: 16px;
-      color: #666;
+      line-height: 1.25;
+    }
+
+    @media (max-width: 430px) {
+      padding-block: 8px;
     }
   }
 
   &__info {
-    font-size: 14px;
-    color: #999;
+    font-size: 16px;
+    line-height: 1.25;
+    color: #b2bdc7;
     margin-bottom: 8px;
+  }
+
+  @media (max-width: 768px) {
+    gap: 20px;
+  }
+
+  @media (max-width: 430px) {
+    padding-inline: 16px;
+    padding-top: 0;
+    gap: 8px;
   }
 }

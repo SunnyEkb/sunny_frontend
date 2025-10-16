@@ -22,17 +22,17 @@ export default function CardCatalogAuthor({ card }: Props) {
 
   return (
     <div className={style.author__card}>
-      <div className={style.catalog__cardAuthor}>
+      <h3 className={style.catalog__cardAuthor}>
         {`${
           card.provider.first_name ||
           card.provider.username ||
           card.provider.email
         } `}{" "}
         / {card.salon_name || "Название салона"}
-      </div>
+      </h3>
 
       <div className={style.catalog__cardRaiting}>
-        <div className={style.catalog__cardAverage}>4,9</div>
+        <div>4,9</div>
 
         <div className={style.catalog__cardCountStars}>
           <img src={star} alt="звезда" className={style.arrowBack} />
@@ -41,15 +41,13 @@ export default function CardCatalogAuthor({ card }: Props) {
           <img src={star} alt="звезда" className={style.arrowBack} />
           <img src={star} alt="звезда" className={style.arrowBack} />
         </div>
-      </div>
-      <div className={style.catalog__cardCount}>
-        {card.comments_quantity} отзывов
+
+        <div >
+          {card.comments_quantity} отзывов
+        </div>
       </div>
 
       <div className={style.catalog__buttons}>
-        <button className={style.catalog__cardButton} onClick={handleGoAds}>
-          Позвонить
-        </button>
         <button className={style.catalog__cardButton} onClick={handleGoAds}>
           Написать
         </button>
