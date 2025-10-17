@@ -8,6 +8,7 @@ export const paths = {
   auth: "/auth",
   register: "/register",
   //register: '/',
+  confirmEmail: "/confirm-email",
   catalog: "/catalogs/:id",
   catalogAds: "/catalogs/:id/ads/:idAds",
   createAds: "/create",
