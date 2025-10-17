@@ -15,9 +15,12 @@ import CheckboxContainer from "../../components/checkboxContainer/checkboxContai
 import AuthPageLayout from "../../layout/authPageLayout/AuthPageLayout";
 import { Inputs, registerFields } from "../../components/input/constans";
 import { paths } from "../../../app/paths";
+import { useDispatch } from "react-redux";
+import { setRegistrated, setUser, User } from "../../../store/slices/authSlice";
 
 const Registr: FC = () => {
   const navigate = useNavigate();
+   const dispatch = useDispatch();
 
   const {
     register,
@@ -55,11 +58,9 @@ const Registr: FC = () => {
 
   const onSubmit = async (data: Inputs) => {
     try {
-      await registerUser(data)
-        .unwrap()
-        .then(() => {
-          navigate(paths.auth);
-        });
+      const user = await registerUser(data).unwrap();
+      dispatch(setRegistrated(user));
+      navigate(paths.confirmEmail);
     } catch (error: any) {
       if (error.data) {
         const serverErrors = error.data;

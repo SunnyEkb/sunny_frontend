@@ -25,7 +25,7 @@ import NewPassword from "../user/pages/newPassword/newPassword";
 import RegisterActivatePage from "../user/pages/registerActivate/registerActivate";
 import ChatPage from "../ads/pages/chatPage/chatPage";
 import ModerationPage from "../ads/pages/moderation/ModerationPage"; // Importing ModerationPage
-import ModeratorProtectedRoute from "./moderatorProtectedRoute";
+import ConfirmEmail from "../user/pages/confirmEmail/confirmEmail";
 
 export const router = createBrowserRouter(
   [
@@ -116,6 +116,10 @@ export const router = createBrowserRouter(
     {
       path: paths.register,
       element: <Registr />,
+    },
+    {
+      path: paths.confirmEmail,
+      element: <ConfirmEmail />,
     },
     {
       path: paths.policy,

@@ -48,7 +48,7 @@ export const authApi = createApi({
         },
       }),
     }),
-    register: build.mutation<string, { email?: string; password?: string }>({
+    register: build.mutation<User, { email?: string; password?: string }>({
       query: (data) => ({
         url: "registry/",
         ...getRequestConfig("POST", data),

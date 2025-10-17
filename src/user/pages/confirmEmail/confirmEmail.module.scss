@@ -1,0 +1,26 @@
+.confirmEmail {
+
+  &_article {
+    margin: 0 0 15px 0;
+    color: rgb(44, 85, 91);
+    font-family: 'Inter', Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 20px;
+    letter-spacing: 0%;
+    text-align: left;
+  }
+
+  &_innerText {
+    margin: 10px 0 30px 0;
+    color: #888;
+    font-family: 'Inter', Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 14px;
+    letter-spacing: 0%;
+    text-align: left;
+  }
+
+  
+}
