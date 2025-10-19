@@ -4,6 +4,7 @@ import CommentItem from "../Comment/Comment";
 import { Controller, useForm } from "react-hook-form";
 import { useAddCommentMutation } from "../../../../store/entities/services/services";
 import { useParams } from "react-router-dom";
+import CommentWindow from "../CommentWindow/CommentWindow";
 
 interface PropsForm {
   feedback: string;
@@ -13,10 +14,9 @@ export default function CommentSection() {
   const [isInputVisible, setIsInputVisible] = useState(false);
   const [addComment] = useAddCommentMutation();
   const params = useParams();
-  console.log("params", params);
 
   const handleButtonClick = () => {
-    setIsInputVisible(true);
+    setIsInputVisible((prev) => !prev);
   };
 
   const methods = useForm<PropsForm>({
@@ -49,25 +49,26 @@ export default function CommentSection() {
       )}
 
       {isInputVisible && (
-        <form onSubmit={methods.handleSubmit(onSubmit)} className={style.form}>
-          <Controller
-            control={methods.control}
-            name="feedback"
-            render={({ field }) => (
-              <input
-                className={style.input}
-                {...field}
-                type="text"
-                name="title"
-                placeholder={"Ваш комментарий"}
-              />
-            )}
-          />
+        <CommentWindow onClose={handleButtonClick} />
+        // <form onSubmit={methods.handleSubmit(onSubmit)} className={style.form}>
+        //   <Controller
+        //     control={methods.control}
+        //     name="feedback"
+        //     render={({ field }) => (
+        //       <input
+        //         className={style.input}
+        //         {...field}
+        //         type="text"
+        //         name="title"
+        //         placeholder={"Ваш комментарий"}
+        //       />
+        //     )}
+        //   />
 
-          <button className={style.cardBig__button} type="submit">
-            Отправить отзыв
-          </button>
-        </form>
+        //   <button className={style.cardBig__button} type="submit">
+        //     Отправить отзыв
+        //   </button>
+        // </form>
       )}
 
       <CommentItem />

@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import style from "./style.module.scss";
 import Avatar from "../../../../user/components/avatar/Avatar";
-import star from "../../../../assets/icon/Star.svg";
 import { mockComment } from "./helper";
+import Rating from "./Rating";
 
 //mock
 
@@ -36,15 +36,7 @@ export default function CommentItem() {
         </div>
       </div>
 
-      <div className={style.commentItem__rating}>
-        <div className={style.commentItem__cardCountStars}>
-          <img src={star} alt="звезда" />
-          <img src={star} alt="звезда" />
-          <img src={star} alt="звезда" />
-          <img src={star} alt="звезда" />
-          <img src={star} alt="звезда" />
-        </div>
-      </div>
+      <Rating />
 
       <div className={style.commentItem__notif}>Комментарий</div>
 

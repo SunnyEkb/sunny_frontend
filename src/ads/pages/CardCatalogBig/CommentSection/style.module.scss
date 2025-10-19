@@ -29,35 +29,3 @@
 
 
 
-.input {
-  width: 100%;
-  border: none;
-  color: rgb(44, 85, 91);
-  box-sizing: border-box;
-  font-family: "SF-Pro", sans-serif;
-  font-size: 20px;
-  font-weight: 500;
-  line-height: 20px;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-
-  &:hover {
-    border-color: 1px solid rgba(122, 122, 122, 1);
-    outline: none;
-  }
-
-  &:focus {
-    outline: none;
-    border-bottom: 2px solid black;
-  }
-
-
-}
-
-
-.form {
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
