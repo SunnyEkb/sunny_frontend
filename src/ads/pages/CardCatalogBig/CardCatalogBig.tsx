@@ -20,6 +20,9 @@ import { AdsInfo } from "../../../common/model/ads";
 import { useAppSelector } from "../../../store/store";
 
 import style from "./cardCatalogBig.module.scss";
+import CommentItem from "./Comment/Comment";
+import InputForm from "../../../user/components/input/InputForm";
+import CommentSection from "./CommentSection/CommentSection";
 
 interface LoaderParams {
   idAds: string;
@@ -114,7 +117,15 @@ export default function CardCatalogBig() {
       <section className={style.cardBig__section}>
         <h4 className={style.cardBig__section__title}>Описание</h4>
 
-        <div className={style.cardBig__section__description}>{cardData.description}</div>
+        <div className={style.cardBig__section__description}>
+          {cardData.description}
+        </div>
+      </section>
+
+      <section className={style.cardBig__section}>
+        <CommentSection />
+
+
       </section>
 
       <section className={style.cardBig__section}>
