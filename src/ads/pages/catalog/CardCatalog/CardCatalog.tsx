@@ -1,13 +1,16 @@
 import React from "react";
 import defaultPhoto from "../../../../assets/icon/Foto.png";
-import heartLike from "../../../../assets/icon/Heart.svg";
-import heardLiked from "../../../../assets/icon/Heart_liked.svg";
 import { useNavigate, useParams } from "react-router-dom";
 import CardCatalogAuthor from "../../../../user/components/authorCardCatalog/CardCatalogAuthor";
 import PriceLists from "../../CardCatalogBig/PriceList/PriceLists";
-import { useAddToFavoritesMutation, useDeleteFromFavoritesMutation } from "../../../../store/entities/services/services";
+import {
+  useAddToFavoritesMutation,
+  useDeleteFromFavoritesMutation,
+} from "../../../../store/entities/services/services";
 import { AdsInfo } from "../../../../common/model/ads";
 import style from "./cardCatalog.module.scss";
+import { useAppDispatch } from "../../../../store/store";
+import { HeartIcon } from "../../../../shared/HeartIcon/HeartIcon";
 
 interface Props {
   title: string;
@@ -15,6 +18,7 @@ interface Props {
 }
 
 export default function CardCatalog({ title, card }: Props) {
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const params = useParams();
 
@@ -45,14 +49,13 @@ export default function CardCatalog({ title, card }: Props) {
         </div>
 
         <div className={style.catalog__cardInfo}>
-          <div className={style.catalog__cardTitle} onClick={handleGoAds}>
-            <div className={style.catalog__cardTitleText}>{title}</div>
-            <img
-              src={card.is_favorited ? heardLiked : heartLike}
-              alt="like"
-              onClick={handleClickLike}
-              className={style.catalog__cardLike}
-            />
+          <div className={style.catalog__cardTitle}>
+            <div className={style.catalog__cardTitleText} onClick={handleGoAds}>
+              {title}
+            </div>
+            <button className={style.catalog__cardLike} onClick={handleClickLike}>
+              <HeartIcon is_favorited={card.is_favorited}/>
+            </button>
           </div>
           <div className={style.catalog__cardSubtitleText}>
             1000 ₽ за услугу

@@ -26,20 +26,27 @@ export default function ListServices() {
       limit: 12,
       page: page,
       search: search,
-      typeId: params.id!
+      typeId: params.id!,
     },
     {
-      selectFromResult: ({ data, ...originalArgs }) => ({
-        data: servicesSelector.selectAll(
-          data ?? servicesAdapter.getInitialState()
-        ),
-        ...originalArgs,
-      }),
+      selectFromResult: ({ data, ...originalArgs }) => {
+        return {
+          data: {
+            items: servicesSelector.selectAll(
+              data ?? servicesAdapter.getInitialState()
+            ),
+            next: data?.next,
+            previous: data?.previous,
+            count: data?.count,
+          },
+          ...originalArgs,
+        };
+      },
     }
   );
 
   React.useEffect(() => {
-    if (isSuccess && inView) {
+    if (isSuccess && inView && data.next) {
       dispatch(changePageAction(page + 1));
     }
   }, [isSuccess, inView]);
@@ -47,7 +54,7 @@ export default function ListServices() {
   return (
     <React.Fragment>
       <div className={styles.listServices}>
-        {data.map((item: AdsInfo) => {
+        {data.items.map((item: AdsInfo) => {
           return <CardCatalog key={item.id} title={item.title} card={item} />;
         })}
         <div ref={ref} className={styles.observer_element} />
