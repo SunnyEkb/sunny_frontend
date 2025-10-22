@@ -1,0 +1,31 @@
+.cardBig__section__title {
+  font-size: 19px;
+  font-weight: 600;
+  line-height: 1.27;
+  padding-block: 4px;
+}
+
+.cardBig__button {
+  height: 56px;
+  border: none;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+  background-color: #76a05e;
+  font-size: 19px;
+  font-weight: 600;
+  line-height: 1.27;
+  color: white;
+  transition: background-color ease 0.3s;
+
+  &:hover {
+    background-color: #5e8b4a;
+    cursor: pointer;
+  }
+
+}
+
+
+

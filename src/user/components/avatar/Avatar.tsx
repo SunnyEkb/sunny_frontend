@@ -8,14 +8,15 @@ interface AvatarProps {
   altText?: string;
   editable?: boolean;
   onAvatarChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  className?: string
 }
 
-const Avatar: FC<AvatarProps> = ({ avatarUrl, initial, altText, editable, onAvatarChange }) => {
+const Avatar: FC<AvatarProps> = ({ avatarUrl, initial, altText, editable, onAvatarChange, className }) => {
 
   const imageUrl = avatarUrl instanceof File ? URL.createObjectURL(avatarUrl) : avatarUrl || undefined;
 
   return (
-    <div className={styles.avatar}>
+    <div className={`${styles.avatar} ${className ? className : ''}`}>
       <label className={editable ? styles.editableAvatar : styles.nonEditableAvatar}>
         {imageUrl ? (
           <img
