@@ -133,7 +133,7 @@ export const servicesApi = createApi({
     }),
     addComment: build.mutation({
       query: (data: { id: string; feedback: string; rating: number }) => ({
-        url: `/ads/${data.id}/add-comment/`,
+        url: `/services/${data.id}/add-comment/`,
         method: "POST",
         credentials: "include",
         body: JSON.stringify(data),
