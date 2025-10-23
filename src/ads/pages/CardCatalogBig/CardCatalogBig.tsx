@@ -1,7 +1,5 @@
 import arrowBack from "../../../assets/icon/arrow-left.svg";
 import share from "../../../assets/icon/Share.svg";
-import heart from "../../../assets/icon/Heart.svg";
-import heartLiked from "../../../assets/icon/Heart_liked.svg";
 import SwipeImg from "./SwipeImg/SwipeImg";
 import CardCatalogAuthor from "../../../user/components/authorCardCatalog/CardCatalogAuthor";
 import DescriptionList from "./DescriptionList/DescriptionList";
@@ -11,15 +9,17 @@ import {
   LoaderFunctionArgs,
   useLoaderData,
   useNavigate,
+  useRevalidator,
 } from "react-router-dom";
 import {
   useAddToFavoritesMutation,
   useDeleteFromFavoritesMutation,
 } from "../../../store/entities/services/services";
 import { AdsInfo } from "../../../common/model/ads";
-import { useAppSelector } from "../../../store/store";
+import { HeartIcon } from "../../../shared/HeartIcon/HeartIcon";
 
 import style from "./cardCatalogBig.module.scss";
+import { useState } from "react";
 
 interface LoaderParams {
   idAds: string;
@@ -41,7 +41,9 @@ export const loaderAdsByCatalogId = async ({
 
 export default function CardCatalogBig() {
   const navigate = useNavigate();
-  const cardData = useLoaderData() as AdsInfo;
+  const initialCardData = useLoaderData() as AdsInfo;
+  const [cardData, setCardData] = useState(initialCardData);
+  const { revalidate } = useRevalidator();
 
   function handleGoBack() {
     navigate(-1);
@@ -51,10 +53,22 @@ export default function CardCatalogBig() {
   const [deleteFromFavorite] = useDeleteFromFavoritesMutation();
 
   const handleClickLike = async () => {
-    if (cardData.is_favorited) {
-      await deleteFromFavorite(cardData.id).unwrap();
-    } else {
-      await addToFavorite(cardData.id).unwrap();
+    const previousData = { ...cardData };
+
+    setCardData((prev) => ({
+      ...prev,
+      is_favorited: !prev.is_favorited,
+    }));
+
+    try {
+      if (cardData.is_favorited) {
+        await deleteFromFavorite(cardData.id).unwrap();
+      } else {
+        await addToFavorite(cardData.id).unwrap();
+      }
+      revalidate();
+    } catch (error) {
+      setCardData(previousData);
     }
   };
   const formattedDate = getFormatDate(cardData.created_at);
@@ -82,12 +96,12 @@ export default function CardCatalogBig() {
           <button className={style.cardBig__settings__button}>
             <img src={share} className={style.cardBig__img} />
           </button>
-          <button className={style.cardBig__settings__button}>
-            <img
-              src={cardData.is_favorited ? heartLiked : heart}
-              className={style.cardBig__img}
-              onClick={handleClickLike}
-            />
+
+          <button
+            onClick={handleClickLike}
+            className={style.cardBig__settings__button}
+          >
+            <HeartIcon is_favorited={cardData.is_favorited} />
           </button>
         </div>
       </section>
@@ -114,7 +128,9 @@ export default function CardCatalogBig() {
       <section className={style.cardBig__section}>
         <h4 className={style.cardBig__section__title}>Описание</h4>
 
-        <div className={style.cardBig__section__description}>{cardData.description}</div>
+        <div className={style.cardBig__section__description}>
+          {cardData.description}
+        </div>
       </section>
 
       <section className={style.cardBig__section}>

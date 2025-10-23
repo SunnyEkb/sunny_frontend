@@ -21,7 +21,6 @@
   position: relative;
   transition: all 0.3s ease;
 
-
   &:hover {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   }
@@ -80,6 +79,9 @@
 .catalog__cardLike {
   width: 24px;
   height: 24px;
+  background-color: transparent;
+  padding: 0;
+  border: 0;
   cursor: pointer;
   transition: all 0.3s ease;
   position: absolute;
