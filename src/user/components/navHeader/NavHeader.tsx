@@ -1,6 +1,7 @@
 import { FC } from "react";
 import styles from "./navHeader.module.scss";
 import { useNavigate } from "react-router-dom";
+import arrowLeft from '../../../assets/icon/arrow-left.svg'
 
 interface NavHeaderProps {
   title?: string;
@@ -18,7 +19,7 @@ const NavHeader: FC<NavHeaderProps> = ({ title, userLK }) => {
     <header className={styles.header}>
       <div className={styles.navTitle}>
         <button className={styles.navTitle__backButton} onClick={handleGoBack}>
-          ←
+         <img src={arrowLeft}/>
         </button>
         {title ? <h4 className={styles.navTitle__title}>{title}</h4> : null}
       </div>

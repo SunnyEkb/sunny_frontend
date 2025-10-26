@@ -26,6 +26,7 @@ import RegisterActivatePage from "../user/pages/registerActivate/registerActivat
 import ChatPage from "../ads/pages/chatPage/chatPage";
 import ModerationPage from "../ads/pages/moderation/ModerationPage"; // Importing ModerationPage
 import ConfirmEmail from "../user/pages/confirmEmail/confirmEmail";
+import { UserFavorites } from "../user/pages/UserFavorites/UserFavorites";
 
 export const router = createBrowserRouter(
   [
@@ -94,6 +95,10 @@ export const router = createBrowserRouter(
           path: paths.index,
           element: <MainCatalog />,
           loader: () => loaderCatagories(),
+        },
+        {
+          path: paths.favorites,
+          element: <UserFavorites />,
         },
       ],
     },
