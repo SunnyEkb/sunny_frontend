@@ -53,7 +53,9 @@ export default function Header() {
   return (
     <header className={styles.header}>
       <div className={styles.topRow}>
-        <h1 className={styles.logo}>Солнечный Екб</h1>
+        <h1 className={styles.logo} onClick={() => navigate("/")}>
+          Солнечный Екб
+        </h1>
         {user ? (
           <button className={styles.authButton} onClick={() => goToProfile()}>
             <img src={userIcon} alt="User" className={styles.userIcon} />
