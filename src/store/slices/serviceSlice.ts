@@ -23,9 +23,12 @@ const servicesSlice = createSlice({
       state.search = action.payload;
       state.page = 1;
     },
+      initPageAction: (state) => {
+      state.page = 1;
+    },
   },
 });
 
-export const { changePageAction, changeSearchAction } = servicesSlice.actions;
+export const { changePageAction, changeSearchAction, initPageAction } = servicesSlice.actions;
 
 export default servicesSlice.reducer;

@@ -5,7 +5,7 @@ import UserLK from "../user/pages/userLK/userLK";
 import MainCatalog, {
   loaderCatagories,
 } from "../ads/pages/catalogs/new/MainCatalog";
-import Catalog from "../ads/pages/catalog/catalog";
+import Catalog, { LoaderInitPage } from "../ads/pages/catalog/catalog";
 import CardCatalogBig, {
   loaderAdsByCatalogId,
 } from "../ads/pages/CardCatalogBig/CardCatalogBig";
@@ -67,6 +67,7 @@ export const router = createBrowserRouter(
         {
           path: paths.catalog,
           element: <Catalog />,
+          loader: LoaderInitPage
         },
         {
           path: paths.catalogAds,
