@@ -97,6 +97,30 @@ export const servicesApi = createApi({
           ? ["UNAUTHORIZED"]
           : ["UNKNOWN_ERROR"],
     }),
+    getUserAds: build.query<
+      Pick<ServicesState, "count" | "next" | "previous"> & {
+        results: AdsInfo[];
+      },
+      void
+    >({
+      query: () => ({
+        url: "ads/?my_ads=true",
+        method: "GET",
+        credentials: "include",
+      }),
+    }),
+    getUserServices: build.query<
+      Pick<ServicesState, "count" | "next" | "previous"> & {
+        results: AdsInfo[];
+      },
+      void
+    >({
+      query: () => ({
+        url: "services/?my_services=true",
+        method: "GET",
+        credentials: "include",
+      }),
+    }),
     createService: build.mutation({
       query: (data) => ({
         url: `/services/`,
@@ -223,6 +247,8 @@ export const {
   useUpdateMutation,
   useDeleteFromFavoritesMutation,
   useGetFavoritesQuery,
+  useGetUserAdsQuery,
+  useGetUserServicesQuery
 } = servicesApi;
 
 export { servicesAdapter, servicesSelector };

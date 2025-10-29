@@ -1,38 +1,21 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useForm } from "react-hook-form";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft, faSearch } from "@fortawesome/free-solid-svg-icons";
+import  { useState } from "react";
 import ListServices from "./ListServices/ListServices";
-import { useAppDispatch } from "../../../store/store";
-import { changeSearchAction } from "../../../store/slices/serviceSlice";
+import store from "../../../store/store";
+import {
+  initPageAction,
+} from "../../../store/slices/serviceSlice";
 import Filter from "./Filter/Filter";
 import SearchWindow from "./SearchWindow/SearchWindow";
 import style from "./catalog.module.scss";
 
-interface ISearch {
-  search: string;
+
+export const LoaderInitPage = async () => {
+   store.dispatch(initPageAction());
+   return null;
 }
 
 export default function Catalog() {
-  const dispatch = useAppDispatch();
-  const navigate = useNavigate();
   const [isSearchWindowOpen, setIsSearchWindowOpen] = useState(false);
-  const {
-    register,
-    formState: { errors },
-    handleSubmit,
-  } = useForm<ISearch>({
-    mode: "onChange",
-  });
-
-  const onSubmit = (data: ISearch) => {
-    dispatch(changeSearchAction(data.search));
-  };
-
-  function handleGoBack() {
-    navigate(-1);
-  }
 
   function toggleSearchWindow() {
     setIsSearchWindowOpen(!isSearchWindowOpen);
@@ -40,7 +23,6 @@ export default function Catalog() {
 
   return (
     <div className={style.catalog}>
-
       <nav className={style.catalog__breadcrumbs}>
         <a href="/">Главная</a> / <span>Каталог</span>
       </nav>

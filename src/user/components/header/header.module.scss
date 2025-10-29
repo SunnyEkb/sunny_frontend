@@ -11,11 +11,10 @@
   margin: 0 auto;
 
   @media (max-width: 768px) {
-
-
   }
 }
-body, html {
+body,
+html {
   margin: 0;
   padding: 0;
   overflow-x: hidden; /* Prevents any element from causing horizontal scroll */
@@ -28,7 +27,6 @@ body, html {
   width: 100%;
 
   @media (max-width: 768px) {
-
     align-items: flex-start;
   }
 }
@@ -36,8 +34,15 @@ body, html {
 .logo {
   font-size: 24px;
   font-weight: bold;
-  color: #FFCC33;
+  color: #ffcc33;
   margin: 0;
+
+  transition: all ease-in-out 0.3s;
+
+  cursor: pointer;
+  &:hover {
+    opacity: 0.7;
+  }
 
   @media (max-width: 768px) {
     font-size: 20px;

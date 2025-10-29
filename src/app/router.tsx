@@ -5,7 +5,7 @@ import UserLK from "../user/pages/userLK/userLK";
 import MainCatalog, {
   loaderCatagories,
 } from "../ads/pages/catalogs/new/MainCatalog";
-import Catalog from "../ads/pages/catalog/catalog";
+import Catalog, { LoaderInitPage } from "../ads/pages/catalog/catalog";
 import CardCatalogBig, {
   loaderAdsByCatalogId,
 } from "../ads/pages/CardCatalogBig/CardCatalogBig";
@@ -27,6 +27,7 @@ import ChatPage from "../ads/pages/chatPage/chatPage";
 import ModerationPage from "../ads/pages/moderation/ModerationPage"; // Importing ModerationPage
 import ConfirmEmail from "../user/pages/confirmEmail/confirmEmail";
 import { UserFavorites } from "../user/pages/UserFavorites/UserFavorites";
+import { UserAds } from "../user/pages/UserAds/UserAds";
 
 export const router = createBrowserRouter(
   [
@@ -67,6 +68,7 @@ export const router = createBrowserRouter(
         {
           path: paths.catalog,
           element: <Catalog />,
+          loader: LoaderInitPage
         },
         {
           path: paths.catalogAds,
@@ -98,8 +100,13 @@ export const router = createBrowserRouter(
         },
         {
           path: paths.favorites,
-          element: <UserFavorites />,
+          element: <UserFavorites />
         },
+        {
+          path: paths.myAds,
+          element: <UserAds />,
+
+        }
       ],
     },
     // ],

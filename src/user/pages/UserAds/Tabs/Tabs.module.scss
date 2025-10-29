@@ -1,0 +1,37 @@
+.wrapper {
+  display: grid;
+  gap: clamp(36px, 9.6vw, 50px);
+
+  .tabs {
+    display: flex;
+    gap: clamp(20px, 5.33vw, 30px);
+    width: 300px;
+
+    .tab {
+      background-color: transparent;
+      border: none;
+      cursor: pointer;
+
+      .title {
+        font-size: clamp(19px, 5.06vw, 25px);
+        color: #b2bdc7;
+        font-weight: 600;
+
+        &:hover {
+          transition: color 0.3s;
+          color: #2c555b;
+        }
+      }
+
+      .tabActive {
+        color: #2c555b;
+        border-bottom: 2px solid #f7a110;
+      }
+    }
+  }
+
+  .section {
+    display: grid;
+    gap: 50px;
+  }
+}
