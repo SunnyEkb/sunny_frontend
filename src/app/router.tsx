@@ -26,6 +26,7 @@ import RegisterActivatePage from "../user/pages/registerActivate/registerActivat
 import ChatPage from "../ads/pages/chatPage/chatPage";
 import ModerationPage from "../ads/pages/moderation/ModerationPage"; // Importing ModerationPage
 import ConfirmEmail from "../user/pages/confirmEmail/confirmEmail";
+import { UserFavorites } from "../user/pages/UserFavorites/UserFavorites";
 import { UserAds } from "../user/pages/UserAds/UserAds";
 
 export const router = createBrowserRouter(
@@ -98,9 +99,14 @@ export const router = createBrowserRouter(
           loader: () => loaderCatagories(),
         },
         {
+          path: paths.favorites,
+          element: <UserFavorites />
+        },
+        {
           path: paths.myAds,
           element: <UserAds />,
-        },
+
+        }
       ],
     },
     // ],

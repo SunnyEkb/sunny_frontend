@@ -4,6 +4,7 @@ export const paths = {
   //  catalogs: '/',
   settings: "/settings",
   profile: "/profile",
+  favorites: "/favorites",
   user_profile_edit: "/user_profile_edit",
   auth: "/auth",
   register: "/register",

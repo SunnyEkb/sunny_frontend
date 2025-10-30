@@ -42,7 +42,7 @@ const getRequestConfig = (method: string, data?: object) => ({
 export const servicesApi = createApi({
   reducerPath: "servicesApi",
   baseQuery: fetchBaseQuery({ baseUrl: BASE_URL }),
-  tagTypes: ["Services", "UNAUTHORIZED", "UNKNOWN_ERROR"],
+  tagTypes: ["Services", "UNAUTHORIZED", "UNKNOWN_ERROR", "Favorite"],
   keepUnusedDataFor: 1, //1 секунда
   endpoints: (build) => ({
     getServices: build.query<ServicesState, ParamsServices>({
@@ -133,6 +133,19 @@ export const servicesApi = createApi({
       }),
       invalidatesTags: [{ type: "Services", id: "PARTIAL-LIST" }],
     }),
+    getFavorites: build.query<
+      Pick<ServicesState, "count" | "next" | "previous"> & {
+        results: { subject: AdsInfo }[];
+      },
+      void
+    >({
+      query: () => ({
+        url: `/favorite/`,
+        method: "GET",
+        credentials: "include",
+      }),
+      providesTags: ["Favorite"],
+    }),
     publishService: build.mutation({
       query: (id: string) => ({
         url: `/services/${id}/publish/`,
@@ -193,6 +206,7 @@ export const servicesApi = createApi({
           patchResult.undo();
         }
       },
+      invalidatesTags: ["Favorite"],
     }),
     deleteFromFavorites: build.mutation({
       query: (id) => ({
@@ -219,6 +233,7 @@ export const servicesApi = createApi({
           patchResult.undo();
         }
       },
+      invalidatesTags: ["Favorite"],
     }),
   }),
 });
@@ -231,6 +246,7 @@ export const {
   useAddPhotoToServiceMutation,
   useUpdateMutation,
   useDeleteFromFavoritesMutation,
+  useGetFavoritesQuery,
   useGetUserAdsQuery,
   useGetUserServicesQuery
 } = servicesApi;

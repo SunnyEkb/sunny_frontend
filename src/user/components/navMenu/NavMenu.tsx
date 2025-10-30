@@ -8,10 +8,12 @@ import { useDispatch } from "react-redux";
 import { setAuthenticated, setUser } from "../../../store/slices/authSlice";
 import ModalConfirmExit from "../../../shared/Modals/ModalConfirmExit/ModalConfirmExit";
 import ModalConfirmDelete from "../../../shared/Modals/ModalConfirmDelete/ModalConfirmDelete";
+import { useGetFavoritesQuery } from "../../../store/entities/services/services";
 
 const NavMenu: React.FC = () => {
+  const { data: favorites } = useGetFavoritesQuery();
   const [isOpen, setOpen] = React.useState(false);
-  const [isOpenModalDelete, setOpenModalDelete] = React.useState(false)
+  const [isOpenModalDelete, setOpenModalDelete] = React.useState(false);
 
   const handleClose = () => {
     setOpen(false);
@@ -49,17 +51,13 @@ const NavMenu: React.FC = () => {
   return (
     <>
       <nav className={styles.menu}>
+        <MenuItem title="Мои объявления" subtitle="6 объявлений" />
+        <MenuItem title="Мои отзывы" subtitle="12 отзывов" />
         <MenuItem
-          title="Мои объявления"
-          subtitle="6 объявлений"
-          linkText="Добавить объявление"
+          title="Избранное"
+          subtitle={`${favorites?.count || 0} избранных`}
+          linkText="/favorites"
         />
-        <MenuItem
-          title="Мои отзывы"
-          subtitle="12 отзывов"
-          linkText="Добавить отзыв"
-        />
-        <MenuItem title="Избранное" subtitle="10 избранных" />
         <MenuItem title="Сообщения" subtitle="2 непрочитанных" />
         <MenuItem
           title="Удаление профиля"
@@ -67,14 +65,15 @@ const NavMenu: React.FC = () => {
           onClick={handleOpenModalDelete}
           danger
         />
-        <MenuItem
-          title="Выйти из профиля"
-          onClick={handleOpen}
-        />
+        <MenuItem title="Выйти из профиля" onClick={handleOpen} />
       </nav>
 
-      {isOpen && <ModalConfirmExit onClose={handleClose} handleLogout={handleClick} />}
-      {isOpenModalDelete && <ModalConfirmDelete onClose={handleCloseModalDelete} />}
+      {isOpen && (
+        <ModalConfirmExit onClose={handleClose} handleLogout={handleClick} />
+      )}
+      {isOpenModalDelete && (
+        <ModalConfirmDelete onClose={handleCloseModalDelete} />
+      )}
     </>
   );
 };
