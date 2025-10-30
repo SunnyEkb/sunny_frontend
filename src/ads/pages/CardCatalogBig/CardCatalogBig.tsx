@@ -17,11 +17,8 @@ import {
   useDeleteFromFavoritesMutation,
 } from "../../../store/entities/services/services";
 import { AdsInfo } from "../../../common/model/ads";
-import { useAppSelector } from "../../../store/store";
 
 import style from "./cardCatalogBig.module.scss";
-import CommentItem from "./Comment/Comment";
-import InputForm from "../../../user/components/input/InputForm";
 import CommentSection from "./CommentSection/CommentSection";
 
 interface LoaderParams {

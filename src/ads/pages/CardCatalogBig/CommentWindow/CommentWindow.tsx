@@ -1,10 +1,11 @@
 import React from "react";
 import arrowBack from "../../../../assets/icon/arrowLeft.svg";
 import styles from "./styles.module.scss";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { Controller, useForm } from "react-hook-form";
 import { useAddCommentMutation } from "../../../../store/entities/services/services";
 import Rating from "../Comment/Rating";
+import Notifications from "../../../../shared/notification/Notification";
 
 interface Props {
   onClose: () => void;
@@ -15,31 +16,47 @@ interface PropsForm {
 }
 
 export default function CommentWindow({ onClose }: Props) {
-  const navigate = useNavigate();
   const [addComment] = useAddCommentMutation();
   const params = useParams();
+  const [message, setMessage] = React.useState<{
+    message: string;
+    status: "success" | "error";
+  } | null>(null);
 
   const methods = useForm<PropsForm>({
     defaultValues: {
       feedback: "",
     },
-    // resolver: yupResolver(createAdsValidSchema),
     mode: "all",
   });
 
   const onSubmit = async (data: PropsForm) => {
-    console.log("data", data);
     if (params.idAds) {
-      await addComment({
-        id: params.idAds,
-        feedback: data.feedback,
-        rating: 5,
-      });
+      try {
+        const res = await addComment({
+          id: params.idAds,
+          feedback: data.feedback,
+          rating: 5,
+        });
+
+        if (res.error) {
+          const error = res.error as { data: string; status: number };
+          setMessage({ message: error.data, status: "error" });
+        }
+        if (res.data) {
+          setMessage({ message: res.data, status: "success" });
+        }
+      } catch (e) {
+        console.error("e", e);
+      }
     }
   };
 
   return (
     <section className={styles.section}>
+      {message && (
+        <Notifications messageText={message.message} status={message.status} />
+      )}
       <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
         <div className={styles.header}>
           <img
