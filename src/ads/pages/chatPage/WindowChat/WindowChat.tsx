@@ -1,12 +1,12 @@
 import React from "react";
 import styles from "./styles.module.scss";
 import Message from "../Message/Message";
-import camera from "../../../../assets/icon/camera.svg";
 import { useAppDispatch, useAppSelector } from "../../../../store/store";
 import {
   CHATWsOnMessage,
   CHATWsSendMessage,
 } from "../../../../store/actions/chat";
+import Camera from "../../../../assets/icon/camera.svg?react";
 
 const mockMessage = [
   {
@@ -69,7 +69,7 @@ export default function WindowChat() {
       <div className={styles.window__wrapperSendInput}>
         <input
           placeholder="Написать сообщение"
-          className={styles.window__input}
+          className={styles.window__inputText}
           value={value}
           name="message"
           onChange={(e) => handleChange(e)}
@@ -81,12 +81,21 @@ export default function WindowChat() {
           }}
         />
 
-        <img
-          src={camera}
-          alt="button"
-          className={styles.window__iconButton}
-          onClick={() => handleSend()}
-        />
+        <label className={styles.fileLabel}>
+          <input
+            type="file"
+            multiple
+            className={styles.window__inputFiles}
+            aria-label="Загрузить файлы"
+          />
+          <span
+            role="button"
+            tabIndex={0}
+            className={styles.window__iconButton}
+          >
+            <Camera color="rgb(178,189,199)" />
+          </span>
+        </label>
       </div>
     </div>
   );

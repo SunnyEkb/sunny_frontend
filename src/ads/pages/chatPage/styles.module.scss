@@ -4,26 +4,22 @@
   margin: 0 auto;
   max-width: 480px;
   width: 100%;
-  // height: 100vh;
   height: auto;
+  box-sizing: border-box;
 }
 
 .chat__header {
-  box-sizing: border-box;
+  height: 56px;
   display: flex;
-  padding-top: 28px;
-  padding-bottom: 28px;
-  padding-left: 28px;
-  height: 80px;
   justify-content: flex-start;
-  gap: 60px;
-  align-content: center;
+  align-items: center;
+  gap: 16px;
 }
 
 .chat__headerTitle {
   margin: 0;
   font-family: Inter;
-  font-size: 17px;
+  font-size: 16px;
   font-weight: 700;
   line-height: 24px;
   color: #0a7272;
@@ -33,8 +29,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 16px;
-  height: 16px;
+  width: 24px;
+  height: 24px;
   cursor: pointer;
   transition: all ease-in-out 0.3s;
 
