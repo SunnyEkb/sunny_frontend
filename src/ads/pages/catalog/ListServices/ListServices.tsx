@@ -45,12 +45,12 @@ export default function ListServices() {
     }
   );
 
+
   React.useEffect(() => {
     if (isSuccess && inView && data.next) {
       dispatch(changePageAction(page + 1));
     }
   }, [isSuccess, inView]);
-
 
   return (
     <React.Fragment>
