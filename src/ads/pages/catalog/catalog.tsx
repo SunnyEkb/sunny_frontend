@@ -6,7 +6,10 @@ import {
 } from "../../../store/slices/serviceSlice";
 import Filter from "./Filter/Filter";
 import SearchWindow from "./SearchWindow/SearchWindow";
+import ArrowBack from "../../../assets/icon/arrow-left.svg?react";
+
 import style from "./catalog.module.scss";
+import { useNavigate } from "react-router-dom";
 
 
 export const LoaderInitPage = async () => {
@@ -16,6 +19,7 @@ export const LoaderInitPage = async () => {
 
 export default function Catalog() {
   const [isSearchWindowOpen, setIsSearchWindowOpen] = useState(false);
+  const navigate = useNavigate();
 
   function toggleSearchWindow() {
     setIsSearchWindowOpen(!isSearchWindowOpen);
@@ -33,7 +37,10 @@ export default function Catalog() {
         </div>
         <div className={style.catalog__content}>
           <section>
-            <header className={style.catalog__headerSection}>
+            <header className={style.catalog__headerSection} onClick={() => {
+              navigate('/');
+            }}>
+              <ArrowBack/>
               <h2 className={style.catalog__headerTitleSection}>Услуги</h2>
             </header>
           </section>

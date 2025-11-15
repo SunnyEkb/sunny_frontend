@@ -136,10 +136,13 @@
   }
 
   &__headerSection {
+    width: fit-content;
     display: flex;
+    gap: 16px;
     align-items: center;
     margin-bottom: 16px;
     padding-left: 16px;
+    cursor: pointer;
   }
 
   &__headerTitleSection {
