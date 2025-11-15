@@ -92,6 +92,12 @@ export const authApi = createApi({
         ...getRequestConfig("POST", data),
       }),
     }),
+    passwordChange: build.mutation<string, { current_password: string; new_password: string; confirmation: string}>({
+      query: (data) => ({
+        url: "change-password/",
+        ...getRequestConfig("POST", data)
+      })
+    }),
     verifyRegistration: build.mutation<string, { token?: string }>({
       query: (data) => ({
         url: "verify-registration/",
@@ -114,6 +120,7 @@ export const {
   useUpdateUserAvatarMutation,
   usePasswordForgetMutation,
   useVerifyRegistrationMutation,
+  usePasswordChangeMutation
 } = authApi;
 
 export type AuthApi = typeof authApi;
