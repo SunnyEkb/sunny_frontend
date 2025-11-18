@@ -28,6 +28,7 @@ import ModerationPage from "../ads/pages/moderation/ModerationPage"; // Importin
 import ConfirmEmail from "../user/pages/confirmEmail/confirmEmail";
 import { UserFavorites } from "../user/pages/UserFavorites/UserFavorites";
 import { UserAds } from "../user/pages/UserAds/UserAds";
+import PasswordChange from "../user/pages/passwordChange/passwordChange";
 
 export const router = createBrowserRouter(
   [
@@ -55,6 +56,10 @@ export const router = createBrowserRouter(
           path: paths.user_profile_edit,
           element: <UserProfileEdit />,
         },
+        {
+          path: paths.passwordChange,
+          element: <PasswordChange/>
+        }
       ],
     },
     {
