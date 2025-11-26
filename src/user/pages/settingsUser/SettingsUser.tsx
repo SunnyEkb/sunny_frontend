@@ -10,6 +10,7 @@ const SettingsUser:FC = () => {
       <article className={styles.settingsUser}>
         <Link className={styles.settingsUser__link} to={"/user_profile_edit"}>Мой профиль</Link>
         <Link className={styles.settingsUser__link} to={""}>Уведомления</Link>
+        <Link className={styles.settingsUser__link} to={"/password-change"}>Изменить пароль</Link>
       </article>
     </LayoutUserLK>
   )
