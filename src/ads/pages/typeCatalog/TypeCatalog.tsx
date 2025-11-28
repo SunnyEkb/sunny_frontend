@@ -18,7 +18,7 @@ export interface TypeCatalog {
 }
 
 export const loaderTypesCatalog = async () => {
-  const response = await fetch("https://sunnyekb.ru/api/v1/types/");
+  const response = await fetch("https://sunnyekb.ru/api/v1/services/categories/");
 
   return response;
 };
