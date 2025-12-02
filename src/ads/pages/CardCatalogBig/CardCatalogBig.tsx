@@ -19,7 +19,7 @@ import { AdsInfo } from "../../../common/model/ads";
 import { HeartIcon } from "../../../shared/HeartIcon/HeartIcon";
 
 import style from "./cardCatalogBig.module.scss";
-import { useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 
 interface LoaderParams {
   idAds: string;
@@ -44,6 +44,10 @@ export default function CardCatalogBig() {
   const initialCardData = useLoaderData() as AdsInfo;
   const [cardData, setCardData] = useState(initialCardData);
   const { revalidate } = useRevalidator();
+
+  useLayoutEffect(() => {
+    window.scroll(0, 0)
+  }, [])
 
   function handleGoBack() {
     navigate(-1);
