@@ -1,25 +1,25 @@
-import  { useState } from "react";
+import { useState } from "react";
 import ListServices from "./ListServices/ListServices";
 import store from "../../../store/store";
-import {
-  initPageAction,
-} from "../../../store/slices/serviceSlice";
+import { initPageAction } from "../../../store/slices/serviceSlice";
 import Filter from "./Filter/Filter";
 import SearchWindow from "./SearchWindow/SearchWindow";
 import ArrowBack from "../../../assets/icon/arrow-left.svg?react";
 
 import style from "./catalog.module.scss";
 import { useNavigate } from "react-router-dom";
-
+import { useScrollRestoration } from "../../../shared/hooks/useScrollRestoration";
 
 export const LoaderInitPage = async () => {
-   store.dispatch(initPageAction());
-   return null;
-}
+  store.dispatch(initPageAction());
+  return null;
+};
 
 export default function Catalog() {
   const [isSearchWindowOpen, setIsSearchWindowOpen] = useState(false);
   const navigate = useNavigate();
+
+  useScrollRestoration();
 
   function toggleSearchWindow() {
     setIsSearchWindowOpen(!isSearchWindowOpen);
