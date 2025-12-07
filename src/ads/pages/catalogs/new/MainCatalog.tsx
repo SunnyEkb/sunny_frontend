@@ -5,6 +5,10 @@ import MiniAdCard from "../../catalog/MiniAdCard/MiniAdCard";
 import { useLoaderData } from "react-router-dom";
 
 import { mockCards } from "./mockCards";
+import { useSearch } from "../../../../app/layouts/SearchProvider/SearchProvider";
+import { useEffect, useState } from "react";
+import { useGetSearchItemsQuery } from "../../../../store/entities/search/searchApi";
+import SearchCard from "./SearchCard/SearchCard";
 
 interface DataProps {
   id: number;
@@ -15,7 +19,7 @@ interface DataProps {
 
 export const loaderCatagories = async () => {
   try {
-    const response = await fetch("https://sunnyekb.ru/api/v1/services/categories/", {
+    const response = await fetch("https://sunnyekb.ru/api/v1/categories/", {
       method: "GET",
       credentials: "include",
     });
@@ -30,14 +34,19 @@ export const loaderCatagories = async () => {
 
 export default function MainCatalog() {
   const data = useLoaderData() as DataProps[];
+  const [searchString] = useSearch();
+  const [debounceString, setDebounceString] = useState(searchString);
+  const { data: searchItems } = useGetSearchItemsQuery(debounceString, {
+    skip: debounceString?.length <= 2,
+  });
 
-  // Mock data for MiniAdCards
-  /* const mockAds: any = [
-    { id: 1, title: "Ad 1", price: "1000₽", location: "Location 1" },
-    { id: 2, title: "Ad 2", price: "2000₽", location: "Location 2" },
-    { id: 3, title: "Ad 3", price: "3000₽", location: "Location 3" },
-    { id: 4, title: "Ad 4", price: "4000₽", location: "Location 4" },
-  ]; */
+  useEffect(() => {
+    const timerId = setTimeout(() => {
+      setDebounceString(searchString);
+    }, 300);
+
+    return () => clearTimeout(timerId);
+  }, [searchString]);
 
   return (
     <section className={styles.section}>
@@ -50,12 +59,35 @@ export default function MainCatalog() {
       </section>
 
       <main className={styles.catalog__content}>
-        <div className={styles.catalog__title}>На районе</div>
-        <div className={styles.catalog__itemList}>
-          {data?.map((card) => {
-            return <CardCatalog key={card.id} card={card} />;
-          })}
-        </div>
+        {Array.isArray(searchItems) &&
+          searchItems.length === 0 &&
+          debounceString.length > 2 && (
+            <span className={styles.title}>Ничего не найдено</span>
+          )}
+
+        {Array.isArray(searchItems) &&
+          searchItems.length > 0 &&
+          debounceString.length > 2 && (
+            <>
+              <h1 className={styles.title}>Найденные услуги и объявления</h1>
+              <div className={styles.searchItemList}>
+                {searchItems.map((item) => (
+                  <SearchCard key={item.id} {...item} />
+                ))}
+              </div>
+            </>
+          )}
+
+        {debounceString.length <= 2 && (
+          <>
+            <div className={styles.catalog__title}>На районе</div>
+            <div className={styles.catalog__itemList}>
+              {data?.map((card) => {
+                return <CardCatalog key={card.id} card={card} />;
+              })}
+            </div>
+          </>
+        )}
       </main>
 
       {/* <section className={styles.newSection}>
