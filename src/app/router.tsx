@@ -29,6 +29,7 @@ import ConfirmEmail from "../user/pages/confirmEmail/confirmEmail";
 import { UserFavorites } from "../user/pages/UserFavorites/UserFavorites";
 import { UserAds } from "../user/pages/UserAds/UserAds";
 import PasswordChange from "../user/pages/passwordChange/passwordChange";
+import { SearchProvider } from "./layouts/SearchProvider/SearchProvider";
 
 export const router = createBrowserRouter(
   [
@@ -58,12 +59,16 @@ export const router = createBrowserRouter(
         },
         {
           path: paths.passwordChange,
-          element: <PasswordChange/>
-        }
+          element: <PasswordChange />,
+        },
       ],
     },
     {
-      element: <MainLayout />,
+      element: (
+        <SearchProvider>
+          <MainLayout />
+        </SearchProvider>
+      ),
       path: paths.index,
       children: [
         {
@@ -73,7 +78,7 @@ export const router = createBrowserRouter(
         {
           path: paths.catalog,
           element: <Catalog />,
-          loader: LoaderInitPage
+          loader: LoaderInitPage,
         },
         {
           path: paths.catalogAds,
@@ -105,13 +110,12 @@ export const router = createBrowserRouter(
         },
         {
           path: paths.favorites,
-          element: <UserFavorites />
+          element: <UserFavorites />,
         },
         {
           path: paths.myAds,
           element: <UserAds />,
-
-        }
+        },
       ],
     },
     // ],
