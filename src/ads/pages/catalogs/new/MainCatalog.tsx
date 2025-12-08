@@ -15,7 +15,7 @@ interface DataProps {
 
 export const loaderCatagories = async () => {
   try {
-    const response = await fetch("https://sunnyekb.ru/api/v1/services/categories/", {
+    const response = await fetch("https://sunnyekb.ru/api/v1/categories/", {
       method: "GET",
       credentials: "include",
     });
