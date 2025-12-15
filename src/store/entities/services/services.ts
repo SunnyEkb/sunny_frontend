@@ -122,8 +122,11 @@ export const servicesApi = createApi({
       }),
     }),
     createService: build.mutation({
-      query: (data) => ({
-        url: `/services/`,
+      query: ({
+        endPoint,
+        data
+      }) => ({
+        url: `/${endPoint}/`,
         method: "POST",
         credentials: "include",
         body: JSON.stringify(data),

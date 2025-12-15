@@ -1,23 +1,12 @@
 import * as Yup from "yup";
 
-export const createAdsValidSchema = Yup.object().shape({
-  viewAds: Yup.string().trim(),
-  type_id: Yup.string().required("Это поле обязательное"),
-  venue: Yup.string().trim(),
-  experience: Yup.number().max(50, "Число не должно быть больше 50").required(),
-  description: Yup.string().required("Это поле обязательное"),
+const createAdsValidSchema = Yup.object().shape({
   title: Yup.string().required("Это поле обязательное"),
-  typeAds: Yup.string().trim(),
-  itemAds: Yup.array()
-    .of(
-      Yup.object().shape({
-        nameAds: Yup.string().required(),
-        price: Yup.number()
-          .required()
-          .positive("Цифра должна быть положительной"),
-      })
-    )
-    .nullable(),
+  category_id: Yup.number().required("Это поле обязательное").nullable(),
+  description: Yup.string().required("Это поле обязательное"),
+  price: Yup.number().nullable(),
+  condition: Yup.string().required("Укажите состояние товара"),
+  address: Yup.string(),
   photo: Yup.array()
     .of(
       Yup.object().shape({
@@ -27,6 +16,40 @@ export const createAdsValidSchema = Yup.object().shape({
     )
     .nullable(),
 });
+
+const createServicesValidSchema = Yup.object().shape({
+  title: Yup.string().required("Это поле обязательное"),
+  description: Yup.string().trim().required("Это поле обязательно"),
+  category_id: Yup.number().nullable(),
+  venue: Yup.string().required("Укажите место встречи"),
+  address: Yup.string(),
+  experience: Yup.number().nullable(),
+  price_list_entris: Yup.array()
+    .of(
+      Yup.object().shape({
+        title: Yup.string(),
+        price: Yup.number()
+          .required()
+          .positive("Цифра должна быть положительной")
+          .default(0),
+      })
+    )
+    .required("Добавьте как минимум одну услугу"),
+  photo: Yup.array()
+    .of(
+      Yup.object().shape({
+        url: Yup.string().optional(),
+        file: Yup.mixed(),
+      })
+    )
+    .nullable(),
+});
+
+export const validationSchemas: Record<TypeOfAd, Yup.AnyObjectSchema> = {
+  ads: createAdsValidSchema,
+  services: createServicesValidSchema,
+};
+
 
 export const defaultAds = [
   {
@@ -89,3 +112,31 @@ export const defaultTypeAds = [
     title: "Другое",
   },
 ];
+
+export interface CategoriesAd {
+  id: number;
+  title: string;
+  subcategories: Array<CategoriesAd> | null;
+  img: string;
+}
+
+export type TypeOfAd = "ads" | "services";
+
+export const defaultTypeAd: Record<TypeOfAd, string> = {
+  services: "Услуги",
+  ads: "Вещи, электроника, хобби и прочее",
+};
+
+export const conditionOption = [
+  {
+    value: "Б/у",
+    label: "Б/у"
+  },
+  {
+    value: "Новое",
+    label: "Новое"
+  }
+]
+
+
+

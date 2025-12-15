@@ -1,18 +1,18 @@
-import React from "react";
 import styles from "./main.module.scss";
-import arrowBack from "../../../assets/icon/arrowLeft.svg";
-import { useLoaderData, useNavigate } from "react-router-dom";
+import { useLoaderData, useOutletContext } from "react-router-dom";
 import {
   Controller,
   FieldErrors,
   useFormContext,
+  useFieldArray,
   useWatch,
 } from "react-hook-form";
-import { itemAds, PropsForm } from "./CreateAds";
+import { PropsForm, ServiceItem } from "./CreateAds";
 import FieldPhoto from "./fieldPhoto";
 import ButtonForm from "../../../shared/button/button";
 import Select from "react-select";
-import { fetchAdsTypes } from "../../../shared/api/typeAdsApi";
+import { conditionOption, TypeOfAd } from "./helpers";
+import { useEffect } from "react";
 
 interface CategoriesAds {
   id: number;
@@ -21,31 +21,27 @@ interface CategoriesAds {
   img?: string;
 }
 
-interface Options {
-  value: number;
-  label: string;
-}
-
 export default function MainFormAds() {
-  const navigate = useNavigate();
-  const { setValue, control, formState, watch } = useFormContext();
+  const { typeOfAd, selectedCategoryId } = useOutletContext<{
+    typeOfAd: TypeOfAd;
+    selectedCategoryId: number;
+  }>();
+  const { setValue, control, formState } = useFormContext();
   const CategoriesAds = useLoaderData() as CategoriesAds[];
-  const [selectTypes, setSelectTypes] = React.useState(false);
-  const [typesAds, setTypesAds] = React.useState<Options[]>([]);
 
-  const itemAds = useWatch({ control, name: "itemAds" });
+  const {
+    fields: priceListEntries,
+    append,
+    remove,
+  } = useFieldArray({ control, name: "price_list_entris" });
 
   const addItemAds = () => {
-    const newItemAds = [...itemAds, { nameAds: "", price: "" }];
-    setValue("itemAds", newItemAds, { shouldValidate: true });
+    append({ title: "", price: 0 });
   };
 
-   const removeItemAds = (indexToRemove: number) => {
-    const newItemAds = itemAds.filter((_, index: number) => index !== indexToRemove);
-    setValue("itemAds", newItemAds, { shouldValidate: true });
+  const removeItemAds = (index: number) => {
+    remove(index);
   };
-
-  const typeId = watch("type_id");
 
   const options = CategoriesAds.map((ad) => ({
     value: ad.id,
@@ -54,98 +50,52 @@ export default function MainFormAds() {
 
   const errors = formState.errors as FieldErrors<PropsForm>;
 
-  const fetchTypesAds = async (type_id: string) => {
-    try {
-      const response = await fetchAdsTypes(type_id);
-      const data = response as CategoriesAds;
+  useEffect(() => {
+    setValue("category_id", selectedCategoryId);
+  }, [selectedCategoryId]);
 
-      if (data.subcategories) {
-        const optionsTypes = data.subcategories.map((ad) => ({
-          value: ad.id,
-          label: ad.title,
-        }));
-
-        setTypesAds(optionsTypes);
-      }
-
-    } catch (e) {
-      console.log("error", e);
+  useEffect(() => {
+    if (typeOfAd === "services") {
+      setValue("price_list_entris", []);
+      addItemAds();
     }
-  };
-
-  React.useEffect(() => {
-    if (typeId !== "") {
-      fetchTypesAds(typeId);
-      setSelectTypes(true);
-    } else {
-      setSelectTypes(false);
-    }
-  }, [typeId]);
+  }, []);
 
   return (
-    <section className={styles.section}>
-      <div className={styles.header}>
-        <img
-          src={arrowBack}
-          alt={"back"}
-          className={styles.arrow}
-          onClick={() => navigate(-1)}
-        />
-        <div className={styles.header__title}></div>
-      </div>
-
+    <section >
       <div className={styles.content}>
         <div className={styles.field}>
-          <div className={styles.label__field}>Вид услуги</div>
+          <div className={styles.label__field}>Категория</div>
           <Controller
+            key={`category-${selectedCategoryId}`}
             control={control}
-            name="type_id"
+            name="category_id"
             render={({ field: { onChange, onBlur, value, ref } }) => {
               return (
                 <Select
+                  classNamePrefix={styles.select}
                   ref={ref}
-                  name="type_id"
+                  name="category_id"
                   onChange={(selectedOption) => onChange(selectedOption?.value)}
                   onBlur={onBlur}
                   value={options.find((item) => item.value == value)}
                   options={options}
-                  placeholder="вид услуги"
+                  getOptionLabel={(option) => option.label}
                 />
               );
             }}
           />
-          {errors.type_id && (
+          {errors.category_id && (
             <div className={styles.errorsWrapper}>
-              <div>{errors.type_id.message}</div>
+              <div>{errors.category_id.message}</div>
             </div>
           )}
         </div>
 
         <div className={styles.field}>
-          <div className={styles.label__field}>Тип услуги</div>
-          <Controller
-            control={control}
-            name="typeAds"
-            render={({ field: { onChange, onBlur, value, ref } }) => (
-              <Select
-                noOptionsMessage={() => {
-                  return "У этой услуги нету типов";
-                }}
-                ref={ref}
-                name="typeAds"
-                onChange={(selectedOption) => onChange(selectedOption?.value)}
-                onBlur={onBlur}
-                value={typesAds.find((item) => item.value == value)}
-                options={typesAds}
-                placeholder="Тип услуги"
-                isDisabled={!selectTypes}
-              />
-            )}
-          />
-        </div>
-
-        <div className={styles.field}>
-          <div className={styles.label__field}>Название услуги</div>
+          <div className={styles.label__field}>
+            Название {typeOfAd === "ads" ? "объявления" : "услуги"}
+          </div>
           <Controller
             control={control}
             name="title"
@@ -155,7 +105,9 @@ export default function MainFormAds() {
                 {...field}
                 type="text"
                 name="title"
-                placeholder={"название услуги"}
+                placeholder={`Название ${
+                  typeOfAd === "ads" ? "объявления" : "услуги"
+                }`}
               />
             )}
           />
@@ -166,39 +118,44 @@ export default function MainFormAds() {
           )}
         </div>
 
-        <div className={styles.field}>
-          <div className={styles.label__field}>Место встречи</div>
-          <Controller
-            control={control}
-            name="venue"
-            render={({ field }) => {
-              return (
-                <input
-                  onChange={(e) => field.onChange(e)}
-                  className={styles.input}
-                  type="text"
-                  placeholder={"Место встречи"}
-                />
-              );
-            }}
-          />
-        </div>
-
-        <div className={styles.field}>
-          <div className={styles.label__field}>Опыт работы</div>
-          <Controller
-            control={control}
-            name="experience"
-            render={({ field }) => (
-              <input
-                className={styles.input}
-                {...field}
-                type="text"
-                placeholder={"Опты работы"}
+        {/*Поля: место встречи, опыт работы*/}
+        {typeOfAd === "services" && (
+          <>
+            <div className={styles.field}>
+              <div className={styles.label__field}>Место встречи</div>
+              <Controller
+                control={control}
+                name="venue"
+                render={({ field }) => (
+                  <input
+                    {...field}
+                    value={field.value ?? ""}
+                    className={styles.input}
+                    type="text"
+                    placeholder="Место встречи"
+                  />
+                )}
               />
-            )}
-          />
-        </div>
+            </div>
+
+            <div className={styles.field}>
+              <div className={styles.label__field}>Опыт работы</div>
+              <Controller
+                control={control}
+                name="experience"
+                render={({ field }) => (
+                  <input
+                    {...field}
+                    value={field.value ?? ""}
+                    type="number"
+                    className={styles.input}
+                    placeholder="Опыт работы"
+                  />
+                )}
+              />
+            </div>
+          </>
+        )}
 
         <div className={styles.field}>
           <div className={styles.label__field}>Описание</div>
@@ -206,11 +163,12 @@ export default function MainFormAds() {
             control={control}
             name="description"
             render={({ field }) => (
-              <input
-                className={styles.input}
+              <textarea
                 {...field}
-                type="textarea"
+                className={styles.textarea}
+                value={field.value ?? ""}
                 placeholder={"до тысячи символов"}
+                maxLength={1000}
               />
             )}
           />
@@ -220,56 +178,127 @@ export default function MainFormAds() {
             </div>
           )}
         </div>
-        <div className={styles.field}>
-          <div className={styles.label__field}>Стоимость услуги</div>
-          {itemAds.map((item: itemAds, index: number) => {
-            return (
-              <div className={styles.wrapper__fieldsPrice} key={index}>
+
+        {/* Стоимость услуги */}
+        {typeOfAd === "services" && (
+          <div className={styles.field}>
+            <div className={styles.label__field}>Стоимость услуги</div>
+            {priceListEntries.map((field, index) => (
+              <div key={field.id} className={styles.wrapper__fieldsPrice}>
                 <Controller
                   control={control}
-                  name={`itemAds[${index}].nameAds`}
+                  name={`price_list_entris.${index}.title`}
                   render={({ field }) => (
                     <input
-                      className={styles.input}
                       {...field}
-                      type="textarea"
-                      placeholder={"Название услуги"}
+                      className={styles.input}
+                      placeholder="Название услуги"
                     />
                   )}
                 />
+
                 <Controller
                   control={control}
-                  name={`itemAds[${index}].price`}
+                  name={`price_list_entris.${index}.price`}
                   render={({ field }) => (
                     <input
-                      className={styles.input}
                       {...field}
                       type="number"
-                      placeholder={"Цена ₽"}
+                      className={styles.input}
+                      placeholder="Цена ₽"
                     />
                   )}
                 />
-                    <button
-              type="button"
-              onClick={() => removeItemAds(index)}
-              className={styles.removeItemAdsButton}
-              aria-label="Удалить услугу"
-              title="Удалить услугу"
-            >
-             Убрать
-            </button>
-              </div>
-            );
-          })}
 
-          <button
-            type="button"
-            className={styles.buttonAddedPrice}
-            onClick={() => addItemAds()}
-          >
-            Добавить
-          </button>
+                <button
+                  type="button"
+                  onClick={() => removeItemAds(index)}
+                  className={styles.removeItemAdsButton}
+                >
+                  Убрать
+                </button>
+              </div>
+            ))}
+
+            <button
+              type="button"
+              className={styles.buttonAddedPrice}
+              onClick={() => addItemAds()}
+            >
+              Добавить
+            </button>
+          </div>
+        )}
+
+        <div className={styles.field}>
+          <div className={styles.label__field}>Адрес</div>
+          <Controller
+            control={control}
+            name="address"
+            render={({ field }) => (
+              <input
+                {...field}
+                className={styles.input}
+                type="text"
+                value={field.value ?? ""}
+                placeholder={"Укажите адрес"}
+              />
+            )}
+          />
         </div>
+
+        {typeOfAd === "ads" && (
+          <>
+            <div className={styles.field}>
+              <div className={styles.label__field}>Состояние</div>
+              <Controller
+                control={control}
+                name="condition"
+                render={({ field }) => {
+                  const selectedOption =
+                    conditionOption.find(
+                      (item) => item.value === field.value
+                    ) ?? null;
+
+                  return (
+                    <Select
+                      {...field}
+                      ref={field.ref}
+                      options={conditionOption}
+                      value={selectedOption}
+                      onChange={(option) =>
+                        field.onChange(option?.value ?? null)
+                      }
+                      placeholder="Выберите состояние"
+                    />
+                  );
+                }}
+              />
+              {"condition" in errors && errors.condition && (
+                <div className={styles.errorsWrapper}>
+                  <div>{errors.condition.message}</div>
+                </div>
+              )}
+            </div>
+            <div className={styles.field}>
+              <div className={styles.label__field}>Цена</div>
+              <Controller
+                control={control}
+                name="price"
+                render={({ field }) => (
+                  <input
+                    className={styles.input}
+                    {...field}
+                    value={field.value ?? 0}
+                    type="number"
+                    placeholder={"Укажите цену"}
+                  />
+                )}
+              />
+            </div>
+          </>
+        )}
+
         <FieldPhoto />
 
         <ButtonForm
