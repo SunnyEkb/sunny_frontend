@@ -1,29 +1,33 @@
 import React from "react";
 import styles from "./main.module.scss";
 import photoContainer from "../../../assets/PhotoContainer.png";
-import { useFormContext, useWatch } from "react-hook-form";
-import { IPhoto } from "./CreateAds";
+import { useFieldArray, useFormContext } from "react-hook-form";
+import { BaseForm } from "./CreateAds";
 
 export default function FieldPhoto() {
-  const { setValue, control } = useFormContext();
-  const photo = useWatch({ control, name: "photo" });
+  const { control } = useFormContext<BaseForm>();
+  const {
+    fields: photo,
+    append,
+    remove,
+  } = useFieldArray({
+    control,
+    name: "photo",
+  });
 
   const addPhoto = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files && event.target.files[0];
 
     if (file) {
       const newPhotoUrl = URL.createObjectURL(file);
-      const newPhoto = [...photo, { url: newPhotoUrl, file: file }];
-      setValue("photo", newPhoto, { shouldValidate: true });
+      append({ url: newPhotoUrl, file: file });
     }
   };
 
   const removePhoto = (indexToRemove: number) => {
-    const newPhoto = photo.filter(
-      (_, index: number) => index !== indexToRemove
-    );
-    setValue("photo", newPhoto, { shouldValidate: true });
+    remove(indexToRemove);
   };
+
   return (
     <div>
       <h2 className={styles.titlePhotoSection}> Фото</h2>
@@ -41,23 +45,22 @@ export default function FieldPhoto() {
           onChange={(e) => addPhoto(e)}
         />
         <div className={styles.photoGallery}>
-          {photo.map((item: IPhoto, index: number) => {
+          {photo.map((item) => {
             if (item.url != "") {
               return (
                 <div
-                  key={index}
+                  key={item.id}
                   className={styles.photoWrapper}
                   style={{ position: "relative", display: "inline-block" }}
                 >
                   <img
-                    key={index}
                     src={item.url}
                     alt={"photo"}
                     className={styles.uploadedPhoto}
                   />
                   <button
                     type="button"
-                    onClick={() => removePhoto(index)}
+                    onClick={() => removePhoto(Number(item.id))}
                     style={{
                       position: "absolute",
                       top: 5,
