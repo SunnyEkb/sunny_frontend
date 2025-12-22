@@ -1,12 +1,12 @@
 import React from "react";
 import style from "./authorCard.module.scss";
 import star from "../../../assets/icon/Star.svg";
-import { AdsInfo } from "../../../common/model/ads";
+import { ServiceInfo } from "../../../common/model/ads";
 import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../../store/store";
 
 interface Props {
-  card: AdsInfo;
+  card: ServiceInfo;
 }
 
 export default function CardCatalogAuthor({ card }: Props) {

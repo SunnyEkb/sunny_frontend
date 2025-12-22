@@ -9,12 +9,14 @@ import { webSocketMiddleware } from "./midlewares/MidlewaresWebSoket";
 import { wsCHATActions } from "./actions/chat";
 import { wsChatReducer } from "./slices/wsChatSlice";
 import { searchApi } from "./entities/search/searchApi";
+import { adsApi } from "./entities/ads/adsApi";
 
 export const store = configureStore({
   reducer: {
     [authApi.reducerPath]: authApi.reducer,
     [servicesApi.reducerPath]: servicesApi.reducer,
     [searchApi.reducerPath]: searchApi.reducer,
+    [adsApi.reducerPath]: adsApi.reducer,
     auth: authReducer,
     services: servicesSlice,
     wsChat: wsChatReducer,
@@ -24,6 +26,7 @@ export const store = configureStore({
       .concat(authApi.middleware)
       .concat(servicesApi.middleware)
       .concat(searchApi.middleware)
+      .concat(adsApi.middleware)
       .concat(webSocketMiddleware(wsCHATActions)),
 });
 
