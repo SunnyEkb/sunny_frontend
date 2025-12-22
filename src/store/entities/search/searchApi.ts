@@ -1,17 +1,22 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { BASE_URL } from "../../../utils/constans";
 
-
 export interface ISearchItem {
   id: number;
+  type: "ad" | "service";
   address: string | null;
   title: string;
   description: string;
-  price?: number; // в услугах почему-то цены никакой нет
+  price?: string; // в услугах почему-то цены никакой нет
   place_of_provision?: string; // поле есть в услугах
-  condition?: string;  // поле есть в объявленияхы
-  salon_name?: string;// поле есть в услугах
+  condition?: string; // поле есть в объявленияхы
+  salon_name?: string; // поле есть в услугах
   img?: string;
+  title_photo?: {
+    id: number;
+    image: string;
+    title_photo: boolean;
+  };
 }
 
 export const searchApi = createApi({
@@ -27,6 +32,5 @@ export const searchApi = createApi({
     }),
   }),
 });
-
 
 export const { useGetSearchItemsQuery } = searchApi;
