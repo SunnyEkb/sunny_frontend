@@ -15,14 +15,15 @@ import {
   useAddToFavoritesMutation,
   useDeleteFromFavoritesMutation,
 } from "../../../store/entities/services/services";
-import { AdsInfo } from "../../../common/model/ads";
+import { ServiceInfo } from "../../../common/model/ads";
 import { HeartIcon } from "../../../shared/HeartIcon/HeartIcon";
 
 import style from "./cardCatalogBig.module.scss";
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useLayoutEffect, useState } from "react";
 
 interface LoaderParams {
-  idAds: string;
+  idAds?: string;
+  idService?: string;
   id: string; //catalog
 }
 
@@ -30,7 +31,9 @@ export const loaderAdsByCatalogId = async ({
   params,
 }: LoaderFunctionArgs<LoaderParams>) => {
   const response = await fetch(
-    `https://sunnyekb.ru/api/v1/services/${params.idAds}/`,
+    `https://sunnyekb.ru/api/v1/${params?.idAds ? "ads" : "services"}/${
+      params?.idAds ? params.idAds : params.idService
+    }/`,
     {
       credentials: "include",
     }
@@ -41,13 +44,14 @@ export const loaderAdsByCatalogId = async ({
 
 export default function CardCatalogBig() {
   const navigate = useNavigate();
-  const initialCardData = useLoaderData() as AdsInfo;
+  const initialCardData = useLoaderData();
   const [cardData, setCardData] = useState(initialCardData);
   const { revalidate } = useRevalidator();
+  const isAd = cardData.type === 'ad';
 
   useLayoutEffect(() => {
-    window.scroll(0, 0)
-  }, [])
+    window.scroll(0, 0);
+  }, []);
 
   function handleGoBack() {
     navigate(-1);
@@ -59,7 +63,7 @@ export default function CardCatalogBig() {
   const handleClickLike = async () => {
     const previousData = { ...cardData };
 
-    setCardData((prev) => ({
+    setCardData((prev: ServiceInfo) => ({
       ...prev,
       is_favorited: !prev.is_favorited,
     }));
@@ -115,7 +119,7 @@ export default function CardCatalogBig() {
       <div>
         <h1 className={style.cardBig__cardTitleText}>{cardData.title}</h1>
         <span className={style.cardBig__cardSubtitleText}>
-          1000 ₽ за услугу
+          1000 ₽ {!isAd && "за услугу"}
         </span>
       </div>
 
@@ -125,9 +129,9 @@ export default function CardCatalogBig() {
 
       <CardCatalogAuthor card={cardData} />
 
-      <DescriptionList card={cardData} />
+      <DescriptionList card={cardData} isAd={isAd} />
 
-      <PriceLists variant="bigInfo" cardData={cardData} />
+      {!isAd && <PriceLists variant="bigInfo" cardData={cardData} />}
 
       <section className={style.cardBig__section}>
         <h4 className={style.cardBig__section__title}>Описание</h4>

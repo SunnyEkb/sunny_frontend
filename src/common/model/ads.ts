@@ -1,4 +1,4 @@
-export interface AdsInfo {
+export interface ServiceInfo {
   id: number;
   provider: {
     id: number;
@@ -28,4 +28,5 @@ export interface AdsInfo {
   created_at: string;
   updated_a: string;
   is_favorited: boolean;
+  price_list_entries: { id: number; title: string; price: number }[];
 }

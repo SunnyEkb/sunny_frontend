@@ -80,9 +80,14 @@ export const router = createBrowserRouter(
           element: <Catalog />,
           loader: LoaderInitPage,
         },
+          {
+          path: paths.catalogService,
+          element: <CardCatalogBig />, // убрать
+          loader: (params) => loaderAdsByCatalogId(params),
+        },
         {
-          path: paths.catalogAds,
-          element: <CardCatalogBig />,
+          path: paths.adPage,
+          element: <CardCatalogBig />, // убрать
           loader: (params) => loaderAdsByCatalogId(params),
         },
 
