@@ -3,13 +3,13 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { BASE_URL } from "../../../utils/constans";
 import { AdsInfo } from "../../../common/model/ads";
 
-const SERVICES_URL = "/services";
+const SERVICES_URL = "/advertisements";
 
 type ParamsServices = {
   limit?: number;
   page: number;
   search?: string;
-  typeId: string;
+  catalogId: string;
 };
 
 const servicesAdapter = createEntityAdapter({
@@ -46,10 +46,10 @@ export const servicesApi = createApi({
   keepUnusedDataFor: 0, //0 секунда
   endpoints: (build) => ({
     getServices: build.query<ServicesState, ParamsServices>({
-      query: ({ limit = 15, page = 1, search, typeId }) => ({
+      query: ({ limit = 15, page = 1, search, catalogId }) => ({
         url: `${SERVICES_URL}/?${limit ? `limit=${limit} ` : ""}&page=${page}${
           search ? `&title=${search}` : ""
-        }&type_id=${typeId}`.replace(/\s+/g, ""), // regex удаляет все пробелы в строке
+        }&catalog_id=${catalogId}`.replace(/\s+/g, ""), // regex удаляет все пробелы в строке
         method: "GET",
         credentials: "include",
       }),
@@ -73,7 +73,10 @@ export const servicesApi = createApi({
             previous: response.previous,
             count: response.count,
           },
-          response.results
+          // фильтруем, чтоб были только услуги
+          response.results.filter(
+            (item: { type: "ad" | "serivce" }) => item.type !== "ad"
+          )
         );
       },
       forceRefetch: ({ currentArg, previousArg }) => {
@@ -122,10 +125,7 @@ export const servicesApi = createApi({
       }),
     }),
     createService: build.mutation({
-      query: ({
-        endPoint,
-        data
-      }) => ({
+      query: ({ endPoint, data }) => ({
         url: `/${endPoint}/`,
         method: "POST",
         credentials: "include",
@@ -251,7 +251,7 @@ export const {
   useDeleteFromFavoritesMutation,
   useGetFavoritesQuery,
   useGetUserAdsQuery,
-  useGetUserServicesQuery
+  useGetUserServicesQuery,
 } = servicesApi;
 
 export { servicesAdapter, servicesSelector };
