@@ -26,7 +26,7 @@ export default function ListServices() {
       limit: 12,
       page: page,
       search: search,
-      typeId: params.id!,
+      catalogId: params.id!,
     },
     {
       selectFromResult: ({ data, ...originalArgs }) => {
