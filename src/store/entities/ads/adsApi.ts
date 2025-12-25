@@ -1,6 +1,13 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { BASE_URL } from "../../../utils/constans";
 
+interface BaseResponse<T> {
+  count: number;
+  next: string | null;
+  previous: string | null;
+  results: T[];
+}
+
 interface AdImage {
   id: number;
   image: string;
@@ -10,6 +17,7 @@ interface AdImage {
 export interface AdInfo {
   id: number;
   title: string;
+  type: "ad";
   description: string;
   price: string;
   status: number;
@@ -35,7 +43,26 @@ export const adsApi = createApi({
         url: `ads/${id}`,
       }),
     }),
+    getAllAds: build.query<
+      BaseResponse<AdInfo>,
+      { category_id?: number; page?: number; limit?: number }
+    >({
+      query: (params) => ({
+        url: `advertisements/`,
+        params,
+      }),
+      serializeQueryArgs: ({ endpointName }) => endpointName,
+      forceRefetch: ({ previousArg, currentArg }) =>
+        currentArg?.page !== previousArg?.page ||
+        currentArg?.category_id !== previousArg?.category_id,
+      merge: (currentData, newData) => {
+        return {
+          ...newData,
+          results: [...currentData.results, ...newData.results],
+        };
+      },
+    }),
   }),
 });
 
-export const { useGetAdByIdQuery } = adsApi;
+export const { useGetAdByIdQuery, useGetAllAdsQuery } = adsApi;

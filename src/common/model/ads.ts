@@ -29,4 +29,9 @@ export interface ServiceInfo {
   updated_a: string;
   is_favorited: boolean;
   price_list_entries: { id: number; title: string; price: number }[];
+  title_photo?: {
+    id: string
+    image: string | null
+    title_photo: boolean;
+  }
 }

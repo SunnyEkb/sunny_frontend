@@ -9,7 +9,7 @@ import CardCatalog from "../CardCatalog/CardCatalog";
 import { useAppDispatch, useAppSelector } from "../../../../store/store";
 import { changePageAction } from "../../../../store/slices/serviceSlice";
 import { useParams } from "react-router-dom";
-import { AdsInfo } from "../../../../common/model/ads";
+import { ServiceInfo } from "../../../../common/model/ads";
 import styles from "./listServices.module.scss";
 
 export default function ListServices() {
@@ -55,7 +55,7 @@ export default function ListServices() {
   return (
     <React.Fragment>
       <div className={styles.listServices}>
-        {data.items.map((item: AdsInfo) => {
+        {data.items.map((item: ServiceInfo) => {
           return <CardCatalog key={item.id} title={item.title} card={item} />;
         })}
         <div ref={ref} className={styles.observer_element} />
