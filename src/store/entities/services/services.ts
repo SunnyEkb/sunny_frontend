@@ -1,7 +1,7 @@
 import { createEntityAdapter, EntityState } from "@reduxjs/toolkit";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { BASE_URL } from "../../../utils/constans";
-import { AdsInfo } from "../../../common/model/ads";
+import { ServiceInfo } from "../../../common/model/ads";
 
 const SERVICES_URL = "/advertisements";
 
@@ -100,26 +100,14 @@ export const servicesApi = createApi({
           ? ["UNAUTHORIZED"]
           : ["UNKNOWN_ERROR"],
     }),
-    getUserAds: build.query<
+    getUserAdvertisements: build.query<
       Pick<ServicesState, "count" | "next" | "previous"> & {
-        results: AdsInfo[];
+        results: ServiceInfo[];
       },
       void
     >({
       query: () => ({
-        url: "ads/?my_ads=true",
-        method: "GET",
-        credentials: "include",
-      }),
-    }),
-    getUserServices: build.query<
-      Pick<ServicesState, "count" | "next" | "previous"> & {
-        results: AdsInfo[];
-      },
-      void
-    >({
-      query: () => ({
-        url: "services/?my_services=true",
+        url: "/my-advertisements/",
         method: "GET",
         credentials: "include",
       }),
@@ -138,7 +126,7 @@ export const servicesApi = createApi({
     }),
     getFavorites: build.query<
       Pick<ServicesState, "count" | "next" | "previous"> & {
-        results: { subject: AdsInfo }[];
+        results: { subject: ServiceInfo }[];
       },
       void
     >({
@@ -173,7 +161,7 @@ export const servicesApi = createApi({
       invalidatesTags: [{ type: "Services", id: "PARTIAL-LIST" }],
     }),
     update: build.mutation({
-      query: (data: AdsInfo) => ({
+      query: (data: ServiceInfo) => ({
         url: `/services/${data.id}/`,
         method: "PATCH",
         credentials: "include",
@@ -250,8 +238,7 @@ export const {
   useUpdateMutation,
   useDeleteFromFavoritesMutation,
   useGetFavoritesQuery,
-  useGetUserAdsQuery,
-  useGetUserServicesQuery,
+  useGetUserAdvertisementsQuery
 } = servicesApi;
 
 export { servicesAdapter, servicesSelector };

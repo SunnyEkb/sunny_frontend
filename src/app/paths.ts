@@ -14,6 +14,7 @@ export const paths = {
   catalog: "/catalogs/:id",
   catalogService: "/catalogs/:id/service/:idService",
   adPage: "/ads/:idAds",
+  servicePage: "/service/:idService",
   createAds: "/create",
   policy: "/policy",
   error: "/*",

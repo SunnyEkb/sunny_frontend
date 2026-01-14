@@ -1,52 +1,51 @@
-import {
-  useGetUserServicesQuery,
-  useGetUserAdsQuery,
-} from "../../../store/entities/services/services";
+import { useGetUserAdvertisementsQuery } from "../../../store/entities/services/services";
 import { AdCard } from "./AdCard/AdCard";
 import { Tabs } from "./Tabs/Tabs";
 
 import styles from "./UserAds.module.scss";
 
 export const UserAds = ({}) => {
-  const { data: services, isLoading: isServicesLoading } =
-    useGetUserServicesQuery();
-  const { data: ads, isLoading: isAdsLoading } = useGetUserAdsQuery();
+  const { data, isLoading: isDataLoading } = useGetUserAdvertisementsQuery();
 
   const Loading = <p>Загрузка...</p>;
   const Empty = <p>Пусто</p>;
 
-  const ServicesCards = services?.results?.length
-    ? services.results.map((service) => (
-        <AdCard
-          key={service.id}
-          title={service.title}
-          image={service.images[0]?.image}
-          price={1000}
-          description={service.description}
-        />
-      ))
+  const ServicesCards = data?.results?.length
+    ? data.results
+        .filter((item) => item.type === "service")
+        .map((service) => (
+          <AdCard
+            key={service.id}
+            title={service.title}
+            image={service.title_photo ? service.title_photo.image! : undefined}
+            price={1000}
+            description={service.description}
+          />
+        ))
     : Empty;
 
-  const AdsCards = ads?.results?.length
-    ? ads.results.map((ad) => (
-        <AdCard
-          key={ad.id}
-          title={ad.title}
-          image={ad.images[0]?.image}
-          price={1000}
-          description={ad.description}
-        />
-      ))
+  const AdsCards = data?.results?.length
+    ? data.results
+        .filter((item) => item.type === "ad")
+        .map((ad) => (
+          <AdCard
+            key={ad.id}
+            title={ad.title}
+            image={ad.title_photo ? ad.title_photo.image! : undefined}
+            price={1000}
+            description={ad.description}
+          />
+        ))
     : Empty;
 
   const tabsData: { title: string; content: React.ReactNode }[] = [
     {
       title: "Объявления",
-      content: isServicesLoading ? Loading : ServicesCards,
+      content: isDataLoading ? Loading : ServicesCards,
     },
     {
       title: "Услуги",
-      content: isAdsLoading ? Loading : AdsCards,
+      content: isDataLoading ? Loading : AdsCards,
     },
   ];
 

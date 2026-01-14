@@ -10,15 +10,28 @@
   background-color: #fff;
   box-shadow: 2px 2px 4px #eceff1;
 
-  .cardHead{
+  .cardHead {
     display: flex;
     justify-content: space-between;
+  }
+
+  .cardTitle {
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    a:hover {
+      opacity: .7;
+      transition: opacity .2s;
+    }
   }
 
   .cardImg {
     width: 100%;
     border-radius: 16px;
     height: 144px;
+    object-fit: cover;
   }
 
   .cardAddres {
@@ -28,7 +41,6 @@
     font-style: normal;
     font-weight: 400;
   }
-
 
   .cardLike {
     width: 13px;
