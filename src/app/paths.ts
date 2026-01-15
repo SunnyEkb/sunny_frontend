@@ -4,13 +4,16 @@ export const paths = {
   //  catalogs: '/',
   settings: "/settings",
   profile: "/profile",
+  passwordChange: '/password-change',
+  favorites: "/favorites",
   user_profile_edit: "/user_profile_edit",
   auth: "/auth",
   register: "/register",
   //register: '/',
   confirmEmail: "/confirm-email",
   catalog: "/catalogs/:id",
-  catalogAds: "/catalogs/:id/ads/:idAds",
+  catalogService: "/catalogs/:id/service/:idService",
+  adPage: "/ads/:idAds",
   createAds: "/create",
   policy: "/policy",
   error: "/*",
@@ -21,4 +24,5 @@ export const paths = {
   registryActivate: "/registry-activate",
   chat: `/chat/:objectType/:object_id/:buyer_id`,
   moderation: "/moderation", // Added path for moderation mainpage
+  myAds: '/my-ads'
 };

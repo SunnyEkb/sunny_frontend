@@ -1,25 +1,30 @@
 import React from "react";
 import defaultPhoto from "../../../../assets/icon/Foto.png";
-import heartLike from "../../../../assets/icon/Heart.svg";
-import heardLiked from "../../../../assets/icon/Heart_liked.svg";
 import { useNavigate, useParams } from "react-router-dom";
 import CardCatalogAuthor from "../../../../user/components/authorCardCatalog/CardCatalogAuthor";
 import PriceLists from "../../CardCatalogBig/PriceList/PriceLists";
-import { useAddToFavoritesMutation, useDeleteFromFavoritesMutation } from "../../../../store/entities/services/services";
-import { AdsInfo } from "../../../../common/model/ads";
+import {
+  useAddToFavoritesMutation,
+  useDeleteFromFavoritesMutation,
+} from "../../../../store/entities/services/services";
+import { ServiceInfo } from "../../../../common/model/ads";
 import style from "./cardCatalog.module.scss";
+import { useAppDispatch } from "../../../../store/store";
+import { HeartIcon } from "../../../../shared/HeartIcon/HeartIcon";
+import { BASE_URL } from "../../../../utils/constans";
 
 interface Props {
   title: string;
-  card: AdsInfo;
+  card: ServiceInfo;
 }
 
 export default function CardCatalog({ title, card }: Props) {
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const params = useParams();
 
   function handleGoAds() {
-    navigate(`/catalogs/${params.id}/ads/${card.id}`);
+    navigate(`/catalogs/${params.id}/service/${card.id}`);
   }
 
   const [addToFavorite] = useAddToFavoritesMutation();
@@ -38,21 +43,27 @@ export default function CardCatalog({ title, card }: Props) {
       <div className={style.catalog__card}>
         <div className={style.catalog__imageWrapper} onClick={handleGoAds}>
           <img
-            src={card.images[0]?.image || defaultPhoto}
+            src={
+              card?.title_photo?.title_photo
+                ? BASE_URL.replace("/api/v1", "") + card.title_photo?.image
+                : defaultPhoto
+            }
             alt="услуга"
             className={style.catalog__cardPhoto}
           />
         </div>
 
         <div className={style.catalog__cardInfo}>
-          <div className={style.catalog__cardTitle} onClick={handleGoAds}>
-            <div className={style.catalog__cardTitleText}>{title}</div>
-            <img
-              src={card.is_favorited ? heardLiked : heartLike}
-              alt="like"
-              onClick={handleClickLike}
+          <div className={style.catalog__cardTitle}>
+            <div className={style.catalog__cardTitleText} onClick={handleGoAds}>
+              {title}
+            </div>
+            <button
               className={style.catalog__cardLike}
-            />
+              onClick={handleClickLike}
+            >
+              <HeartIcon is_favorited={card.is_favorited} />
+            </button>
           </div>
           <div className={style.catalog__cardSubtitleText}>
             1000 ₽ за услугу

@@ -5,7 +5,7 @@ import UserLK from "../user/pages/userLK/userLK";
 import MainCatalog, {
   loaderCatagories,
 } from "../ads/pages/catalogs/new/MainCatalog";
-import Catalog from "../ads/pages/catalog/catalog";
+import Catalog, { LoaderInitPage } from "../ads/pages/catalog/catalog";
 import CardCatalogBig, {
   loaderAdsByCatalogId,
 } from "../ads/pages/CardCatalogBig/CardCatalogBig";
@@ -26,6 +26,10 @@ import RegisterActivatePage from "../user/pages/registerActivate/registerActivat
 import ChatPage from "../ads/pages/chatPage/chatPage";
 import ModerationPage from "../ads/pages/moderation/ModerationPage"; // Importing ModerationPage
 import ConfirmEmail from "../user/pages/confirmEmail/confirmEmail";
+import { UserFavorites } from "../user/pages/UserFavorites/UserFavorites";
+import { UserAds } from "../user/pages/UserAds/UserAds";
+import PasswordChange from "../user/pages/passwordChange/passwordChange";
+import { SearchProvider } from "./layouts/SearchProvider/SearchProvider";
 
 export const router = createBrowserRouter(
   [
@@ -53,10 +57,18 @@ export const router = createBrowserRouter(
           path: paths.user_profile_edit,
           element: <UserProfileEdit />,
         },
+        {
+          path: paths.passwordChange,
+          element: <PasswordChange />,
+        },
       ],
     },
     {
-      element: <MainLayout />,
+      element: (
+        <SearchProvider>
+          <MainLayout />
+        </SearchProvider>
+      ),
       path: paths.index,
       children: [
         {
@@ -66,16 +78,23 @@ export const router = createBrowserRouter(
         {
           path: paths.catalog,
           element: <Catalog />,
+          loader: LoaderInitPage,
+        },
+          {
+          path: paths.catalogService,
+          element: <CardCatalogBig />, // убрать
+          loader: (params) => loaderAdsByCatalogId(params),
         },
         {
-          path: paths.catalogAds,
-          element: <CardCatalogBig />,
+          path: paths.adPage,
+          element: <CardCatalogBig />, // убрать
           loader: (params) => loaderAdsByCatalogId(params),
         },
 
         {
           path: paths.createAds,
           element: <CreateAds />,
+          loader: () => loaderCatagories(),
           children: [
             {
               path: paths.createAds,
@@ -94,6 +113,14 @@ export const router = createBrowserRouter(
           path: paths.index,
           element: <MainCatalog />,
           loader: () => loaderCatagories(),
+        },
+        {
+          path: paths.favorites,
+          element: <UserFavorites />,
+        },
+        {
+          path: paths.myAds,
+          element: <UserAds />,
         },
       ],
     },

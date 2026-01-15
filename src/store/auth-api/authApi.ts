@@ -2,6 +2,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { BASE_URL } from "../../utils/constans";
 import { User } from "../slices/authSlice";
+import { deleteAllCookies } from "../../utils/cookie";
 
 // export const BASE_URL: string = 'https://sunnyekb.ru/api/v1/';
 
@@ -47,6 +48,23 @@ export const authApi = createApi({
           "Content-Type": "application/json",
         },
       }),
+      async onQueryStarted(_, { queryFulfilled }) {
+        try {
+          await queryFulfilled;
+          localStorage.clear();
+          deleteAllCookies();
+        } catch {
+          console.warn("error clear cookie");
+        }
+      },
+      transformResponse: () => {
+        localStorage.clear();
+        deleteAllCookies();
+      },
+      transformErrorResponse: () => {
+        localStorage.clear();
+        deleteAllCookies();
+      },
     }),
     register: build.mutation<User, { email?: string; password?: string }>({
       query: (data) => ({
@@ -86,9 +104,21 @@ export const authApi = createApi({
         ...getRequestConfig("POST", data),
       }),
     }),
-    passwordForget: build.mutation<string, { password?: string; token?: string }>({
+    passwordForget: build.mutation<
+      string,
+      { password?: string; token?: string }
+    >({
       query: (data) => ({
         url: "password_reset/confirm/",
+        ...getRequestConfig("POST", data),
+      }),
+    }),
+    passwordChange: build.mutation<
+      string,
+      { current_password: string; new_password: string; confirmation: string }
+    >({
+      query: (data) => ({
+        url: "change-password/",
         ...getRequestConfig("POST", data),
       }),
     }),
@@ -114,6 +144,7 @@ export const {
   useUpdateUserAvatarMutation,
   usePasswordForgetMutation,
   useVerifyRegistrationMutation,
+  usePasswordChangeMutation,
 } = authApi;
 
 export type AuthApi = typeof authApi;

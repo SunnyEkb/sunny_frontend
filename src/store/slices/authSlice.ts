@@ -1,7 +1,8 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { authApi } from '../auth-api/authApi';
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { authApi } from "../auth-api/authApi";
+import { deleteAllCookies } from "../../utils/cookie";
 
-export type AvatarType = File | string | null
+export type AvatarType = File | string | null;
 
 export interface User {
   id?: number;
@@ -25,7 +26,7 @@ const initialState: AuthState = {
 };
 
 const authSlice = createSlice({
-  name: 'auth',
+  name: "auth",
   initialState,
   reducers: {
     setRegistrated(state, action: PayloadAction<User | null>) {
@@ -40,6 +41,7 @@ const authSlice = createSlice({
     clearUser(state) {
       state.user = null;
       state.isAuthenticated = false;
+      deleteAllCookies();
     },
     updateUserProfile(state, action: PayloadAction<Partial<User>>) {
       if (state.user) {
@@ -49,10 +51,13 @@ const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addMatcher(authApi.endpoints.checkAuth.matchFulfilled, (state, action) => {
-        state.isAuthenticated = true;
-        state.user = action.payload;
-      })
+      .addMatcher(
+        authApi.endpoints.checkAuth.matchFulfilled,
+        (state, action) => {
+          state.isAuthenticated = true;
+          state.user = action.payload;
+        }
+      )
       .addMatcher(authApi.endpoints.checkAuth.matchRejected, (state) => {
         state.isAuthenticated = false;
         state.user = null;
@@ -60,6 +65,7 @@ const authSlice = createSlice({
   },
 });
 
-export const { setRegistrated, setAuthenticated, setUser, clearUser } = authSlice.actions;
+export const { setRegistrated, setAuthenticated, setUser, clearUser } =
+  authSlice.actions;
 
 export default authSlice.reducer;

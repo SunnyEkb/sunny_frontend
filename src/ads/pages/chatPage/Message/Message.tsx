@@ -1,6 +1,8 @@
 import React from "react";
 import styles from "./style.module.scss";
 import defaultAvatar from "../../../../assets/Avatar.svg";
+
+
 import { ChatMessages } from "../../../../store/actions/chat";
 import { useAppSelector } from "../../../../store/store";
 
@@ -17,7 +19,7 @@ interface Props {
 //   read?: boolean;
 // }
 
-export default function Message({ message }: Props) {
+export default function Message({ message}: Props) {
   const userInfo = useAppSelector((state) => state.auth.user);
   function formatTime(date: Date): string {
     const hours: string = String(date.getHours()).padStart(2, "0");
@@ -27,8 +29,9 @@ export default function Message({ message }: Props) {
 
   const avatarSrc =
     message && userInfo && message.sender_username === userInfo.username
-      ? userInfo.avatar as string || defaultAvatar
-      : message.avatar as string || defaultAvatar;
+      ? (userInfo.avatar as string) || defaultAvatar
+      : (message.avatar as string) || defaultAvatar;
+
 
   return (
     <div

@@ -1,10 +1,15 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import styles from "./mainCatalog.module.scss";
 import CardCatalog from "../CardCatalog/CardCatalog";
-import MiniAdCard from "../../catalog/MiniAdCard/MiniAdCard";
+
 import { useLoaderData } from "react-router-dom";
 
-import { mockCards } from "./mockCards";
+import { useSearch } from "../../../../app/layouts/SearchProvider/SearchProvider";
+import { useEffect, useState } from "react";
+import { useGetSearchItemsQuery } from "../../../../store/entities/search/searchApi";
+import MainCatalogCard from "./MainCatalogCard/MainCatalogCard";
+import { useGetAllAdsQuery } from "../../../../store/entities/ads/adsApi";
+import { useInView } from "react-intersection-observer";
 
 interface DataProps {
   id: number;
@@ -30,32 +35,88 @@ export const loaderCatagories = async () => {
 
 export default function MainCatalog() {
   const data = useLoaderData() as DataProps[];
+  const [searchString] = useSearch();
+  const [debounceString, setDebounceString] = useState(searchString);
+  const { data: searchItems } = useGetSearchItemsQuery(debounceString, {
+    skip: debounceString?.length <= 2,
+  });
 
-  // Mock data for MiniAdCards
-  /* const mockAds: any = [
-    { id: 1, title: "Ad 1", price: "1000₽", location: "Location 1" },
-    { id: 2, title: "Ad 2", price: "2000₽", location: "Location 2" },
-    { id: 3, title: "Ad 3", price: "3000₽", location: "Location 3" },
-    { id: 4, title: "Ad 4", price: "4000₽", location: "Location 4" },
-  ]; */
+  const [adPageParam, setAdPageParam] = useState(1);
+  const { data: adResponse } = useGetAllAdsQuery({
+    page: adPageParam,
+    limit: 12,
+  });
+  const { ref, inView } = useInView({
+    threshold: 0.5,
+  });
+
+  useEffect(() => {
+    const timerId = setTimeout(() => {
+      setDebounceString(searchString);
+    }, 300);
+
+    return () => clearTimeout(timerId);
+  }, [searchString]);
+
+  useEffect(() => {
+    if (adResponse?.next && inView) {
+      setAdPageParam((prev) => prev + 1);
+    }
+  }, [inView]);
 
   return (
     <section className={styles.section}>
-      <section className={styles.breadcrumbs}>
+      <div className={styles.breadcrumbs}>
         <a href="/">Главная</a> &gt; <span>На районе</span>
-      </section>
-
-      <section className={styles.sectionImg}>
-        <div className={styles.img} />
-      </section>
+      </div>
 
       <main className={styles.catalog__content}>
-        <div className={styles.catalog__title}>На районе</div>
-        <div className={styles.catalog__itemList}>
-          {mockCards?.map((card) => {
-            return <CardCatalog key={card.id} card={card} />;
-          })}
-        </div>
+        {Array.isArray(searchItems) &&
+          searchItems.length === 0 &&
+          debounceString.length > 2 && (
+            <span className={styles.title}>Ничего не найдено</span>
+          )}
+
+        {Array.isArray(searchItems) &&
+          searchItems.length > 0 &&
+          debounceString.length > 2 && (
+            <>
+              <h1 className={styles.title}>Найденные услуги и объявления</h1>
+              <div className={styles.mainList}>
+                {searchItems.map((item) => (
+                  <MainCatalogCard key={item.id} {...item} />
+                ))}
+              </div>
+            </>
+          )}
+
+        {debounceString.length <= 2 && (
+          <>
+            <div className={styles.catalog__itemList}>
+              {data?.map((card) => {
+                return <CardCatalog key={card.id} card={card} />;
+              })}
+            </div>
+
+            <div className={styles.ads_container}>
+              <h2 className={styles.newSectionTitle}>
+                Услуги и объявления соседей
+              </h2>
+              <div className={styles.mainList}>
+                {adResponse?.results?.map((item, index) => {
+                  const isLast = index === adResponse.results.length - 1;
+                  return (
+                    <MainCatalogCard
+                      key={item.id}
+                      {...item}
+                      ref={isLast ? ref : null}
+                    />
+                  );
+                })}
+              </div>
+            </div>
+          </>
+        )}
       </main>
 
       {/* <section className={styles.newSection}>

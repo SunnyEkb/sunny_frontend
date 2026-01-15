@@ -1,0 +1,44 @@
+.card {
+  display: grid;
+  gap: 8px;
+  color: #2c555b;
+  font-size: 19px;
+  font-weight: 700;
+  line-height: 1.25;
+  padding: 16px;
+  border-radius: 8px;
+  background-color: #fff;
+  box-shadow: 2px 2px 4px #eceff1;
+
+  .cardHead{
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .cardImg {
+    width: 100%;
+    border-radius: 16px;
+    height: 144px;
+  }
+
+  .cardAddres {
+    color: #b2bdc7;
+    font-size: 13px;
+    line-height: 1.23;
+    font-style: normal;
+    font-weight: 400;
+  }
+
+
+  .cardLike {
+    width: 13px;
+    height: 13px;
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
+  }
+
+  @media (max-width: 450px) {
+    font-size: 16px;
+  }
+}
