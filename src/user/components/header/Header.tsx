@@ -37,12 +37,9 @@ export default function Header() {
     if (!isLoading && !user) {
       trigger();
     }
-  }, []);
+  }, [user]);
 
-  useEffect(() => {
-
-  })
-
+console.log('user', user)
   return (
     <header className={styles.header}>
       <div className={styles.topRow}>

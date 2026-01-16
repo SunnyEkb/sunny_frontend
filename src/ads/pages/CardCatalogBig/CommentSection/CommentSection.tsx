@@ -43,8 +43,8 @@ export default function CommentSection({ comments }: Props) {
       )}
 
       {isInputVisible && <CommentWindow onClose={handleButtonClick} />}
-      {comments.map((item) => {
-        return <CommentItem comment={item} />;
+      {comments.length > 0 && comments.map((item) => {
+        return <CommentItem key={item.id} comment={item} />;
       })}
     </>
   );
