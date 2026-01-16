@@ -28,7 +28,7 @@ const mockMessage = [
 
 export default function WindowChat() {
   const [value, setValue] = React.useState("");
-  const today: Date = new Date("2024-10-05");
+  const today: Date = new Date();
   const dispatch = useAppDispatch();
   const { currentMessages } = useAppSelector((state) => state.wsChat);
 
