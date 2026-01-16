@@ -6,6 +6,7 @@ import { Controller, useForm } from "react-hook-form";
 import { useAddCommentMutation } from "../../../../store/entities/services/services";
 import Rating from "../Comment/Rating";
 import Notifications from "../../../../shared/notification/Notification";
+import { useAddCommentAdsMutation } from "../../../../store/entities/ads/adsApi";
 
 interface Props {
   onClose: () => void;
@@ -13,11 +14,19 @@ interface Props {
 
 interface PropsForm {
   feedback: string;
+  rating: number;
+}
+
+interface PropsParams {
+  id: string;
+  idService?: string;
+  idAds?: string;
 }
 
 export default function CommentWindow({ onClose }: Props) {
   const [addComment] = useAddCommentMutation();
-  const params = useParams();
+  const [addCommentAds] = useAddCommentAdsMutation();
+  const params = useParams() as unknown as PropsParams;
   const [message, setMessage] = React.useState<{
     message: string;
     status: "success" | "error";
@@ -26,30 +35,48 @@ export default function CommentWindow({ onClose }: Props) {
   const methods = useForm<PropsForm>({
     defaultValues: {
       feedback: "",
+      rating: 0,
     },
     mode: "all",
   });
 
   const onSubmit = async (data: PropsForm) => {
-    if (params.idAds) {
+    let res;
+    if (params.idService) {
       try {
-        const res = await addComment({
-          id: params.idAds,
+        res = await addComment({
+          id: params.idService,
           feedback: data.feedback,
-          rating: 5,
+          rating: data.rating,
         });
-
-        if (res.error) {
-          const error = res.error as { data: string; status: number };
-          setMessage({ message: error.data, status: "error" });
-        }
-        if (res.data) {
-          setMessage({ message: res.data, status: "success" });
-        }
       } catch (e) {
         console.error("e", e);
       }
     }
+
+    if (params.idAds) {
+      try {
+        res = await addCommentAds({
+          id: params.idAds,
+          feedback: data.feedback,
+          rating: data.rating,
+        });
+      } catch (e) {
+        console.error("e", e);
+      }
+    }
+
+    if (res?.error) {
+      const error = res.error as { data: string; status: number };
+      setMessage({ message: error.data, status: "error" });
+    }
+    if (res?.data) {
+      setMessage({ message: res.data, status: "success" });
+    }
+  };
+
+  const handleChooseRating = (rating: number) => {
+    methods.setValue("rating", rating);
   };
 
   return (
@@ -71,6 +98,7 @@ export default function CommentWindow({ onClose }: Props) {
           <Rating
             extraClass={styles.ratingWrapper}
             extraClassStar={styles.starSize}
+            onClick={handleChooseRating}
           />
           <h4 className={styles.cardBig__section__title}>Напишите отзыв</h4>
           <Controller

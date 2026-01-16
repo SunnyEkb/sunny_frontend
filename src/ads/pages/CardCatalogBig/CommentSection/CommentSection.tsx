@@ -3,7 +3,29 @@ import style from "./style.module.scss";
 import CommentItem from "../Comment/Comment";
 import CommentWindow from "../CommentWindow/CommentWindow";
 
-export default function CommentSection() {
+export interface IComment {
+  content_type: number;
+  object_id: number;
+  rating: number;
+  feedback: string;
+  id: number;
+  author: {
+    id: number;
+    username: string;
+    email: string;
+    avatar: string;
+  };
+  image: {
+    id: string;
+    image: string;
+  }[];
+}
+
+interface Props {
+  comments: IComment[];
+}
+
+export default function CommentSection({ comments }: Props) {
   const [isInputVisible, setIsInputVisible] = useState(false);
 
   const handleButtonClick = () => {
@@ -21,10 +43,9 @@ export default function CommentSection() {
       )}
 
       {isInputVisible && <CommentWindow onClose={handleButtonClick} />}
-
-      <CommentItem />
-      <CommentItem />
-      <CommentItem />
+      {comments.map((item) => {
+        return <CommentItem comment={item} />;
+      })}
     </>
   );
 }

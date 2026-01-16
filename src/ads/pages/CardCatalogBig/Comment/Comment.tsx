@@ -1,12 +1,14 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import style from "./style.module.scss";
 import Avatar from "../../../../user/components/avatar/Avatar";
-import { mockComment } from "./helper";
 import Rating from "./Rating";
+import { IComment } from "../CommentSection/CommentSection";
 
-//mock
+interface Props {
+  comment: IComment
+}
 
-export default function CommentItem() {
+export default function CommentItem({comment}: Props) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [showButton, setShowButton] = useState(false);
   const textRef = useRef(null);
@@ -16,7 +18,7 @@ export default function CommentItem() {
       const isOverflowing = textRef.current.scrollHeight > 60; // 60px — высота в css
       setShowButton(isOverflowing);
     }
-  }, [mockComment]);
+  }, [comment.feedback]);
 
   const toggleExpand = () => {
     setIsExpanded(!isExpanded);
@@ -31,12 +33,12 @@ export default function CommentItem() {
           className={style.commentItem__avatar}
         />
         <div className={style.commentItem__infoWrapper}>
-          <div className={style.commentItem__infoTitle}>Валерия</div>
+          <div className={style.commentItem__infoTitle}>{comment.author.username}</div>
           <div className={style.commentItem__infoSubtitle}>5 октября </div>
         </div>
       </div>
 
-      <Rating />
+      <Rating rating={comment.rating} />
 
       <div className={style.commentItem__notif}>Комментарий</div>
 
@@ -48,7 +50,7 @@ export default function CommentItem() {
             overflow: isExpanded ? "visible" : "hidden",
           }}
         >
-          {mockComment}
+          {comment.feedback}
         </div>
         {!showButton && (
           <div

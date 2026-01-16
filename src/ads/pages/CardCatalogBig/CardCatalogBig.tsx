@@ -146,7 +146,7 @@ export default function CardCatalogBig() {
       </section>
 
       <section className={style.cardBig__section}>
-        <CommentSection />
+        <CommentSection comments={cardData.comments}/>
 
 
       </section>
