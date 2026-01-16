@@ -14,7 +14,7 @@ export default function CardCatalogAuthor({ card }: Props) {
   const navigate = useNavigate();
   const handleGoAds = () => {
     if (user) {
-      navigate(`/chat/service/${card.id}/${user.id}`);
+      navigate(`/chat/${card.type}/${card.id}/${user.id}`);
     } else {
       console.warn("Вы не авторизованы");
     }
