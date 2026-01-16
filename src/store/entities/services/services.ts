@@ -250,9 +250,7 @@ export const {
   useUpdateMutation,
   useDeleteFromFavoritesMutation,
   useGetFavoritesQuery,
-  useGetUserAdvertisementsQuery
-  useGetUserAdsQuery,
-  useGetUserServicesQuery,
+  useGetUserAdvertisementsQuery,
   useAddCommentMutation,
 } = servicesApi;
 

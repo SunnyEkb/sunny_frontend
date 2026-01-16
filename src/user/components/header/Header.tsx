@@ -37,11 +37,7 @@ export default function Header() {
     if (!isLoading && !user) {
       trigger();
     }
-  }, []);
-
-  useEffect(() => {
-
-  })
+  }, [user]);
 
   return (
     <header className={styles.header}>
