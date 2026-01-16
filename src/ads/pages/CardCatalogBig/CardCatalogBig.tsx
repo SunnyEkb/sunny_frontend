@@ -20,6 +20,7 @@ import { HeartIcon } from "../../../shared/HeartIcon/HeartIcon";
 
 import style from "./cardCatalogBig.module.scss";
 import { useLayoutEffect, useState } from "react";
+import CommentSection from "./CommentSection/CommentSection";
 
 interface LoaderParams {
   idAds?: string;
@@ -139,6 +140,15 @@ export default function CardCatalogBig() {
         <div className={style.cardBig__section__description}>
           {cardData.description}
         </div>
+        <div className={style.cardBig__section__description}>
+          {cardData.description}
+        </div>
+      </section>
+
+      <section className={style.cardBig__section}>
+        <CommentSection comments={cardData.comments}/>
+
+
       </section>
 
       <section className={style.cardBig__section}>
