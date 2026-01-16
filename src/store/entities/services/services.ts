@@ -199,6 +199,18 @@ export const servicesApi = createApi({
       },
       invalidatesTags: ["Favorite"],
     }),
+    addComment: build.mutation({
+      query: (data: { id: string; feedback: string; rating: number }) => ({
+        url: `/services/${data.id}/add-comment/`,
+        method: "POST",
+        credentials: "include",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }),
+      invalidatesTags: [{ type: "Services", id: "PARTIAL-LIST" }],
+    }),
     deleteFromFavorites: build.mutation({
       query: (id) => ({
         url: `/services/${id}/delete-from-favorites/`,
@@ -239,6 +251,9 @@ export const {
   useDeleteFromFavoritesMutation,
   useGetFavoritesQuery,
   useGetUserAdvertisementsQuery
+  useGetUserAdsQuery,
+  useGetUserServicesQuery,
+  useAddCommentMutation,
 } = servicesApi;
 
 export { servicesAdapter, servicesSelector };

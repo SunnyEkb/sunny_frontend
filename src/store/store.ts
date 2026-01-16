@@ -8,6 +8,7 @@ import servicesSlice from "./slices/serviceSlice";
 import { webSocketMiddleware } from "./midlewares/MidlewaresWebSoket";
 import { wsCHATActions } from "./actions/chat";
 import { wsChatReducer } from "./slices/wsChatSlice";
+import { commentsApi } from "./entities/comments/comments";
 import { searchApi } from "./entities/search/searchApi";
 import { adsApi } from "./entities/ads/adsApi";
 
@@ -17,6 +18,7 @@ export const store = configureStore({
     [servicesApi.reducerPath]: servicesApi.reducer,
     [searchApi.reducerPath]: searchApi.reducer,
     [adsApi.reducerPath]: adsApi.reducer,
+    [commentsApi.reducerPath]: commentsApi.reducer,
     auth: authReducer,
     services: servicesSlice,
     wsChat: wsChatReducer,
@@ -25,6 +27,7 @@ export const store = configureStore({
     getDefaultMiddleware()
       .concat(authApi.middleware)
       .concat(servicesApi.middleware)
+      .concat(commentsApi.middleware)
       .concat(searchApi.middleware)
       .concat(adsApi.middleware)
       .concat(webSocketMiddleware(wsCHATActions)),

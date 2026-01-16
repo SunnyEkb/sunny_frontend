@@ -37,6 +37,7 @@ export const adsApi = createApi({
   reducerPath: "adsApit",
   baseQuery: fetchBaseQuery({ baseUrl: BASE_URL }),
   keepUnusedDataFor: 100,
+    tagTypes: ["Ads", "UNAUTHORIZED", "UNKNOWN_ERROR", "Favorite"],
   endpoints: (build) => ({
     getAdById: build.query<AdInfo, number>({
       query: (id) => ({
@@ -62,7 +63,19 @@ export const adsApi = createApi({
         };
       },
     }),
+    addCommentAds: build.mutation({
+      query: (data: { id: string; feedback: string; rating: number }) => ({
+        url: `/ads/${data.id}/add-comment/`,
+        method: "POST",
+        credentials: "include",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }),
+      invalidatesTags: [{ type: "Ads", id: "PARTIAL-LIST" }],
+    }),
   }),
 });
 
-export const { useGetAdByIdQuery, useGetAllAdsQuery } = adsApi;
+export const { useGetAdByIdQuery, useGetAllAdsQuery, useAddCommentAdsMutation } = adsApi;
