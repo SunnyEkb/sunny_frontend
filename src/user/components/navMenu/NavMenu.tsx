@@ -8,10 +8,14 @@ import { useDispatch } from "react-redux";
 import { setAuthenticated, setUser } from "../../../store/slices/authSlice";
 import ModalConfirmExit from "../../../shared/Modals/ModalConfirmExit/ModalConfirmExit";
 import ModalConfirmDelete from "../../../shared/Modals/ModalConfirmDelete/ModalConfirmDelete";
-import { useGetFavoritesQuery } from "../../../store/entities/services/services";
+import {
+  useGetFavoritesQuery,
+  useGetUserAdvertisementsQuery,
+} from "../../../store/entities/services/services";
 
 const NavMenu: React.FC = () => {
   const { data: favorites } = useGetFavoritesQuery();
+  const { data: advertisments } = useGetUserAdvertisementsQuery();
   const [isOpen, setOpen] = React.useState(false);
   const [isOpenModalDelete, setOpenModalDelete] = React.useState(false);
 
@@ -51,7 +55,11 @@ const NavMenu: React.FC = () => {
   return (
     <>
       <nav className={styles.menu}>
-        <MenuItem title="Мои объявления" subtitle="6 объявлений" />
+        <MenuItem
+          title="Мои объявления"
+          subtitle={`${advertisments?.count || 0} объявлений`}
+          linkText="/my-ads"
+        />
         <MenuItem title="Мои отзывы" subtitle="12 отзывов" />
         <MenuItem
           title="Избранное"

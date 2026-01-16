@@ -14,7 +14,7 @@ export interface ServiceInfo {
   description: string;
   experience: 5;
   place_of_provision: string;
-  type: Array<number>;
+  type: "service" | 'ad';
   price: object;
   status: number;
   images: {
