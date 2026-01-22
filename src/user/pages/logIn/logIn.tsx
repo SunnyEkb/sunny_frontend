@@ -18,10 +18,12 @@ import loginValidationSchema from "./loginValidationSchema";
 import AuthPageLayout from "../../layout/authPageLayout/AuthPageLayout";
 import { paths } from "../../../app/paths";
 import { Inputs, loginFields } from "../../components/input/constans";
+import { useAuthModal } from "../../providers/AuthModalContext";
 
 const LogIn: FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { openRegister, closeAuthModal } = useAuthModal();
 
   const {
     register,
@@ -51,7 +53,7 @@ const LogIn: FC = () => {
         dispatch(setUser(userResponse));
         dispatch(setAuthenticated(true));
 
-        navigate(userResponse.role === 'moderator' ? paths.moderation : paths.index);
+        // navigate(userResponse.role === 'moderator' ? paths.moderation : paths.index);
 
         /* if (userResponse.role === "moderator") {
         navigate(paths.moderation);
@@ -61,16 +63,16 @@ const LogIn: FC = () => {
       }
     } catch (err: any) {
       console.error("Ошибка при логине или запросе данных", err);
-      setErrMsg(err.data ? "Неправильная почта или пароль" : "Произошла ошибка");
+      setErrMsg(
+        err.data ? "Неправильная почта или пароль" : "Произошла ошибка"
+      );
     }
   };
 
   return (
     <AuthPageLayout
       title="Вход"
-      onGoBack={() => {
-        navigate(paths.index);
-      }}
+      onGoBack={closeAuthModal}
     >
       <div className={styles.LogIn_containerForm}>
         <UserForm
@@ -107,13 +109,15 @@ const LogIn: FC = () => {
         </UserForm>
 
         <p className={styles.LogIn__error_mesage}>{errMsg}</p>
-        <div className={styles.LogIn_linkRegistr}>
-          <Link
-            to={paths.register}
-            className={styles.LogIn_linkRegistr_linkText}
+        <div className={styles.LogIn_buttonRegistr}>
+          <button
+            onClick={() => {
+              openRegister();
+            }}
+            className={styles.LogIn_buttonRegistr_buttonText}
           >
             Зарегистрироваться
-          </Link>
+          </button>
         </div>
       </div>
     </AuthPageLayout>

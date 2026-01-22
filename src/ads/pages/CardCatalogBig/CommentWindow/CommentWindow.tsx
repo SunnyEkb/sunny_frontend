@@ -79,6 +79,7 @@ export default function CommentWindow({ onClose }: Props) {
     methods.setValue("rating", rating);
   };
 
+
   return (
     <section className={styles.section}>
       {message && (
