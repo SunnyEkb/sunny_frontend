@@ -23,7 +23,7 @@ export const RootModal = ({
       className={`${styles.modal} ${backdropFilter && styles.modal__filter}`}
       onClick={onClose}
     >
-      {children}
+      <div onClick={(e) => e.stopPropagation()}>{children}</div>
     </div>,
     modalElement
   );

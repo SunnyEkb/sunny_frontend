@@ -28,7 +28,7 @@
     justify-content: space-between;
   }
 
-  &_linkRegistr {
+  &_buttonRegistr {
     margin: 55px 0;
     padding: 0;
     height: 56px;
@@ -36,10 +36,11 @@
     justify-content: center;
     align-items: center;
 
-    &_linkText {
+    &_buttonText {
       margin: 32px 0 0 0;
       padding: 0;
       color: rgb(118, 160, 94);
+      border: none;
       font-family: "Inter", Arial, Helvetica, sans-serif;
       font-size: 19px;
       font-weight: 600;
@@ -47,22 +48,24 @@
       letter-spacing: 0%;
       text-align: center;
       text-decoration: none;
+      background-color: transparent;
+      cursor: pointer;
     }
   }
 
   &_passwordRecovery {
-      margin: 0 0 32px 0;
-      padding: 0;
-      color: rgb(118, 160, 94);
-      font-family: "Inter", Arial, Helvetica, sans-serif;
-      font-size: 13px;
-      font-weight: 600;
-      line-height: 16px;
-      text-decoration: none;
+    margin: 0 0 32px 0;
+    padding: 0;
+    color: rgb(118, 160, 94);
+    font-family: "Inter", Arial, Helvetica, sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 16px;
+    text-decoration: none;
 
-      &:hover {
-        text-decoration: underline;
-      }
+    &:hover {
+      text-decoration: underline;
+    }
   }
 
   &__error_mesage {
@@ -76,10 +79,10 @@
     line-height: 16px;
     box-sizing: border-box;
     height: 15px;
-    }
+  }
 }
 
-.containerCloseButton{
+.containerCloseButton {
   position: absolute;
   margin: 0;
   padding: 0;

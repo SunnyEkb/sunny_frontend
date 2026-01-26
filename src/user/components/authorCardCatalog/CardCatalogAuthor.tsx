@@ -4,6 +4,7 @@ import star from "../../../assets/icon/Star.svg";
 import { ServiceInfo } from "../../../common/model/ads";
 import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../../store/store";
+import { useAuthModal } from "../../providers/AuthModalContext";
 
 interface Props {
   card: ServiceInfo;
@@ -11,12 +12,13 @@ interface Props {
 
 export default function CardCatalogAuthor({ card }: Props) {
   const user = useAppSelector((state) => state.auth.user);
+  const { openLogin } = useAuthModal();
   const navigate = useNavigate();
   const handleGoAds = () => {
     if (user) {
       navigate(`/chat/${card.type}/${card.id}/${user.id}`);
     } else {
-      console.warn("Вы не авторизованы");
+      openLogin();
     }
   };
 
@@ -42,9 +44,7 @@ export default function CardCatalogAuthor({ card }: Props) {
           <img src={star} alt="звезда" className={style.arrowBack} />
         </div>
 
-        <div >
-          {card.comments_quantity} отзывов
-        </div>
+        <div>{card.comments_quantity} отзывов</div>
       </div>
 
       <div className={style.catalog__buttons}>

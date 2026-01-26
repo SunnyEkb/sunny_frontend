@@ -30,136 +30,142 @@ import { UserFavorites } from "../user/pages/UserFavorites/UserFavorites";
 import { UserAds } from "../user/pages/UserAds/UserAds";
 import PasswordChange from "../user/pages/passwordChange/passwordChange";
 import { SearchProvider } from "./layouts/SearchProvider/SearchProvider";
+import RootLayout from "./layouts/RootLayout/RootLayout ";
 
 export const router = createBrowserRouter(
   [
     {
-      element: <ProtectedRoute />,
-      loader: loaderProtectedRoute, // Wrap ModerationPage in ProtectedRoute
-      children: [
-        // {
-        //   // Отдельная группа для модерации
-        //   element: <ModeratorProtectedRoute />,
-        //   children: [
-        {
-          path: paths.moderation,
-          element: <ModerationPage />,
-        },
-        {
-          path: paths.profile,
-          element: <UserLK />,
-        },
-        {
-          path: paths.settings,
-          element: <SettingsUser />,
-        },
-        {
-          path: paths.user_profile_edit,
-          element: <UserProfileEdit />,
-        },
-        {
-          path: paths.passwordChange,
-          element: <PasswordChange />,
-        },
-      ],
-    },
-    {
-      element: (
-        <SearchProvider>
-          <MainLayout />
-        </SearchProvider>
-      ),
-      path: paths.index,
+      element: <RootLayout />,
       children: [
         {
-          path: paths.chat,
-          element: <ChatPage />,
-        },
-        {
-          path: paths.catalog,
-          element: <Catalog />,
-          loader: LoaderInitPage,
-        },
-        {
-          path: paths.catalogService,
-          element: <CardCatalogBig />, // убрать
-          loader: (params) => loaderAdsByCatalogId(params),
-        },
-        {
-          path: paths.adPage,
-          element: <CardCatalogBig />, // убрать
-          loader: (params) => loaderAdsByCatalogId(params),
-        },
-        {
-          path: paths.servicePage,
-          element: <CardCatalogBig />, // убрать
-          loader: (params) => loaderAdsByCatalogId(params),
-        },
-
-        {
-          path: paths.createAds,
-          element: <CreateAds />,
-          loader: () => loaderCatagories(),
+          element: <ProtectedRoute />,
+          loader: loaderProtectedRoute, // Wrap ModerationPage in ProtectedRoute
           children: [
+            // {
+            //   // Отдельная группа для модерации
+            //   element: <ModeratorProtectedRoute />,
+            //   children: [
             {
-              path: paths.createAds,
-              element: <MainFormAds />,
-              loader: () => loaderCatagories(),
+              path: paths.moderation,
+              element: <ModerationPage />,
+            },
+            {
+              path: paths.profile,
+              element: <UserLK />,
+            },
+            {
+              path: paths.settings,
+              element: <SettingsUser />,
+            },
+            {
+              path: paths.user_profile_edit,
+              element: <UserProfileEdit />,
+            },
+            {
+              path: paths.passwordChange,
+              element: <PasswordChange />,
             },
           ],
         },
-
         {
-          path: paths.typeCatalog,
-          element: <TypeCatalog />,
-          loader: loaderTypesCatalog,
-        },
-        {
+          element: (
+            <SearchProvider>
+              <MainLayout />
+            </SearchProvider>
+          ),
           path: paths.index,
-          element: <MainCatalog />,
-          loader: () => loaderCatagories(),
+          children: [
+            {
+              path: paths.chat,
+              element: <ChatPage />,
+            },
+            {
+              path: paths.catalog,
+              element: <Catalog />,
+              loader: LoaderInitPage,
+            },
+            {
+              path: paths.catalogService,
+              element: <CardCatalogBig />, // убрать
+              loader: (params) => loaderAdsByCatalogId(params),
+            },
+            {
+              path: paths.adPage,
+              element: <CardCatalogBig />, // убрать
+              loader: (params) => loaderAdsByCatalogId(params),
+            },
+            {
+              path: paths.servicePage,
+              element: <CardCatalogBig />, // убрать
+              loader: (params) => loaderAdsByCatalogId(params),
+            },
+
+            {
+              path: paths.createAds,
+              element: <CreateAds />,
+              loader: () => loaderCatagories(),
+              children: [
+                {
+                  path: paths.createAds,
+                  element: <MainFormAds />,
+                  loader: () => loaderCatagories(),
+                },
+              ],
+            },
+
+            {
+              path: paths.typeCatalog,
+              element: <TypeCatalog />,
+              loader: loaderTypesCatalog,
+            },
+            {
+              path: paths.index,
+              element: <MainCatalog />,
+              loader: () => loaderCatagories(),
+            },
+            {
+              path: paths.favorites,
+              element: <UserFavorites />,
+            },
+            {
+              path: paths.myAds,
+              element: <UserAds />,
+            },
+          ],
+        },
+        // ],
+
+        //   ],
+        // },
+        {
+          path: paths.auth,
+          element: <Login />,
         },
         {
-          path: paths.favorites,
-          element: <UserFavorites />,
+          path: paths.forgetPassword,
+          element: <NewPassword />,
         },
         {
-          path: paths.myAds,
-          element: <UserAds />,
+          path: paths.passwordRecovery,
+          element: <PasswordRecovery />,
+        },
+        {
+          path: paths.register,
+          element: <Registr />,
+        },
+        {
+          path: paths.confirmEmail,
+          element: <ConfirmEmail />,
+        },
+        {
+          path: paths.policy,
+          element: <PolicyPage />,
+        },
+        {
+          path: paths.registryActivate,
+          element: <RegisterActivatePage />,
         },
       ],
-    },
-    // ],
-
-    //   ],
-    // },
-    {
-      path: paths.auth,
-      element: <Login />,
-    },
-    {
-      path: paths.forgetPassword,
-      element: <NewPassword />,
-    },
-    {
-      path: paths.passwordRecovery,
-      element: <PasswordRecovery />,
-    },
-    {
-      path: paths.register,
-      element: <Registr />,
-    },
-    {
-      path: paths.confirmEmail,
-      element: <ConfirmEmail />,
-    },
-    {
-      path: paths.policy,
-      element: <PolicyPage />,
-    },
-    {
-      path: paths.registryActivate,
-      element: <RegisterActivatePage />,
     },
   ],
 

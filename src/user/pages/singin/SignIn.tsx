@@ -17,10 +17,12 @@ import { Inputs, registerFields } from "../../components/input/constans";
 import { paths } from "../../../app/paths";
 import { useDispatch } from "react-redux";
 import { setRegistrated, setUser, User } from "../../../store/slices/authSlice";
+import { useAuthModal } from "../../providers/AuthModalContext";
 
 const Registr: FC = () => {
   const navigate = useNavigate();
-   const dispatch = useDispatch();
+  const dispatch = useDispatch();
+  const { closeAuthModal } = useAuthModal();
 
   const {
     register,
@@ -36,8 +38,7 @@ const Registr: FC = () => {
   });
 
   // отправляем запрос на регистрацию пользователя
-  const [registerUser, { isLoading }] =
-    useRegisterMutation();
+  const [registerUser, { isLoading }] = useRegisterMutation();
 
   useEffect(() => {
     const defaultValues: Inputs = {
@@ -90,7 +91,7 @@ const Registr: FC = () => {
   }, [phoneNumber, setValue]);
 
   return (
-    <AuthPageLayout title="Регистрация" onGoBack={() => navigate(-1)}>
+    <AuthPageLayout title="Регистрация" onGoBack={closeAuthModal}>
       <UserForm
         name="registration"
         onSubmit={handleSubmit(onSubmit)}
@@ -99,8 +100,7 @@ const Registr: FC = () => {
         isLoading={isLoading}
         title="Регистрация"
       >
-
-       {/*  {inputFields.map((field) => ( */}
+        {/*  {inputFields.map((field) => ( */}
         {registerFields.map((field) => (
           <InputForm
             key={field.name}

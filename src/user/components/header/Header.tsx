@@ -10,15 +10,17 @@ import styles from "./header.module.scss";
 import { paths } from "../../../app/paths";
 import userIcon from "../../../assets/icon/menu/user.svg";
 import { useSearch } from "../../../app/layouts/SearchProvider/SearchProvider";
+import { useAuthModal } from "../../providers/AuthModalContext";
 
 export default function Header() {
   const navigate = useNavigate();
   const [trigger, { data: user, isLoading }] = useLazyCheckAuthQuery();
   const [searchString, handleSearchItems] = useSearch();
+  const { openLogin } = useAuthModal();
 
   const createAds = () => {
     if (!user) {
-      navigate(paths.auth);
+      openLogin();
       return;
     }
     navigate(paths.createAds);
@@ -53,7 +55,9 @@ export default function Header() {
         ) : (
           <button
             className={styles.authButton}
-            onClick={() => navigate(paths.auth)}
+            onClick={() => {
+              openLogin();
+            }}
           >
             Вход и регистрация
           </button>
