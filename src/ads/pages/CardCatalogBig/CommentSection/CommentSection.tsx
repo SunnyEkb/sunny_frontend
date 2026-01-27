@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import style from "./style.module.scss";
 import CommentItem from "../Comment/Comment";
 import CommentWindow from "../CommentWindow/CommentWindow";
+import { useAppSelector } from "../../../../store/store";
+import { useAuthModal } from "../../../../user/providers/AuthModalContext";
 
 export interface IComment {
   content_type: number;
@@ -27,9 +29,15 @@ interface Props {
 
 export default function CommentSection({ comments }: Props) {
   const [isInputVisible, setIsInputVisible] = useState(false);
+  const user = useAppSelector((state) => state.auth.user);
+  const { openLogin } = useAuthModal();
 
   const handleButtonClick = () => {
-    setIsInputVisible((prev) => !prev);
+    if (user) {
+      setIsInputVisible((prev) => !prev);
+    } else {
+      openLogin();
+    }
   };
 
   return (
@@ -43,9 +51,10 @@ export default function CommentSection({ comments }: Props) {
       )}
 
       {isInputVisible && <CommentWindow onClose={handleButtonClick} />}
-      {comments.length > 0 && comments.map((item) => {
-        return <CommentItem key={item.id} comment={item} />;
-      })}
+      {comments.length > 0 &&
+        comments.map((item) => {
+          return <CommentItem key={item.id} comment={item} />;
+        })}
     </>
   );
 }

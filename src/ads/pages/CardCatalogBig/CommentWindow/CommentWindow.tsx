@@ -7,6 +7,8 @@ import { useAddCommentMutation } from "../../../../store/entities/services/servi
 import Rating from "../Comment/Rating";
 import Notifications from "../../../../shared/notification/Notification";
 import { useAddCommentAdsMutation } from "../../../../store/entities/ads/adsApi";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { schemaComments } from "./helpers";
 
 interface Props {
   onClose: () => void;
@@ -14,7 +16,7 @@ interface Props {
 
 interface PropsForm {
   feedback: string;
-  rating: number;
+  rating?: number;
 }
 
 interface PropsParams {
@@ -35,8 +37,9 @@ export default function CommentWindow({ onClose }: Props) {
   const methods = useForm<PropsForm>({
     defaultValues: {
       feedback: "",
-      rating: 0,
+      rating: 1,
     },
+    resolver: yupResolver<PropsForm>(schemaComments),
     mode: "all",
   });
 
@@ -47,7 +50,7 @@ export default function CommentWindow({ onClose }: Props) {
         res = await addComment({
           id: params.idService,
           feedback: data.feedback,
-          rating: data.rating,
+          rating: data.rating || 1,
         });
       } catch (e) {
         console.error("e", e);
@@ -59,7 +62,7 @@ export default function CommentWindow({ onClose }: Props) {
         res = await addCommentAds({
           id: params.idAds,
           feedback: data.feedback,
-          rating: data.rating,
+          rating: data.rating || 1,
         });
       } catch (e) {
         console.error("e", e);
@@ -78,7 +81,6 @@ export default function CommentWindow({ onClose }: Props) {
   const handleChooseRating = (rating: number) => {
     methods.setValue("rating", rating);
   };
-
 
   return (
     <section className={styles.section}>
