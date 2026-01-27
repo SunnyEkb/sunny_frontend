@@ -53,8 +53,9 @@ const NavMenu: React.FC = () => {
       dispatch(setUser(null));
       dispatch(clearUser());
       dispatch(setAuthenticated(false));
-      navigate(paths.index, { replace: true });
-      window.location.reload();
+      // navigate(paths.index, { replace: true });
+      // window.location.reload();
+      window.location.href = "/";
     } catch (error) {
       console.error("Возникла ошибка:", error);
     }
