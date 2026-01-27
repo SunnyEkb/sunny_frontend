@@ -49,13 +49,13 @@ const NavMenu: React.FC = () => {
 
   const handleClick = async () => {
     try {
-      await logout().unwrap();
       dispatch(setUser(null));
       dispatch(clearUser());
       dispatch(setAuthenticated(false));
-      // navigate(paths.index, { replace: true });
+      await logout().unwrap();
+      navigate(paths.index);
       // window.location.reload();
-      window.location.href = "/";
+      // window.location.href = "/";
     } catch (error) {
       console.error("Возникла ошибка:", error);
     }
