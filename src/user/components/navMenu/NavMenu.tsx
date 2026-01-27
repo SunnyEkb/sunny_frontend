@@ -5,19 +5,25 @@ import { useNavigate } from "react-router-dom";
 import { useLogoutMutation } from "../../../store/auth-api/authApi";
 import { paths } from "../../../app/paths";
 import { useDispatch } from "react-redux";
-import { setAuthenticated, setUser } from "../../../store/slices/authSlice";
+import {
+  clearUser,
+  setAuthenticated,
+  setUser,
+} from "../../../store/slices/authSlice";
 import ModalConfirmExit from "../../../shared/Modals/ModalConfirmExit/ModalConfirmExit";
 import ModalConfirmDelete from "../../../shared/Modals/ModalConfirmDelete/ModalConfirmDelete";
 import {
   useGetFavoritesQuery,
   useGetUserAdvertisementsQuery,
 } from "../../../store/entities/services/services";
+import { useAppSelector } from "../../../store/store";
 
 const NavMenu: React.FC = () => {
   const { data: favorites } = useGetFavoritesQuery();
   const { data: advertisments } = useGetUserAdvertisementsQuery();
   const [isOpen, setOpen] = React.useState(false);
   const [isOpenModalDelete, setOpenModalDelete] = React.useState(false);
+  const user = useAppSelector((state) => state.auth.user);
 
   const handleClose = () => {
     setOpen(false);
@@ -45,8 +51,10 @@ const NavMenu: React.FC = () => {
     try {
       await logout().unwrap();
       dispatch(setUser(null));
+      dispatch(clearUser());
       dispatch(setAuthenticated(false));
-      navigate(paths.index);
+      navigate(paths.index, { replace: true });
+      window.location.reload();
     } catch (error) {
       console.error("Возникла ошибка:", error);
     }
