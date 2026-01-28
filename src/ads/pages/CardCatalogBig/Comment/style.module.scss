@@ -81,6 +81,7 @@
 .commentItem__cardCountStars {
   display: flex;
   align-items: center;
+  cursor: pointer;
 
   img {
     width: 16px;
@@ -99,11 +100,10 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
-
 }
 
 .commentItem__buttonTextFull {
-    font-size: 16px;
+  font-size: 16px;
   line-height: 20px;
   font-weight: 400;
   color: rgba(118, 160, 94, 1);

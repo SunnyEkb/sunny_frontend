@@ -2,7 +2,7 @@ import React from "react";
 import arrowBack from "../../../../assets/icon/arrowLeft.svg";
 import styles from "./styles.module.scss";
 import { useParams } from "react-router-dom";
-import { Controller, useForm } from "react-hook-form";
+import { Controller, useForm, useWatch } from "react-hook-form";
 import { useAddCommentMutation } from "../../../../store/entities/services/services";
 import Rating from "../Comment/Rating";
 import Notifications from "../../../../shared/notification/Notification";
@@ -16,7 +16,7 @@ interface Props {
 
 interface PropsForm {
   feedback: string;
-  rating?: number;
+  rating: number;
 }
 
 interface PropsParams {
@@ -37,11 +37,13 @@ export default function CommentWindow({ onClose }: Props) {
   const methods = useForm<PropsForm>({
     defaultValues: {
       feedback: "",
-      rating: 1,
+      rating: 5,
     },
     resolver: yupResolver<PropsForm>(schemaComments),
     mode: "all",
   });
+
+  const rating = methods.watch('rating');
 
   const onSubmit = async (data: PropsForm) => {
     let res;
@@ -102,6 +104,7 @@ export default function CommentWindow({ onClose }: Props) {
             extraClass={styles.ratingWrapper}
             extraClassStar={styles.starSize}
             onClick={handleChooseRating}
+            rating={rating}
           />
           <h4 className={styles.cardBig__section__title}>Напишите отзыв</h4>
           <Controller
