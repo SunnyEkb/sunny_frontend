@@ -257,3 +257,51 @@
   resize: none;
   min-height: 100px;
 }
+
+.adCreatedModal {
+  color: #2c555b;
+  background-color: #fff;
+  min-height: 150px;
+  border-radius: 15px;
+  padding: 10px;
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  grid-template-rows: min-content min-content ;
+}
+
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+.dotContainer {
+  display: flex;
+  gap: 10px;
+
+  .dot:nth-child(1n) {
+    animation-delay: 0s;
+  }
+  .dot:nth-child(2n) {
+    animation-delay: 0.3s;
+  }
+  .dot:nth-child(3n) {
+    animation-delay: 0.6s;
+  }
+}
+
+.dot {
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  background-color: #2c555b;
+  border-radius: 50%;
+  animation: blink 1.5s  infinite;
+
+}
