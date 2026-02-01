@@ -1,29 +1,51 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import style from "./style.module.scss";
-import star from "../../../../assets/icon/Star.svg";
+import Star from "../../../../assets/icon/Star.svg?react";
 
 interface Props {
   extraClass?: string;
   extraClassStar?: string;
   onClick?: (rating: number) => void;
-  rating?: number;
+  rating: number;
 }
 
-export default function Rating({extraClass, extraClassStar, onClick, rating}: Props) {
-  // const starsCount = rating ? rating : undefined
+export default function Rating({
+  extraClass,
+  extraClassStar,
+  onClick,
+  rating,
+}: Props) {
+  const [hoverRating, setHoverRating] = useState<number | null>(null);
+
   return (
     <div
       className={`${style.commentItem__rating} ${extraClass ? extraClass : ""}`}
     >
-      <div className={`${style.commentItem__cardCountStars} ${extraClassStar ? extraClassStar : ''}`}>
-        <img src={star} alt="звезда" onClick={() => onClick?.(1)}/>
-        <img src={star} alt="звезда" onClick={() => onClick?.(2)}/>
-        <img src={star} alt="звезда" onClick={() => onClick?.(3)}/>
-        <img src={star} alt="звезда" onClick={() => onClick?.(4)}/>
-        <img src={star} alt="звезда" onClick={() => onClick?.(5)}/>
+      <div
+        onMouseLeave={() => setHoverRating(null)}
+        className={`${style.commentItem__cardCountStars} ${extraClassStar ? extraClassStar : ""}`}
+      >
+        {Array.from({ length: 5 }, (_, idx) => idx + 1).map((rat) => {
+          const isActive = hoverRating ? rat <= hoverRating : rat <= rating;
 
+          return (
+            <Star
+              key={rat}
+              role="button"
+              aria-label={`Оценка ${rat} из 5`}
+              color={`${isActive ? "#FFCC33" : "transparent"}`}
+              stroke={`${isActive ? "#FFCC33" : "#b2bdc7"}`}
+              onMouseOver={() => {
+                setHoverRating(rat);
+              }}
+              onClick={() => {
+                onClick?.(rat);
+              }}
+            />
+          );
+        })}
 
-          {/* {rating && starsCount && [...Array(starsCount)].map((_, index) => {
+        {/* {rating && starsCount && [...Array(starsCount)].map((_, index) => {
           const starNumber = index + 1;
           const isActive = starNumber <= rating;
 

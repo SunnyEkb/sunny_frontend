@@ -1,6 +1,6 @@
 import React from "react";
 import style from "./authorCard.module.scss";
-import star from "../../../assets/icon/Star.svg";
+import Star from "../../../assets/icon/Star.svg?react";
 import { ServiceInfo } from "../../../common/model/ads";
 import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../../store/store";
@@ -37,11 +37,9 @@ export default function CardCatalogAuthor({ card }: Props) {
         <div>4,9</div>
 
         <div className={style.catalog__cardCountStars}>
-          <img src={star} alt="звезда" className={style.arrowBack} />
-          <img src={star} alt="звезда" className={style.arrowBack} />
-          <img src={star} alt="звезда" className={style.arrowBack} />
-          <img src={star} alt="звезда" className={style.arrowBack} />
-          <img src={star} alt="звезда" className={style.arrowBack} />
+          {Array.from({ length: 5 }, (_, idx) => idx + 1).map((rat) => (
+            <Star key={rat} color="#ffcc33" />
+          ))}
         </div>
 
         <div>{card.comments_quantity} отзывов</div>
