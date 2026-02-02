@@ -49,7 +49,7 @@ export const servicesApi = createApi({
       query: ({ limit = 15, page = 1, search, catalogId }) => ({
         url: `${SERVICES_URL}/?${limit ? `limit=${limit} ` : ""}&page=${page}${
           search ? `&title=${search}` : ""
-        }&catalog_id=${catalogId}`.replace(/\s+/g, ""), // regex удаляет все пробелы в строке
+        }&category_id=${catalogId}`.replace(/\s+/g, ""), // regex удаляет все пробелы в строке
         method: "GET",
         credentials: "include",
       }),
