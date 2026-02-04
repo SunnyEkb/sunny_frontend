@@ -14,7 +14,7 @@ const MainCatalogCard = forwardRef<HTMLElement, ISearchItem>(
         <Link
           to={
             mainCard.type === "ad"
-              ? `/ads/${mainCard.id}`
+              ? `/ad/${mainCard.id}`
               : `/service/${mainCard.id}`
           }
         >
@@ -34,7 +34,7 @@ const MainCatalogCard = forwardRef<HTMLElement, ISearchItem>(
             <Link
               to={
                 mainCard.type === "ad"
-                  ? `/ads/${mainCard.id}`
+                  ? `/ad/${mainCard.id}`
                   : `/service/${mainCard.id}`
               }
             >

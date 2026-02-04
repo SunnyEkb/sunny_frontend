@@ -113,7 +113,7 @@ export default function CreateAds() {
 
       setIsAdCreated(true);
       setTimeout(() => {
-        navigate(`/catalogs/${id}/${typeOfAd}/${response.data.id}`);
+        navigate(`/${typeOfAd!.slice(0, -1)}/${response.data.id}`);
       }, 3000)
     } catch (err) {
       console.log("Произошла какая-то ошибка");
