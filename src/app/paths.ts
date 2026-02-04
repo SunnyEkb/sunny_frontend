@@ -13,7 +13,7 @@ export const paths = {
   confirmEmail: "/confirm-email",
   catalog: "/catalogs/:id",
   catalogService: "/catalogs/:id/service/:idService",
-  adPage: "/ads/:idAds",
+  adPage: "/ad/:idAds",
   servicePage: "/service/:idService",
   createAds: "/create",
   policy: "/policy",
