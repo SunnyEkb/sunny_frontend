@@ -6,9 +6,35 @@ import { Link } from "react-router-dom";
 import styles from "./styles.module.scss";
 import { forwardRef, memo } from "react";
 import { BASE_URL } from "../../../../../utils/constans";
+import { useAppSelector } from "../../../../../store/store";
+import { useAuthModal } from "../../../../../user/providers/AuthModalContext";
+import {
+  useAddToFavoritesAdsMutation,
+  useDeleteToFavoritesAdsMutation,
+} from "../../../../../store/entities/ads/adsApi";
 
 const MainCatalogCard = forwardRef<HTMLElement, ISearchItem>(
   (mainCard, ref) => {
+    const user = useAppSelector((state) => state.auth.user);
+    const { openLogin } = useAuthModal();
+
+    const [addToFavorite] = useAddToFavoritesAdsMutation();
+    const [deleteFromFavorite] = useDeleteToFavoritesAdsMutation();
+
+    const handleClickLike = async () => {
+      if (mainCard.is_favorited) {
+        await deleteFromFavorite({
+          type: mainCard.type,
+          id: mainCard.id,
+        }).unwrap();
+      } else {
+        await addToFavorite({
+          type: mainCard.type,
+          id: mainCard.id,
+        }).unwrap();
+      }
+    };
+
     return (
       <article className={styles.card} ref={ref}>
         <Link
@@ -40,10 +66,20 @@ const MainCatalogCard = forwardRef<HTMLElement, ISearchItem>(
             >
               {mainCard.title}
             </Link>
-
           </h4>
-          <button className={styles.cardLike}>
-            <Heart color="currentColor" />
+          <button
+            className={styles.cardLike}
+            onClick={() => {
+              if (!user) {
+                openLogin();
+                return;
+              }
+              handleClickLike();
+            }}
+          >
+            <Heart
+              fill={`${mainCard.is_favorited ? "#ff0000" : "transparent"}`}
+            />
           </button>
         </div>
         <span>
@@ -55,7 +91,7 @@ const MainCatalogCard = forwardRef<HTMLElement, ISearchItem>(
         </address>
       </article>
     );
-  }
+  },
 );
 
 export default memo(MainCatalogCard);

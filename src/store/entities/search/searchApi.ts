@@ -11,6 +11,7 @@ export interface ISearchItem {
   place_of_provision?: string; // поле есть в услугах
   condition?: string; // поле есть в объявленияхы
   salon_name?: string; // поле есть в услугах
+  is_favorited: boolean;
   img?: string;
   title_photo?: {
     id: number;

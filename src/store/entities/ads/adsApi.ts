@@ -37,7 +37,7 @@ export const adsApi = createApi({
   reducerPath: "adsApit",
   baseQuery: fetchBaseQuery({ baseUrl: BASE_URL }),
   keepUnusedDataFor: 100,
-    tagTypes: ["Ads", "UNAUTHORIZED", "UNKNOWN_ERROR", "Favorite"],
+  tagTypes: ["Ads", "UNAUTHORIZED", "UNKNOWN_ERROR", "Favorite"],
   endpoints: (build) => ({
     getAdById: build.query<AdInfo, number>({
       query: (id) => ({
@@ -50,6 +50,7 @@ export const adsApi = createApi({
     >({
       query: (params) => ({
         url: `advertisements/`,
+        credentials: 'include',
         params,
       }),
       serializeQueryArgs: ({ endpointName }) => endpointName,
@@ -75,7 +76,59 @@ export const adsApi = createApi({
       }),
       invalidatesTags: [{ type: "Ads", id: "PARTIAL-LIST" }],
     }),
+    addToFavoritesAds: build.mutation({
+      query: ({ type, id }:     { type: "ad" | "service"; id: number }) => ({
+        url: `/${type + "s"}/${id}/add-to-favorites/`,
+        method: "POST",
+        credentials: "include",
+      }),
+      async onQueryStarted({id}, { dispatch, queryFulfilled }) {
+        const patchResult = dispatch(
+          adsApi.util.updateQueryData("getAllAds", {}, (draft) => {
+            const ad = draft.results.find((item) => item.id === id);
+            if (ad) {
+              ad.is_favorited = true;
+            }
+          }),
+        );
+
+        try {
+          await queryFulfilled;
+        } catch {
+          patchResult.undo();
+        }
+      },
+    }),
+    deleteToFavoritesAds: build.mutation({
+      query: ( { type, id }:  { type: "ad" | "service"; id: number }) => ({
+        url: `/${type + "s"}/${id}/delete-from-favorites/`,
+        method: "DELETE",
+        credentials: "include",
+      }),
+      async onQueryStarted({id}, { dispatch, queryFulfilled }) {
+        const patchResult = dispatch(
+          adsApi.util.updateQueryData("getAllAds", {}, (draft) => {
+            const ad = draft.results.find((item) => item.id === id);
+            if (ad) {
+              ad.is_favorited = false;
+            }
+          }),
+        );
+
+        try {
+          await queryFulfilled;
+        } catch {
+          patchResult.undo();
+        }
+      },
+    }),
   }),
 });
 
-export const { useGetAdByIdQuery, useGetAllAdsQuery, useAddCommentAdsMutation } = adsApi;
+export const {
+  useGetAdByIdQuery,
+  useGetAllAdsQuery,
+  useAddCommentAdsMutation,
+  useAddToFavoritesAdsMutation,
+  useDeleteToFavoritesAdsMutation,
+} = adsApi;
