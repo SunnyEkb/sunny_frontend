@@ -8,7 +8,9 @@ import { useSearch } from "../../../../app/layouts/SearchProvider/SearchProvider
 import { useEffect, useState } from "react";
 import { useGetSearchItemsQuery } from "../../../../store/entities/search/searchApi";
 import MainCatalogCard from "./MainCatalogCard/MainCatalogCard";
-import { useGetAllAdsQuery } from "../../../../store/entities/ads/adsApi";
+import {
+  useGetAllAdsQuery,
+} from "../../../../store/entities/ads/adsApi";
 import { useInView } from "react-intersection-observer";
 
 interface DataProps {
@@ -50,6 +52,8 @@ export default function MainCatalog() {
     threshold: 0.5,
   });
 
+
+
   useEffect(() => {
     const timerId = setTimeout(() => {
       setDebounceString(searchString);
@@ -84,7 +88,7 @@ export default function MainCatalog() {
               <h1 className={styles.title}>Найденные услуги и объявления</h1>
               <div className={styles.mainList}>
                 {searchItems.map((item) => (
-                  <MainCatalogCard key={item.id} {...item} />
+                  <MainCatalogCard key={item.type + item.id} {...item} />
                 ))}
               </div>
             </>
@@ -107,7 +111,7 @@ export default function MainCatalog() {
                   const isLast = index === adResponse.results.length - 1;
                   return (
                     <MainCatalogCard
-                      key={item.id}
+                      key={item.type + item.id}
                       {...item}
                       ref={isLast ? ref : null}
                     />

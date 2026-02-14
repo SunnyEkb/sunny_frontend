@@ -15,9 +15,9 @@ export default function PriceLists({ variant, cardData }: Props) {
     setShowAll((prev) => !prev);
   }
 
-  const visibleServiceList = isShowAll
+  const visibleServiceList = cardData.type === 'service'?  isShowAll
     ? cardData.price_list_entries
-    : cardData.price_list_entries.slice(0, 5);
+    : cardData.price_list_entries.slice(0, 5) : [];
 
   if (variant == "smallInfo") {
     return (
