@@ -21,6 +21,7 @@ import { HeartIcon } from "../../../shared/HeartIcon/HeartIcon";
 import style from "./cardCatalogBig.module.scss";
 import { useLayoutEffect, useState } from "react";
 import CommentSection from "./CommentSection/CommentSection";
+import Notifications from "../../../shared/notification/Notification";
 
 interface LoaderParams {
   idAds?: string;
@@ -37,7 +38,7 @@ export const loaderAdsByCatalogId = async ({
     }/`,
     {
       credentials: "include",
-    }
+    },
   );
 
   return response;
@@ -48,7 +49,11 @@ export default function CardCatalogBig() {
   const initialCardData = useLoaderData();
   const [cardData, setCardData] = useState(initialCardData);
   const { revalidate } = useRevalidator();
-  const isAd = cardData.type === 'ad';
+  const isAd = cardData.type === "ad";
+  const [copy, setMessage] = useState<{
+    message: string;
+    status: "error" | "success";
+  } | null>();
 
   useLayoutEffect(() => {
     window.scroll(0, 0);
@@ -84,6 +89,9 @@ export default function CardCatalogBig() {
 
   return (
     <div className={style.cardBig}>
+      {copy && (
+        <Notifications messageText={copy.message} status={copy.status} />
+      )}
       <section className={style.breadcrumbs}>
         <a href="/">Главная</a> &gt; <span>На районе</span> &gt;{" "}
         <span>Красота и здоровье</span> &gt;{" "}
@@ -102,7 +110,23 @@ export default function CardCatalogBig() {
         </button>
 
         <div className={style.cardBig__settings__panel}>
-          <button className={style.cardBig__settings__button}>
+          <button
+            className={style.cardBig__settings__button}
+            onClick={async () => {
+              try {
+                await navigator.clipboard.writeText(location.href);
+                setMessage({
+                  message: "Ссылка скопирована",
+                  status: "success",
+                });
+              } catch (e) {
+                setMessage({
+                  message: "Не удалось скопировать ссылку",
+                  status: "error",
+                });
+              }
+            }}
+          >
             <img src={share} className={style.cardBig__img} />
           </button>
 
@@ -146,9 +170,7 @@ export default function CardCatalogBig() {
       </section>
 
       <section className={style.cardBig__section}>
-        <CommentSection comments={cardData.comments}/>
-
-
+        <CommentSection comments={cardData.comments} />
       </section>
 
       <section className={style.cardBig__section}>
