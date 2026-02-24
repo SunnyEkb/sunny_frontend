@@ -14,7 +14,7 @@ export interface ServiceInfo {
   description: string;
   experience: 5;
   place_of_provision: string;
-  type: "service" | 'ad';
+  type: "service" | "ad";
   price: object;
   status: number;
   images: {
@@ -30,8 +30,27 @@ export interface ServiceInfo {
   is_favorited: boolean;
   price_list_entries: { id: number; title: string; price: number }[];
   title_photo?: {
-    id: string
-    image: string | null
+    id: string;
+    image: string | null;
     title_photo: boolean;
-  }
+  };
+}
+
+export interface Comment {
+  rating: number;
+  feedback: string;
+  images: string[];
+  author: {
+    id: number;
+    username: string;
+    email: string;
+    phone: string;
+    first_name: string;
+    last_name: string;
+    role: string;
+    avatar: string;
+  };
+  object_id: number;
+  title: string;
+  obj_type: "ads" | "services";
 }

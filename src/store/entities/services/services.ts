@@ -1,7 +1,7 @@
 import { createEntityAdapter, EntityState } from "@reduxjs/toolkit";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { BASE_URL } from "../../../utils/constans";
-import { ServiceInfo } from "../../../common/model/ads";
+import { Comment, ServiceInfo } from "../../../common/model/ads";
 
 const SERVICES_URL = "/advertisements";
 
@@ -42,7 +42,7 @@ const getRequestConfig = (method: string, data?: object) => ({
 export const servicesApi = createApi({
   reducerPath: "servicesApi",
   baseQuery: fetchBaseQuery({ baseUrl: BASE_URL }),
-  tagTypes: ["Services", "UNAUTHORIZED", "UNKNOWN_ERROR", "Favorite"],
+  tagTypes: ["Services", "UNAUTHORIZED", "UNKNOWN_ERROR", "Favorite", "Comments"],
   keepUnusedDataFor: 0, //0 секунда
   endpoints: (build) => ({
     getServices: build.query<ServicesState, ParamsServices>({
@@ -211,6 +211,15 @@ export const servicesApi = createApi({
       }),
       invalidatesTags: [{ type: "Services", id: "PARTIAL-LIST" }],
     }),
+      getComments: build.query<Pick<ServicesState, 'next' | 'count' | 'previous'> & {
+        results: Comment[]
+      }, void>({
+        query: () => ({
+          url: "/comments/",
+          credentials: 'include'
+        }),
+        providesTags: ["Comments"]
+      }),
     deleteFromFavorites: build.mutation({
       query: (id) => ({
         url: `/services/${id}/delete-from-favorites/`,
@@ -252,6 +261,7 @@ export const {
   useGetFavoritesQuery,
   useGetUserAdvertisementsQuery,
   useAddCommentMutation,
+  useGetCommentsQuery
 } = servicesApi;
 
 export { servicesAdapter, servicesSelector };

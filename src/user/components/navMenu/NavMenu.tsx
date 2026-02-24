@@ -13,6 +13,7 @@ import {
 import ModalConfirmExit from "../../../shared/Modals/ModalConfirmExit/ModalConfirmExit";
 import ModalConfirmDelete from "../../../shared/Modals/ModalConfirmDelete/ModalConfirmDelete";
 import {
+  useGetCommentsQuery,
   useGetFavoritesQuery,
   useGetUserAdvertisementsQuery,
 } from "../../../store/entities/services/services";
@@ -21,6 +22,7 @@ import { useAppSelector } from "../../../store/store";
 const NavMenu: React.FC = () => {
   const { data: favorites } = useGetFavoritesQuery();
   const { data: advertisments } = useGetUserAdvertisementsQuery();
+  const { data: comments } = useGetCommentsQuery();
   const [isOpen, setOpen] = React.useState(false);
   const [isOpenModalDelete, setOpenModalDelete] = React.useState(false);
   const user = useAppSelector((state) => state.auth.user);
@@ -69,7 +71,7 @@ const NavMenu: React.FC = () => {
           subtitle={`${advertisments?.count || 0} объявлений`}
           linkText="/my-ads"
         />
-        <MenuItem title="Мои отзывы" subtitle="12 отзывов" />
+        <MenuItem title="Мои отзывы" subtitle={`${comments?.count || 0} отзывов`} linkText="/my-reviews" />
         <MenuItem
           title="Избранное"
           subtitle={`${favorites?.count || 0} избранных`}

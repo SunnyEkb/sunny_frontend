@@ -28,8 +28,10 @@ import ModerationPage from "../ads/pages/moderation/ModerationPage"; // Importin
 import ConfirmEmail from "../user/pages/confirmEmail/confirmEmail";
 import { UserFavorites } from "../user/pages/UserFavorites/UserFavorites";
 import { UserAds } from "../user/pages/UserAds/UserAds";
+import UserReviews from "../user/pages/UserReviews/UserReviews";
 import PasswordChange from "../user/pages/passwordChange/passwordChange";
 import { SearchProvider } from "./layouts/SearchProvider/SearchProvider";
+
 import RootLayout from "./layouts/RootLayout/RootLayout ";
 
 export const router = createBrowserRouter(
@@ -131,6 +133,10 @@ export const router = createBrowserRouter(
               path: paths.myAds,
               element: <UserAds />,
             },
+            {
+              path: paths.myReviews,
+              element: <UserReviews />,
+            },
           ],
         },
         // ],
@@ -178,5 +184,5 @@ export const router = createBrowserRouter(
       v7_partialHydration: true,
       v7_skipActionErrorRevalidation: true,
     },
-  }
+  },
 );
