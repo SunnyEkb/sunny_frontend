@@ -25,5 +25,6 @@ export const paths = {
   registryActivate: "/registry-activate",
   chat: `/chat/:objectType/:object_id/:buyer_id`,
   moderation: "/moderation", // Added path for moderation mainpage
-  myAds: '/my-ads'
+  myAds: '/my-ads',
+  myReviews: "my-reviews"
 };
