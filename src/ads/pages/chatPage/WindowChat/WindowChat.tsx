@@ -7,6 +7,7 @@ import {
   CHATWsSendMessage,
 } from "../../../../store/actions/chat";
 import Camera from "../../../../assets/icon/camera.svg?react";
+import { useParams } from "react-router-dom";
 
 const mockMessage = [
   {
@@ -29,6 +30,8 @@ const mockMessage = [
 export default function WindowChat() {
   const [value, setValue] = React.useState("");
   const today: Date = new Date();
+  const params = useParams();
+  console.log('params', params)
   const dispatch = useAppDispatch();
   const { currentMessages } = useAppSelector((state) => state.wsChat);
 
@@ -49,7 +52,7 @@ export default function WindowChat() {
   };
 
   const handleSend = () => {
-    dispatch(CHATWsSendMessage({ message: value }));
+    dispatch(CHATWsSendMessage({ message: value, event: "message:send", ad_id: params.object_id, recipient_id: params.buyer_id }));
     setValue("");
   };
 
