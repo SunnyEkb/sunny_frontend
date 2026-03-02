@@ -61,7 +61,7 @@ export const CHATWsOnMessage = createAction<
   CHATPropsMessageSocket,
   typeof CHAT_WS_ON_MESSAGE
 >(CHAT_WS_ON_MESSAGE); // receive messages
-export const CHATWsSendMessage = createAction<{ message: string }>(
+export const CHATWsSendMessage = createAction<{ message: string, event: string, ad_id?: string, recipient_id?: string }>(
   CHAT_WS_SEND_MESSAGE
 );
 export const CHATWsOnError = createAction<string, typeof CHAT_WS_ON_ERROR>(
