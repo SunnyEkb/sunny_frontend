@@ -93,11 +93,12 @@ body {
 
 .catalog__itemList {
   display: grid;
-  grid-template-columns: repeat(auto-fit, 140px);
+  grid-template-columns: repeat(auto-fit, 180px);
   width: 100%;
   padding: 40px 0;
   box-sizing: border-box;
   justify-content: center;
+  gap: 16px;
 
   @media (max-width: 1024px) {
     column-gap: 34px;
