@@ -1,51 +1,50 @@
 .card {
   border-radius: 16px;
-  background-color: #ffffff;
   min-width: 88px;
   max-width: 300px;
-  height: 200px;
-  max-height: 200px;
+  width: 100%;
+  max-height: 250px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  border: 2px solid rgba(255, 245, 215, 1);
   transition: all ease-in-out 0.3s;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  padding: 16px 10px 10px 16px;
   box-sizing: border-box;
   cursor: pointer;
 
-
-
-  @media (max-width: 1024px) {
-    padding: 8px;
-    padding-right: 0;
-  }
-
   @media (max-width: 768px) {
     max-width: 200px;
-    height: 150px;
   }
 
   @media (max-width: 480px) {
     max-width: 150px;
-    height: 120px;
     grid-column: span 2;
     &:nth-child(5n-1) {
+      justify-self: center;
 
       grid-column: 1 / span 3;
     }
 
     &:nth-child(5n) {
+      justify-self: center;
 
       grid-column: 4 / span 3;
     }
   }
 }
 
-.card:hover {
-  border: 1px solid #2c555b;
-  opacity: 0.8;
+.card__link {
+  text-decoration: none;
+
+  &:hover {
+    & > .card__imgWrapper::after {
+      opacity: 0.8;
+      transition: opacity 0.2s;
+    }
+
+    & .card__img {
+      transform: scale(1.1);
+      transition: transform 0.2s;
+    }
+  }
 }
 
 .card__title {
@@ -57,77 +56,40 @@
   word-break: keep-all; /* не разбивать слова (для кириллицы почти не работает) */
   overflow-wrap: break-word;
   hyphens: manual;
+  margin-top: 16px;
 
   @media (max-width: 768px) {
-    font-size: 16px;
+    font-size: 13px;
     font-weight: 700;
     line-height: 1.25;
   }
 
   @media (max-width: 320px) {
-    font-size: 13px;
-    font-weight: 400;
+    font-size: 11px;
+    font-weight: 600;
     line-height: 1.23;
   }
 }
 
 .card__img {
-  width: 100px;
-
-  @media (max-width: 1024px) {
-    width: 83px;
-  }
-
-  @media (max-width: 768px) {
-    width: 66px;
-  }
-
-  @media (max-width: 480px) {
-    width: 40px;
-  }
+  position: relative;
+  top: 25%;
+  left: 25%;
+  z-index: 1;
+  width: 50%;
 }
 
 .card__imgWrapper {
-  margin-left: auto;
-}
+  aspect-ratio: 1/1;
+  position: relative;
 
-.title {
-  font-family: Inter, sans-serif;
-  font-weight: 400;
-  font-size: 23px;
-  line-height: 28px;
-  letter-spacing: 0;
-  text-align: left;
-  width: 168px;
-  height: 56px;
-  padding: 16px;
-  margin: 16px 0;
-
-  @media (max-width: 768px) {
-    font-size: 20px;
-    line-height: 24px;
-  }
-
-  @media (max-width: 480px) {
-    font-size: 18px;
-    line-height: 22px;
-  }
-}
-
-.icon {
-  width: 100px;
-  height: 100px;
-  position: absolute;
-  top: 10px;
-  left: 10px;
-
-  @media (max-width: 768px) {
-    width: 80px;
-    height: 80px;
-  }
-
-  @media (max-width: 480px) {
-    width: 60px;
-    height: 60px;
+  &::after {
+    content: "";
+    position: absolute;
+    z-index: 0;
+    inset: 0;
+    background-color: #e3e3e3;
+    border-radius: 16px;
+    opacity: 0.5;
   }
 }
