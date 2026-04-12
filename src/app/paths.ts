@@ -26,5 +26,6 @@ export const paths = {
   chat: `/chat/:objectType/:object_id/:buyer_id`,
   moderation: "/moderation", // Added path for moderation mainpage
   myAds: '/my-ads',
-  myReviews: "my-reviews"
+  myReviews: "my-reviews",
+  notifications: "/notifications",
 };

@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, Outlet } from "react-router-dom";
 import { paths } from "./paths";
 import Login from "../user/pages/logIn/logIn";
 import UserLK from "../user/pages/userLK/userLK";
@@ -15,7 +15,6 @@ import PolicyPage from "../user/pages/PolicyPage/PolicyPage";
 import TypeCatalog, {
   loaderTypesCatalog,
 } from "../ads/pages/typeCatalog/TypeCatalog";
-import MainLayout from "./layouts/MainLayout";
 import SettingsUser from "../user/pages/settingsUser/SettingsUser";
 import UserProfileEdit from "../user/pages/UserProfileEdit/UserProfileEdit";
 import CreateAds from "../ads/pages/createAds/CreateAds";
@@ -30,9 +29,10 @@ import { UserFavorites } from "../user/pages/UserFavorites/UserFavorites";
 import { UserAds } from "../user/pages/UserAds/UserAds";
 import UserReviews from "../user/pages/UserReviews/UserReviews";
 import PasswordChange from "../user/pages/passwordChange/passwordChange";
-import { SearchProvider } from "./layouts/SearchProvider/SearchProvider";
 
 import RootLayout from "./layouts/RootLayout/RootLayout ";
+import MobileOnlyRoute from "./MobileOnlyRoute";
+import { NotificationsPage } from "../user/pages/NotificationsPage/NotificationsPage";
 
 export const router = createBrowserRouter(
   [
@@ -67,41 +67,18 @@ export const router = createBrowserRouter(
               path: paths.passwordChange,
               element: <PasswordChange />,
             },
-          ],
-        },
-        {
-          element: (
-            <SearchProvider>
-              <MainLayout />
-            </SearchProvider>
-          ),
-          path: paths.index,
-          children: [
             {
-              path: paths.chat,
-              element: <ChatPage />,
+              path: paths.myAds,
+              element: <UserAds />,
             },
             {
-              path: paths.catalog,
-              element: <Catalog />,
-              loader: LoaderInitPage,
+              path: paths.favorites,
+              element: <UserFavorites />,
             },
             {
-              path: paths.catalogService,
-              element: <CardCatalogBig />, // убрать
-              loader: (params) => loaderAdsByCatalogId(params),
+              path: paths.myReviews,
+              element: <UserReviews />,
             },
-            {
-              path: paths.adPage,
-              element: <CardCatalogBig />, // убрать
-              loader: (params) => loaderAdsByCatalogId(params),
-            },
-            {
-              path: paths.servicePage,
-              element: <CardCatalogBig />, // убрать
-              loader: (params) => loaderAdsByCatalogId(params),
-            },
-
             {
               path: paths.createAds,
               element: <CreateAds />,
@@ -114,35 +91,51 @@ export const router = createBrowserRouter(
                 },
               ],
             },
-
             {
-              path: paths.typeCatalog,
-              element: <TypeCatalog />,
-              loader: loaderTypesCatalog,
-            },
-            {
-              path: paths.index,
-              element: <MainCatalog />,
-              loader: () => loaderCatagories(),
-            },
-            {
-              path: paths.favorites,
-              element: <UserFavorites />,
-            },
-            {
-              path: paths.myAds,
-              element: <UserAds />,
-            },
-            {
-              path: paths.myReviews,
-              element: <UserReviews />,
+              path: paths.notifications,
+              element: (
+                <MobileOnlyRoute>
+                  <NotificationsPage />
+                </MobileOnlyRoute>
+              ),
             },
           ],
         },
-        // ],
+        {
+          path: paths.chat,
+          element: <ChatPage />,
+        },
+        {
+          path: paths.catalog,
+          element: <Catalog />,
+          loader: LoaderInitPage,
+        },
+        {
+          path: paths.catalogService,
+          element: <CardCatalogBig />, // убрать
+          loader: (params) => loaderAdsByCatalogId(params),
+        },
+        {
+          path: paths.adPage,
+          element: <CardCatalogBig />, // убрать
+          loader: (params) => loaderAdsByCatalogId(params),
+        },
+        {
+          path: paths.servicePage,
+          element: <CardCatalogBig />, // убрать
+          loader: (params) => loaderAdsByCatalogId(params),
+        },
 
-        //   ],
-        // },
+        {
+          path: paths.typeCatalog,
+          element: <TypeCatalog />,
+          loader: loaderTypesCatalog,
+        },
+        {
+          path: paths.index,
+          element: <MainCatalog />,
+          loader: () => loaderCatagories(),
+        },
         {
           path: paths.auth,
           element: <Login />,

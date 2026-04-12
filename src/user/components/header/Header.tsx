@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
@@ -11,12 +11,22 @@ import { paths } from "../../../app/paths";
 import userIcon from "../../../assets/icon/menu/user.svg";
 import { useSearch } from "../../../app/layouts/SearchProvider/SearchProvider";
 import { useAuthModal } from "../../providers/AuthModalContext";
+import { useGetNotificationsQuery } from "../../../store/entities/notifications/notifactionsApi";
+import { useMediaQuery } from "../../../shared/hooks/useMediaQuery";
+import { TooltipNotification } from "../../../shared/TooltipNotification/TooltipNotification";
+
+import NotificationIcon from '../../../assets/icon/notification-icon.svg?react'
 
 export default function Header() {
   const navigate = useNavigate();
   const [trigger, { data: user, isLoading }] = useLazyCheckAuthQuery();
   const [searchString, handleSearchItems] = useSearch();
   const { openLogin } = useAuthModal();
+  const isDesktop = useMediaQuery("(min-width: 768px)");
+  const { data: notifications } = useGetNotificationsQuery(undefined, {
+    skip: !isDesktop,
+  });
+  const [isShowNotifications, setIsShowNotifications] = useState(false);
 
   const createAds = () => {
     if (!user) {
@@ -48,10 +58,31 @@ export default function Header() {
           Солнечный Екб
         </h1>
         {user ? (
-          <button className={styles.authButton} onClick={() => goToProfile()}>
-            <img src={userIcon} alt="User" className={styles.userIcon} />
-            Профиль
-          </button>
+          <div className={styles.navigate}>
+            {" "}
+            {isDesktop && isShowNotifications && (
+              <TooltipNotification
+                notifications={notifications?.results || []}
+                closeTooltip={() => setIsShowNotifications(false)}
+              />
+            )}
+            {isDesktop && (
+              <button
+                className={styles.notificationBtn}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setIsShowNotifications((val) => !val);
+                }}
+              >
+                <NotificationIcon/>
+                {!!notifications?.results.length && <span className={styles.counter}>{notifications?.count}</span>}
+              </button>
+            )}
+            <button className={styles.authButton} onClick={() => goToProfile()}>
+              <img src={userIcon} alt="User" className={styles.userIcon} />
+              Профиль
+            </button>
+          </div>
         ) : (
           <button
             className={styles.authButton}
