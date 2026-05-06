@@ -1,7 +1,9 @@
 import { FC } from "react";
 import styles from "./navHeader.module.scss";
-import { useNavigate } from "react-router-dom";
-import arrowLeft from '../../../assets/icon/arrow-left.svg'
+import { Link, useNavigate } from "react-router-dom";
+import arrowLeft from "../../../assets/icon/arrow-left.svg";
+import NotificationIcon from "../../../assets/icon/notification-icon.svg?react";
+import { useGetNotificationsQuery } from "../../../store/entities/notifications/notifactionsApi";
 
 interface NavHeaderProps {
   title?: string;
@@ -9,8 +11,8 @@ interface NavHeaderProps {
 }
 
 const NavHeader: FC<NavHeaderProps> = ({ title, userLK }) => {
+  const { data: notifications } = useGetNotificationsQuery();
   const navigate = useNavigate();
-
   const handleGoBack = () => navigate(-1);
 
   const handleGoSettings = () => navigate("/settings");
@@ -19,21 +21,22 @@ const NavHeader: FC<NavHeaderProps> = ({ title, userLK }) => {
     <header className={styles.header}>
       <div className={styles.navTitle}>
         <button className={styles.navTitle__backButton} onClick={handleGoBack}>
-         <img src={arrowLeft}/>
+          <img src={arrowLeft} />
         </button>
         {title ? <h4 className={styles.navTitle__title}>{title}</h4> : null}
       </div>
 
-
       <div className={styles.icons}>
+        <Link to="/notifications" className={styles.notificationLink}>
+          <NotificationIcon />
+          {!!notifications?.results.length && (
+            <span className={styles.counter}>{notifications?.count}</span>
+          )}
+        </Link>
 
-        {userLK ? <button className={styles.icon}>🔔</button> : null}
-
-        {userLK ? (
-          <button className={styles.icon} onClick={handleGoSettings}>
-            ⚙️
-          </button>
-        ) : null}
+        <button className={styles.icon} onClick={handleGoSettings}>
+          ⚙️
+        </button>
       </div>
     </header>
   );

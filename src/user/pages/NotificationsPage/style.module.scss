@@ -1,0 +1,26 @@
+.wrapper {
+  color: #2c555b;
+  padding: 20px;
+}
+
+.title {
+  font-size: 20px;
+  margin-block-end: 20px;
+}
+
+.notificationList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.notificationItem {
+  padding-block: 10px
+}
+
+.emptyNotification {
+  padding-block-start: 20px;
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+}

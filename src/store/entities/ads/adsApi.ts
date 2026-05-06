@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { BASE_URL } from "../../../utils/constans";
 
-interface BaseResponse<T> {
+export interface BaseResponse<T> {
   count: number;
   next: string | null;
   previous: string | null;

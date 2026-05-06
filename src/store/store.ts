@@ -11,6 +11,7 @@ import { wsChatReducer } from "./slices/wsChatSlice";
 import { commentsApi } from "./entities/comments/comments";
 import { searchApi } from "./entities/search/searchApi";
 import { adsApi } from "./entities/ads/adsApi";
+import { notificationsApi } from "./entities/notifications/notifactionsApi";
 
 export const store = configureStore({
   reducer: {
@@ -19,6 +20,7 @@ export const store = configureStore({
     [searchApi.reducerPath]: searchApi.reducer,
     [adsApi.reducerPath]: adsApi.reducer,
     [commentsApi.reducerPath]: commentsApi.reducer,
+    [notificationsApi.reducerPath]: notificationsApi.reducer,
     auth: authReducer,
     services: servicesSlice,
     wsChat: wsChatReducer,
@@ -30,6 +32,7 @@ export const store = configureStore({
       .concat(commentsApi.middleware)
       .concat(searchApi.middleware)
       .concat(adsApi.middleware)
+      .concat(notificationsApi.middleware)
       .concat(webSocketMiddleware(wsCHATActions)),
 });
 

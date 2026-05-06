@@ -9,6 +9,7 @@
   box-sizing: border-box;
   max-width: 1440px;
   margin: 0 auto;
+  position: relative;
 
   @media (max-width: 768px) {
   }
@@ -160,4 +161,48 @@ html {
   @media (max-width: 768px) {
     width: 100%;
   }
+}
+
+.navigate {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.notificationBtn {
+  position: relative;
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+
+  > svg {
+    transition: fill .1s;
+    fill:  #FFCC00;
+
+
+  }
+
+  &:hover {
+    >svg {
+      fill: #FFD900;
+    }
+  }
+}
+
+.counter {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: #dc143c;
+  color: #fff;
+  font-weight: 700;
+  text-align: center;
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-end: 0;
+  font-size: 14px;
 }
