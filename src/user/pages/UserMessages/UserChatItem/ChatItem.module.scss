@@ -1,0 +1,104 @@
+.item {
+  padding: 0;
+}
+
+.link {
+  max-width: 500px;
+  width: 100%;
+  display: flex;
+  gap: clamp(5px, 1.5625vw, 15px);
+  cursor: pointer;
+  border-radius: 16px;
+  padding: 14px min(16px, 1%);
+  text-decoration: none;
+
+  &:hover {
+    transition: all 0.1s;
+    background-color: #f2f1f0;
+  }
+}
+
+.imgContainer {
+  max-width: clamp(50px, 15.625vw, 64px);
+  aspect-ratio: 1/1;
+  position: relative;
+  flex-shrink: 0;
+
+  .itemImg {
+    width: 100%;
+    aspect-ratio: 1/1;
+    border-radius: 10px;
+  }
+
+  .userAvatar {
+    width: clamp(25px, 7.8125vw, 32px);
+    height: clamp(25px, 7.8125vw, 32px);
+    border-radius: 50%;
+    position: absolute;
+    top: -5px;
+    left: -5px;
+  }
+}
+
+.info {
+  display: flex;
+  max-width: 46.875vw;
+  flex-direction: column;
+  color: #000;
+
+  .userInfo {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+
+    .userName {
+      font-size: 16px;
+    }
+    .onlineStatus {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: #00b253;
+    }
+  }
+
+  .itemDetails {
+    display: flex;
+    gap: 5px;
+
+    .itemTitle {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-size: 15px;
+      line-height: 1.33;
+
+      &::after {
+        content: " · ";
+      }
+    }
+  }
+
+  .lastMessage {
+    margin: 0;
+    color: #757575;
+    font-size: 15px;
+    line-height: 1.33;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+.dateMessage {
+  font-size: 13px;
+  color: #757575;
+}
+
+.messageDetails {
+  margin-left: auto;
+  height: fit-content;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}

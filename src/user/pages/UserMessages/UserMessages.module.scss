@@ -1,0 +1,14 @@
+.wrapper {
+  max-width: 1440px;
+  width: 100%;
+  margin-inline: auto;
+  color: #2c555b;
+  padding: 20px;
+}
+
+.title {
+  font-size: clamp(19px, 5.9375vw, 40px);
+  line-height: 1.26;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
