@@ -1,4 +1,4 @@
-import { createBrowserRouter, Outlet } from "react-router-dom";
+import { createBrowserRouter } from "react-router-dom";
 import { paths } from "./paths";
 import Login from "../user/pages/logIn/logIn";
 import UserLK from "../user/pages/userLK/userLK";
@@ -33,6 +33,7 @@ import PasswordChange from "../user/pages/passwordChange/passwordChange";
 import RootLayout from "./layouts/RootLayout/RootLayout ";
 import MobileOnlyRoute from "./MobileOnlyRoute";
 import { NotificationsPage } from "../user/pages/NotificationsPage/NotificationsPage";
+import UserMessages from "../user/pages/UserMessages/UserMessages";
 
 export const router = createBrowserRouter(
   [
@@ -99,6 +100,14 @@ export const router = createBrowserRouter(
                 </MobileOnlyRoute>
               ),
             },
+            {
+              path: paths.myMessages,
+              element: <UserMessages/>
+            },
+            {
+              path: paths.myMessagesId,
+              element: <ChatPage />
+            }
           ],
         },
         {

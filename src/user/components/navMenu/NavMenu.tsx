@@ -77,7 +77,7 @@ const NavMenu: React.FC = () => {
           subtitle={`${favorites?.count || 0} избранных`}
           linkText="/favorites"
         />
-        <MenuItem title="Сообщения" subtitle="2 непрочитанных" />
+        <MenuItem title="Сообщения" subtitle="2 непрочитанных" linkText="/my-messages" />
         <MenuItem
           title="Удаление профиля"
           subtitle="Всё содержимое будет стёрто"
