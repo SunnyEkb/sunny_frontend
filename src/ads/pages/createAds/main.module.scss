@@ -1,6 +1,9 @@
 .section {
   display: flex;
   flex-direction: column;
+  width: 100%;
+  max-width: 1144px;
+  margin: 0 auto;
   font-family: "Inter";
   width: 100%;
   padding: 16px;
@@ -267,7 +270,7 @@
   display: grid;
   align-content: center;
   justify-items: center;
-  grid-template-rows: min-content min-content ;
+  grid-template-rows: min-content min-content;
 }
 
 @keyframes blink {
@@ -302,6 +305,5 @@
   height: 15px;
   background-color: #2c555b;
   border-radius: 50%;
-  animation: blink 1.5s  infinite;
-
+  animation: blink 1.5s infinite;
 }
