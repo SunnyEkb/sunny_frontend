@@ -51,6 +51,13 @@ export default function CommentSection({ comments }: Props) {
       )}
 
       {isInputVisible && <CommentWindow onClose={handleButtonClick} />}
+
+      <div className={style.cardReviews}>
+        <h3 id="reviews" className={style.title}>
+          Все комментарии
+        </h3>
+      </div>
+
       {comments.length > 0 &&
         comments.map((item) => {
           return <CommentItem key={item.id} comment={item} />;
