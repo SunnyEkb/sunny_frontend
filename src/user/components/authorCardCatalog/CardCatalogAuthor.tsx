@@ -1,8 +1,8 @@
-import React from "react";
+import { useEffect } from "react";
 import style from "./authorCard.module.scss";
 import Star from "../../../assets/icon/Star.svg?react";
 import { ServiceInfo } from "../../../common/model/ads";
-import { useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { useAppSelector } from "../../../store/store";
 import { useAuthModal } from "../../providers/AuthModalContext";
 
@@ -14,6 +14,9 @@ export default function CardCatalogAuthor({ card }: Props) {
   const user = useAppSelector((state) => state.auth.user);
   const { openLogin } = useAuthModal();
   const navigate = useNavigate();
+  const location = useLocation();
+  const params = useParams();
+
   const handleGoAds = () => {
     if (user) {
       navigate(`/chat/${card.type}/${card.id}/${user.id}`);
@@ -21,6 +24,20 @@ export default function CardCatalogAuthor({ card }: Props) {
       openLogin();
     }
   };
+
+  useEffect(() => {
+    if (!location.hash) return;
+    const element = document.querySelector(location.hash);
+
+    if (element) {
+      setTimeout(() => {
+        element.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      }, 0);
+    }
+  }, [location]);
 
   return (
     <div className={style.author__card}>
@@ -42,7 +59,16 @@ export default function CardCatalogAuthor({ card }: Props) {
           ))}
         </div>
 
-        <div>{card.comments_quantity} отзывов</div>
+        <Link
+          to={
+            location.pathname.startsWith("/catalogs/")
+              ? `/catalogs/${params.id}/service/${card.id}#reviews`
+              : "#reviews"
+          }
+          className={style.commentsLink}
+        >
+          {card.comments_quantity} отзывов
+        </Link>
       </div>
 
       <div className={style.catalog__buttons}>

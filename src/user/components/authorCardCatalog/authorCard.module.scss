@@ -105,3 +105,12 @@
     cursor: pointer;
   }
 }
+
+.commentsLink {
+  text-decoration: none;
+
+  &:hover {
+    text-decoration:underline;
+    transition: .3 all;
+  }
+}
