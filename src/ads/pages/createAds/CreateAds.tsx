@@ -1,5 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
-import styles from "./main.module.scss";
+import React, { useMemo, useState } from "react";
 import { Outlet, useLoaderData, useNavigate } from "react-router-dom";
 import { FormProvider, useForm } from "react-hook-form";
 import {
@@ -16,6 +15,8 @@ import {
 } from "./helpers";
 import ArrowBack from "../../../assets/icon/arrow-left.svg?react";
 import { RootModal } from "../../../app/layouts/RootModal/RootModal";
+
+import styles from "./main.module.scss";
 
 export interface ServiceItem {
   title: string;
@@ -95,7 +96,7 @@ export default function CreateAds() {
             reader.onerror = (error) => reject(error);
           });
 
-        let images: { image: string }[] = [];
+        const images: { image: string }[] = [];
         for (const photo of data.photo) {
           if (photo.file) {
             const base64Image = await toBase64(photo.file);
