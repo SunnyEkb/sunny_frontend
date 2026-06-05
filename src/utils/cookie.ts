@@ -23,3 +23,20 @@ export function deleteAllCookies() {
     });
   });
 }
+
+
+export function getCookie(name: string): string | undefined {
+  if (typeof document === 'undefined') {
+    return;
+  }
+  const matches = document.cookie.match(
+    new RegExp(
+      '(?:^|; )' +
+        name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') +
+        '=([^;]*)',
+    ),
+  );
+  const returnData = matches ? decodeURIComponent(matches[1]) : undefined;
+
+  return returnData;
+}
