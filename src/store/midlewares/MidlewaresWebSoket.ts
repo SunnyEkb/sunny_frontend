@@ -1,118 +1,3 @@
-// import {
-//   ActionCreatorWithoutPayload,
-//   ActionCreatorWithPayload,
-//   Middleware,
-//   MiddlewareAPI,
-//   PayloadAction,
-// } from "@reduxjs/toolkit";
-// import { io, Socket } from "socket.io-client";
-
-// export interface WsProps {
-//   code: number;
-//   wasClean: boolean | null;
-// }
-
-// export type TwsActionTypes = {
-//   wsConnect: ActionCreatorWithPayload<string>;
-//   wsDisconnect: ActionCreatorWithoutPayload;
-//   wsConnecting: ActionCreatorWithoutPayload;
-//   wsOnOpen: ActionCreatorWithoutPayload;
-//   wsOnClose: ActionCreatorWithPayload<WsProps>;
-//   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-//   wsOnMessage: ActionCreatorWithPayload<any>;
-//   wsOnError: ActionCreatorWithPayload<string>;
-
-//   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-//   wsSendMessage?: ActionCreatorWithPayload<any>;
-// };
-
-// export const WS_DEBUG_MIDDLE = false;
-
-// export const webSocketMiddleware = (wsActions: TwsActionTypes): Middleware => {
-//   return ((store: MiddlewareAPI) => {
-//     let socket: WebSocket | null = null;
-
-//     return (next) => (action: PayloadAction) => {
-//       const { dispatch } = store;
-//       const { type } = action;
-//       const {
-//         wsConnect,
-//         wsDisconnect,
-//         wsConnecting,
-//         wsOnOpen,
-//         wsOnClose,
-//         wsOnMessage,
-//         wsOnError,
-
-//         wsSendMessage,
-//       } = wsActions;
-
-//       if (WS_DEBUG_MIDDLE && type.includes("WS")) {
-//         console.log("webSocket:" + type, action.payload);
-//       }
-
-//       if (wsConnect.match(action)) {
-//         const wsUrl = action.payload as unknown as string | URL;
-//         const testUrl = `wss://localhost:3000/chats`;
-//         socket = new WebSocket(testUrl);
-
-//         console.log("wsUrl", wsUrl);
-
-//         // const test = io(testUrl as string, {
-//         //   withCredentials: true,
-//         // })
-//         dispatch(wsConnecting());
-//       }
-
-//       if (socket) {
-//         // receive
-//         socket.onmessage = (event) => {
-//           const { data } = event;
-//           dispatch(wsOnMessage(JSON.parse(data)));
-//         };
-
-//         // send
-//         if (wsSendMessage?.match(action)) {
-//           if (WS_DEBUG_MIDDLE) {
-//             console.log("webSocket:message", action.payload);
-//           }
-
-//           socket.send(JSON.stringify(action.payload));
-//         }
-
-//         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-//         socket.onopen = (event) => dispatch(wsOnOpen());
-
-//         socket.onerror = (event) => {
-//           if (WS_DEBUG_MIDDLE) {
-//             console.warn("webSocket:error", event);
-//           }
-
-//           dispatch(wsOnError(event.type));
-//         };
-
-//         socket.onclose = (event) => {
-//           if (WS_DEBUG_MIDDLE) {
-//             console.warn("webSocket:close", event);
-//           }
-
-//           dispatch(wsOnClose({ wasClean: event.wasClean, code: event.code }));
-//         };
-
-//         if (wsDisconnect.match(action)) {
-//           if (WS_DEBUG_MIDDLE) {
-//             console.log("wsDisconnect");
-//           }
-
-//           socket.close();
-//         }
-//       }
-
-//       next(action);
-//     };
-//   }) as Middleware;
-// };
-
 import {
   ActionCreatorWithoutPayload,
   ActionCreatorWithPayload,
@@ -121,7 +6,6 @@ import {
   PayloadAction,
 } from "@reduxjs/toolkit";
 import { io, Socket } from "socket.io-client";
-import { getCookie } from "../../utils/cookie";
 
 export interface WsProps {
   code?: number;
@@ -148,7 +32,6 @@ export const WS_DEBUG_MIDDLE = true;
 export const webSocketMiddleware = (wsActions: TwsActionTypes): Middleware => {
   return ((store: MiddlewareAPI) => {
     let socket: Socket | null = null;
-    let isConnected = false;
     let reconnectTimer: NodeJS.Timeout | null = null;
 
     return (next) => (action: PayloadAction) => {
@@ -171,49 +54,31 @@ export const webSocketMiddleware = (wsActions: TwsActionTypes): Middleware => {
 
       // Подключение к сокету
       if (wsConnect.match(action)) {
-        const token = getCookie("access_token");
-
-        if (!token) {
-          console.error("No found token", token);
-          return;
-        }
+        const socketUrl = action.payload;
 
         if (socket?.connected) {
           console.log("[Socket.IO] Уже подключено");
           return next(action);
         }
 
-        // URL сервера (без /chat, так как namespace указан в сервере)
-        // const devURL =  "http://localhost:3000"
-        const SOCKET_URL = "https://sunnyekb.ru";
+        // URL приходит из CHATWsConnect.
 
-        console.log(
-          "[Socket.IO] Подключение к:",
-          SOCKET_URL,
-          "с токеном:",
-          token,
-        );
+        console.log("[Socket.IO] Подключение к:", socketUrl);
 
         dispatch(wsConnecting());
 
         // Создаем подключение Socket.IO
-        socket = io(`${SOCKET_URL}/chat`, {
+        socket = io(socketUrl, {
           transports: ["websocket", "polling"],
+          withCredentials: true,
           autoConnect: true,
           reconnection: true,
           reconnectionAttempts: 5,
           reconnectionDelay: 1000,
-          auth: {
-            token: token,
-          },
-          extraHeaders: {
-            authorization: `Bearer ${token}`,
-          },
         });
 
         // Обработчики событий
         socket.on("connect", () => {
-          isConnected = true;
           console.log("[Socket.IO] Подключено успешно! ID:", socket?.id);
 
           if (reconnectTimer) {
@@ -225,7 +90,6 @@ export const webSocketMiddleware = (wsActions: TwsActionTypes): Middleware => {
         });
 
         socket.on("disconnect", (reason) => {
-          isConnected = false;
           console.log("[Socket.IO] Отключено, причина:", reason);
 
           dispatch(
@@ -280,7 +144,7 @@ export const webSocketMiddleware = (wsActions: TwsActionTypes): Middleware => {
 
       // Отправка сообщений
       if (wsSendMessage?.match(action) && socket?.connected) {
-        const { message, ...allData } = action.payload as unknown as {
+        const { message, event = "message:send", ...allData } = action.payload as unknown as {
           event: string;
           data: unknown;
           message: string;
@@ -295,7 +159,7 @@ export const webSocketMiddleware = (wsActions: TwsActionTypes): Middleware => {
           console.log(`[Socket.IO] Отправка события ${event}:`, data);
         }
 
-        socket.emit("message:send", data);
+        socket.emit(event, data);
       }
 
       // Отключение
@@ -313,7 +177,6 @@ export const webSocketMiddleware = (wsActions: TwsActionTypes): Middleware => {
 
         socket.removeAllListeners();
         socket = null;
-        isConnected = false;
       }
 
       return next(action);
