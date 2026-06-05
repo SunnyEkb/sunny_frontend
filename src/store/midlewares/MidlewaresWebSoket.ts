@@ -121,6 +121,7 @@ import {
   PayloadAction,
 } from "@reduxjs/toolkit";
 import { io, Socket } from "socket.io-client";
+import { getCookie } from "../../utils/cookie";
 
 export interface WsProps {
   code?: number;
@@ -170,8 +171,12 @@ export const webSocketMiddleware = (wsActions: TwsActionTypes): Middleware => {
 
       // Подключение к сокету
       if (wsConnect.match(action)) {
-        // const token = action.payload as unknown as string; //передаем токен или из кук тут берем
-        const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzcyNDc3NDY0LCJpYXQiOjE3NzI0NTk0NjQsImp0aSI6ImRiZWU4YmYyYTRjMDRjNWY5N2EzNjRlZGE3YTRhYmZhIiwidXNlcl9pZCI6MjN9.FHpOiskLZFO6O-myzrxM3HUORNFCLHL8Hp26P6vZHEY"
+        const token = getCookie("access_token");
+
+        if (!token) {
+          console.error("No found token", token);
+          return;
+        }
 
         if (socket?.connected) {
           console.log("[Socket.IO] Уже подключено");
@@ -179,7 +184,8 @@ export const webSocketMiddleware = (wsActions: TwsActionTypes): Middleware => {
         }
 
         // URL сервера (без /chat, так как namespace указан в сервере)
-        const SOCKET_URL = "http://localhost:3000";
+        // const devURL =  "http://localhost:3000"
+        const SOCKET_URL = "https://sunnyekb.ru";
 
         console.log(
           "[Socket.IO] Подключение к:",
