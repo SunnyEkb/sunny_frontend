@@ -13,8 +13,9 @@ import { getChat, type ChatDto } from "../../../shared/api/chatApi";
 // import { BASE_URL } from "../../../utils/constans";
 
 // export const BASE_URL: string = "wss://sunnyekb.ru/";
-export const BASE_URL: string = process.env.VITE_CHAT_API_URL ?? "http://localhost:3000";
-
+export const BASE_URL: string =
+  (process.env.VITE_CHAT_API_URL || "https://sunnyekb.ru") ??
+  "http://localhost:3000";
 
 export default function ChatPage() {
   const navigate = useNavigate();
@@ -44,8 +45,8 @@ export default function ChatPage() {
   React.useEffect(() => {
     if (user) {
       // const WS_LINK = `${BASE_URL}chat/${params.objectType}/${params.object_id}/${params.buyer_id}/`;
-       const WS_LINK = `${BASE_URL}/chat`;
-      dispatch(CHATWsConnect({url: `${WS_LINK}`, token: user.token}));
+      const WS_LINK = `${BASE_URL}/chat`;
+      dispatch(CHATWsConnect({ url: `${WS_LINK}`, token: user.token }));
     }
 
     return () => {
@@ -71,15 +72,13 @@ export default function ChatPage() {
         setLoadedChat(chat);
         dispatch(
           CHATWsOnMessage(
-            [...chat.messages]
-              .reverse()
-              .map((message) => ({
-                id: message.id,
-                message: message.text,
-                sender_id: message.sender_id,
-                created_at: message.date,
-                updated_at: message.date,
-              })),
+            [...chat.messages].reverse().map((message) => ({
+              id: message.id,
+              message: message.text,
+              sender_id: message.sender_id,
+              created_at: message.date,
+              updated_at: message.date,
+            })),
           ),
         );
       })
