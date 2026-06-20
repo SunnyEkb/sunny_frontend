@@ -117,7 +117,7 @@ export const webSocketMiddleware = (
         // Обработка пользовательских событий (сообщения)
         socket.on("message:received", (data) => {
           console.log("[Socket.IO] Получено сообщение:", data);
-          debugger;
+
           dispatch(wsOnMessage(data));
         });
 
