@@ -20,6 +20,7 @@ interface Props {
 // }
 
 export default function Message({ message}: Props) {
+  console.log('message', message)
   const userInfo = useAppSelector((state) => state.auth.user);
   function formatTime(date: Date): string {
     const hours: string = String(date.getHours()).padStart(2, "0");

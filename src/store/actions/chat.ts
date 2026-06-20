@@ -1,6 +1,6 @@
 import { createAction } from "@reduxjs/toolkit";
 
-import { WsProps } from "../midlewares/MidlewaresWebSoket";
+import type { WsProps } from "../midlewares/MidlewaresWebSoket";
 
 export type StatusTypes = "init" | "loading" | "error" | "closed";
 
@@ -17,6 +17,7 @@ export interface ChatMessages {
   sender_username: string;
   updated_at: string;
   avatar?: string;
+  pending?: boolean;
 }
 
 // export interface ChatMessages {
@@ -27,8 +28,14 @@ export interface CHATProps extends RequestProps, WsProps {
   text: string;
 }
 
-export interface CHATPropsMessageSocket {
+export type CHATPropsMessageSocket = ChatMessages | ChatMessages[];
+
+export interface CHATSendMessagePayload {
   message: string;
+  event: string;
+  ad_id?: string;
+  recipient_id?: string;
+  optimisticMessage: ChatMessages;
 }
 
 // export interface CHATPropsMessage {
@@ -48,7 +55,7 @@ const CHAT_WS_ON_MESSAGE = "CHAT_WS_ON_MESSAGE";
 const CHAT_WS_ON_ERROR = "CHAT_WS_ON_ERROR";
 const CHAT_WS_SEND_MESSAGE = "CHAT_WS_SEND_MESSAGE";
 
-export const CHATWsConnect = createAction<string, typeof CHAT_WS_CONNECT>(
+export const CHATWsConnect = createAction<{url: string, token: string}, typeof CHAT_WS_CONNECT>(
   CHAT_WS_CONNECT
 );
 export const CHATWsDisconnect = createAction(CHAT_WS_DISCONNECT);
@@ -61,7 +68,7 @@ export const CHATWsOnMessage = createAction<
   CHATPropsMessageSocket,
   typeof CHAT_WS_ON_MESSAGE
 >(CHAT_WS_ON_MESSAGE); // receive messages
-export const CHATWsSendMessage = createAction<{ message: string, event: string, ad_id?: string, recipient_id?: string }>(
+export const CHATWsSendMessage = createAction<CHATSendMessagePayload>(
   CHAT_WS_SEND_MESSAGE
 );
 export const CHATWsOnError = createAction<string, typeof CHAT_WS_ON_ERROR>(

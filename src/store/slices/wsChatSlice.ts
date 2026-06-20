@@ -5,6 +5,7 @@ import {
   CHATWsOnClose,
   CHATWsOnError,
   CHATWsOnMessage,
+  CHATWsSendMessage,
   // CHATWsOnOpen,
 } from "../actions/chat";
 
@@ -48,6 +49,8 @@ export const wsCHATSlice = createSlice({
     builder
       .addCase(CHATWsConnect, (state) => {
         state.status = "loading";
+        state.chat = [];
+        state.currentMessages = [];
       })
       // .addCase(CHATWsOnOpen, (state) => {})
       .addCase(CHATWsOnError, (state) => {
@@ -59,23 +62,37 @@ export const wsCHATSlice = createSlice({
         state.status = "closed";
       })
       .addCase(CHATWsOnMessage, (state, action) => {
-        state.status = "init";
+        state.status = "success";
 
-        const newMessage = action.payload;
+        const incomingMessage = action.payload;
 
-        if (Array.isArray(newMessage)) {
-          state.currentMessages = newMessage;
-        }
-        if (newMessage) {
-          state.chat = [...state.chat, newMessage];
-
-          state.currentMessages = [...state.currentMessages, newMessage];
-          state.isSuccess = true;
+        if (Array.isArray(incomingMessage)) {
+          state.currentMessages = incomingMessage;
         } else {
-          state.chat = [];
+          const message = incomingMessage as ChatMessages;
+          const pendingMessageIndex = state.currentMessages.findIndex(
+            (currentMessage) =>
+              currentMessage.pending &&
+              currentMessage.message === message.message &&
+              currentMessage.sender_username === message.sender_username,
+          );
+
+          if (pendingMessageIndex >= 0) {
+            state.currentMessages[pendingMessageIndex] = message;
+          } else {
+            state.currentMessages.push(message);
+          }
         }
 
-        // state.total = action.payload?.total ?? 0;
+        state.chat = [...state.currentMessages];
+        state.isSuccess = true;
+      })
+      .addCase(CHATWsSendMessage, (state, action) => {
+        state.currentMessages.push({
+          ...action.payload.optimisticMessage,
+          pending: true,
+        });
+        state.chat = [...state.currentMessages];
       });
   },
 });

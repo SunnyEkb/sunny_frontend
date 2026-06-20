@@ -2,38 +2,17 @@ import React from "react";
 import styles from "./styles.module.scss";
 import Message from "../Message/Message";
 import { useAppDispatch, useAppSelector } from "../../../../store/store";
-import {
-  CHATWsOnMessage,
-  CHATWsSendMessage,
-} from "../../../../store/actions/chat";
+import { CHATWsSendMessage } from "../../../../store/actions/chat";
 import Camera from "../../../../assets/icon/camera.svg?react";
 import { useParams } from "react-router-dom";
-
-const mockMessage = [
-  {
-    id: "1",
-    text: "Hello world!",
-    avatar: undefined,
-    time: "03:01",
-    read: false,
-  },
-
-  {
-    id: "2",
-    text: "Hello world! Hello world!  Hello world! Hello world! Hello world! Hello world! Hello world! Hello world!",
-    avatar: undefined,
-    time: "03:01",
-    read: false,
-  },
-];
 
 export default function WindowChat() {
   const [value, setValue] = React.useState("");
   const today: Date = new Date();
   const params = useParams();
-  console.log('params', params)
   const dispatch = useAppDispatch();
   const { currentMessages } = useAppSelector((state) => state.wsChat);
+  const user = useAppSelector((state) => state.auth.user);
 
   function formatDate(date: Date): string {
     const options: Intl.DateTimeFormatOptions = {
@@ -52,7 +31,30 @@ export default function WindowChat() {
   };
 
   const handleSend = () => {
-    dispatch(CHATWsSendMessage({ message: value, event: "message:send", ad_id: params.object_id, recipient_id: params.buyer_id }));
+    const message = value.trim();
+
+    if (!message) {
+      return;
+    }
+
+    const timestamp = new Date().toISOString();
+
+    dispatch(
+      CHATWsSendMessage({
+        message,
+        event: "message:send",
+        ad_id: params.object_id,
+        recipient_id: params.buyer_id,
+        optimisticMessage: {
+          id: -Date.now(),
+          message,
+          sender_username: user?.username ?? "",
+          avatar: user?.avatar as string | undefined,
+          created_at: timestamp,
+          updated_at: timestamp,
+        },
+      }),
+    );
     setValue("");
   };
 
@@ -62,9 +64,6 @@ export default function WindowChat() {
 
       <div className={styles.window__listMessage}>
         {currentMessages.map((item) => {
-          if (Array.isArray(item)) {
-            return null;
-          }
           return <Message key={item.id} message={item} />;
         })}
       </div>

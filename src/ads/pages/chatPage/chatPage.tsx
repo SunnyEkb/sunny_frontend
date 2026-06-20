@@ -11,7 +11,8 @@ import {
 } from "../../../store/actions/chat";
 // import { BASE_URL } from "../../../utils/constans";
 
-export const BASE_URL: string = "wss://sunnyekb.ru/";
+// export const BASE_URL: string = "wss://sunnyekb.ru/";
+export const BASE_URL: string = "http://localhost:3000/";
 
 
 export default function ChatPage() {
@@ -26,8 +27,9 @@ export default function ChatPage() {
 
   React.useEffect(() => {
     if (user) {
-      const WS_LINK = `${BASE_URL}ws/chat/${params.objectType}/${params.object_id}/${params.buyer_id}/`;
-      dispatch(CHATWsConnect(`${WS_LINK}`));
+      // const WS_LINK = `${BASE_URL}chat/${params.objectType}/${params.object_id}/${params.buyer_id}/`;
+       const WS_LINK = `${BASE_URL}chat`;
+      dispatch(CHATWsConnect({url: `${WS_LINK}`, token: user.token}));
     }
 
     return () => {
