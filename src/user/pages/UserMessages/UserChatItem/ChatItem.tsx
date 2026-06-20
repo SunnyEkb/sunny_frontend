@@ -1,72 +1,59 @@
 import { Link } from "react-router-dom";
+import defaultAvatar from "../../../../assets/Avatar.svg";
+import type { ChatDto } from "../../../../shared/api/chatApi";
 import ReadIcon from "../../../../assets/icon/read.svg?react";
 import UnreadIcon from "../../../../assets/icon/unread.svg?react";
-
 import styles from "./ChatItem.module.scss";
 
-export interface Chat {
-  id: number;
-  user: {
-    name: string;
-    avatar: string;
-    isOnline: boolean;
-  };
-  item: {
-    title: string;
-    price: number;
-    imageUrl: string;
-  };
-  lastMessage: {
-    text: string;
-    createdAt: string;
-    from: "user" | "companion";
-    isRead: boolean | null;
-  };
+interface Props {
+  chat: ChatDto;
+  currentUserId: string;
 }
 
+const ChatItem = ({ chat, currentUserId }: Props) => {
+  const lastMessage = chat.messages[0];
+  const companionId =
+    chat.sender_id === currentUserId ? chat.recipient_id : chat.sender_id;
+  const isOwnLastMessage = lastMessage?.sender_id === currentUserId;
 
-const ChatItem = ({ chat }: { chat: Chat }) => (
-  <li key={chat.id} className={styles.item}>
-    <Link to={`/my-messages/${chat.id}`} className={styles.link}>
-      <div className={styles.imgContainer}>
-        <img
-          className={styles.itemImg}
-          src={chat.item.imageUrl}
-          alt="Картинка товара"
-        />
-        <img
-          className={styles.userAvatar}
-          src={chat.user.avatar}
-          alt="Картинка пользователя"
-        />
-      </div>
-      <div className={styles.info}>
-        <div className={styles.userInfo}>
-          <h5 className={styles.userName}>{chat.user.name}</h5>
-          {chat.user.isOnline && <div className={styles.onlineStatus}></div>}
+  return (
+    <li className={styles.item}>
+      <Link to={`/my-messages/${chat.id}`} className={styles.link}>
+        <div className={styles.imgContainer}>
+          <img
+            className={styles.userAvatar}
+            src={defaultAvatar}
+            alt="Аватар собеседника"
+          />
         </div>
-
-        <div className={styles.itemDetails}>
-          <span className={styles.itemTitle}>{chat.item.title}</span>
-          <span>{chat.item.price}&nbsp;₽</span>
+        <div className={styles.info}>
+          <div className={styles.userInfo}>
+            <h5 className={styles.userName}>Пользователь #{companionId}</h5>
+          </div>
+          <div className={styles.itemDetails}>
+            <span>Объявление #{chat.ad_id}</span>
+          </div>
+          <p className={styles.lastMessage}>
+            {lastMessage?.text ?? "Нет сообщений"}
+          </p>
         </div>
-        <p className={styles.lastMessage}>{chat.lastMessage.text}</p>
-      </div>
-      <div className={styles.messageDetails}>
-        {chat.lastMessage.from === "user" &&
-          (chat.lastMessage.isRead ? <ReadIcon /> : <UnreadIcon />)}
-        <span className={styles.dateMessage}>
-          <time>
-            {new Date(chat.lastMessage.createdAt).toLocaleDateString("ru-RU", {
-              day: "numeric",
-              month: "short",
-            })}
-          </time>
-        </span>
-      </div>
-    </Link>
-  </li>
-);
-
+        {lastMessage && (
+          <div className={styles.messageDetails}>
+            {isOwnLastMessage &&
+              (lastMessage.status === "read" ? <ReadIcon /> : <UnreadIcon />)}
+            <span className={styles.dateMessage}>
+              <time>
+                {new Date(lastMessage.date).toLocaleDateString("ru-RU", {
+                  day: "numeric",
+                  month: "short",
+                })}
+              </time>
+            </span>
+          </div>
+        )}
+      </Link>
+    </li>
+  );
+};
 
 export default ChatItem;

@@ -3,9 +3,13 @@ import {
   ActionCreatorWithPayload,
   Middleware,
   MiddlewareAPI,
-  PayloadAction,
 } from "@reduxjs/toolkit";
 import { io, Socket } from "socket.io-client";
+import type {
+  CHATPropsMessageSocket,
+  ChatSocketMessage,
+  wsCHATActions,
+} from "../actions/chat";
 
 export interface WsProps {
   code?: number;
@@ -19,8 +23,7 @@ export type TwsActionTypes = {
   wsConnecting: ActionCreatorWithoutPayload;
   wsOnOpen: ActionCreatorWithoutPayload;
   wsOnClose: ActionCreatorWithPayload<WsProps>;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  wsOnMessage: ActionCreatorWithPayload<any>;
+  wsOnMessage: ActionCreatorWithPayload<CHATPropsMessageSocket>;
   wsOnError: ActionCreatorWithPayload<string>;
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -29,12 +32,14 @@ export type TwsActionTypes = {
 
 export const WS_DEBUG_MIDDLE = true;
 
-export const webSocketMiddleware = (wsActions: TwsActionTypes): Middleware => {
+export const webSocketMiddleware = (
+  wsActions: typeof wsCHATActions,
+): Middleware => {
   return ((store: MiddlewareAPI) => {
     let socket: Socket | null = null;
     let reconnectTimer: NodeJS.Timeout | null = null;
 
-    return (next) => (action: PayloadAction) => {
+    return (next) => (action: { type: string; payload?: unknown }) => {
       const { dispatch } = store;
       const { type } = action;
       const {
@@ -54,7 +59,7 @@ export const webSocketMiddleware = (wsActions: TwsActionTypes): Middleware => {
 
       // Подключение к сокету
       if (wsConnect.match(action)) {
-        const socketUrl = action.payload;
+        const socketUrl = action.payload.url;
 
         if (socket?.connected) {
           console.log("[Socket.IO] Уже подключено");
@@ -73,6 +78,9 @@ export const webSocketMiddleware = (wsActions: TwsActionTypes): Middleware => {
           withCredentials: true,
           autoConnect: true,
           reconnection: true,
+          auth: {
+            token: action.payload.token,
+          },
           reconnectionAttempts: 5,
           reconnectionDelay: 1000,
         });
@@ -111,44 +119,52 @@ export const webSocketMiddleware = (wsActions: TwsActionTypes): Middleware => {
         });
 
         // Обработка пользовательских событий (сообщения)
-        socket.on("message:received", (data) => {
+        socket.on("message:received", (data: ChatSocketMessage) => {
           console.log("[Socket.IO] Получено сообщение:", data);
-          dispatch(wsOnMessage({ type: "message:received", payload: data }));
+
+          dispatch(
+            wsOnMessage({
+              id: data.id,
+              message: data.text,
+              sender_id: data.sender_id,
+              sender_username: data.sender_username,
+              avatar: data.avatar,
+              created_at: data.date,
+              updated_at: data.date,
+            }),
+          );
         });
 
         socket.on("message:read", (data) => {
           console.log("[Socket.IO] Сообщение прочитано:", data);
-          dispatch(wsOnMessage({ type: "message:read", payload: data }));
         });
 
         socket.on("user:online", (data) => {
           console.log("[Socket.IO] Пользователь онлайн:", data);
-          dispatch(wsOnMessage({ type: "user:online", payload: data }));
         });
 
         socket.on("user:offline", (data) => {
           console.log("[Socket.IO] Пользователь офлайн:", data);
-          dispatch(wsOnMessage({ type: "user:offline", payload: data }));
         });
 
         socket.on("user:typing", (data) => {
           console.log("[Socket.IO] Печатает:", data);
-          dispatch(wsOnMessage({ type: "user:typing", payload: data }));
         });
 
         socket.on("error", (data) => {
           console.error("[Socket.IO] Ошибка от сервера:", data);
-          dispatch(wsOnMessage({ type: "error", payload: data }));
         });
       }
 
       // Отправка сообщений
       if (wsSendMessage?.match(action) && socket?.connected) {
         const { message, event = "message:send", ...allData } = action.payload as unknown as {
-          event: string;
-          data: unknown;
+          event?: string;
           message: string;
+          optimisticMessage?: unknown;
         };
+
+        delete allData.optimisticMessage;
 
         const data = {
           text: message,

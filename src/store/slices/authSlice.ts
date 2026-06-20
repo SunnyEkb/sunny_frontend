@@ -13,6 +13,7 @@ export interface User {
   last_name?: string | null;
   role?: string | null;
   avatar?: AvatarType;
+  token: string;
 }
 
 interface AuthState {

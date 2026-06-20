@@ -23,7 +23,7 @@ export const paths = {
   newPassword: "...",
   forgetPassword: "/password-forget",
   registryActivate: "/registry-activate",
-  chat: `/chat/:objectType/:object_id/:buyer_id`,
+  chat: `/chat/:objectType/:object_id/:owner_id/:buyer_id?`,
   moderation: "/moderation", // Added path for moderation mainpage
   myAds: '/my-ads',
   myReviews: "/my-reviews",

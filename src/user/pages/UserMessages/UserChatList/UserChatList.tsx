@@ -1,18 +1,23 @@
-import ChatItem, { type Chat} from "../UserChatItem/ChatItem";
-
+import type { ChatDto } from "../../../../shared/api/chatApi";
+import ChatItem from "../UserChatItem/ChatItem";
 import styles from "./UserChatList.module.scss";
 
-export type ChatList = Chat[];
+export type ChatList = ChatDto[];
 
-const UserChatList = ({ chatList }: { chatList: ChatList }) =>
-  !!chatList.length ? (
+interface Props {
+  chatList: ChatList;
+  currentUserId: string;
+}
+
+const UserChatList = ({ chatList, currentUserId }: Props) =>
+  chatList.length ? (
     <ul className={styles.list}>
       {chatList.map((chat) => (
-        <ChatItem key={chat.id} chat={chat} />
+        <ChatItem key={chat.id} chat={chat} currentUserId={currentUserId} />
       ))}
     </ul>
   ) : (
-    <h3>У вас нет сообщении</h3>
+    <h3>У вас нет сообщений</h3>
   );
 
-  export default UserChatList;
+export default UserChatList;
