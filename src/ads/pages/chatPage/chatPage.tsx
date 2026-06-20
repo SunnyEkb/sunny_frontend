@@ -14,7 +14,7 @@ import { getChat, type ChatDto } from "../../../shared/api/chatApi";
 
 // export const BASE_URL: string = "wss://sunnyekb.ru/";
 export const BASE_URL: string =
-  (process.env.VITE_CHAT_API_URL || "https://sunnyekb.ru") ??
+  (import.meta.env.VITE_CHAT_API_URL || "https://sunnyekb.ru") ??
   "http://localhost:3000";
 
 export default function ChatPage() {
