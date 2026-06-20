@@ -1,6 +1,5 @@
 export const CHAT_API_URL =
-  (import.meta.env.VITE_CHAT_API_URL || "https://sunnyekb.ru") ??
-  "http://localhost:3000";
+  import.meta.env.VITE_CHAT_API_URL ?? "https://sunnyekb.ru";
 
 export interface ChatMessageDto {
   id: string;
