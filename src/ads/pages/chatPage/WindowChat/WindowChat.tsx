@@ -4,12 +4,20 @@ import Message from "../Message/Message";
 import { useAppDispatch, useAppSelector } from "../../../../store/store";
 import { CHATWsSendMessage } from "../../../../store/actions/chat";
 import Camera from "../../../../assets/icon/camera.svg?react";
-import { useParams } from "react-router-dom";
 
-export default function WindowChat() {
+interface Props {
+  adId?: string;
+  recipientId?: string;
+  currentUserId?: string;
+}
+
+export default function WindowChat({
+  adId,
+  recipientId,
+  currentUserId,
+}: Props) {
   const [value, setValue] = React.useState("");
   const today: Date = new Date();
-  const params = useParams();
   const dispatch = useAppDispatch();
   const { currentMessages } = useAppSelector((state) => state.wsChat);
   const user = useAppSelector((state) => state.auth.user);
@@ -33,7 +41,12 @@ export default function WindowChat() {
   const handleSend = () => {
     const message = value.trim();
 
-    if (!message) {
+    if (
+      !message ||
+      !adId ||
+      !recipientId ||
+      recipientId === currentUserId
+    ) {
       return;
     }
 
@@ -43,11 +56,12 @@ export default function WindowChat() {
       CHATWsSendMessage({
         message,
         event: "message:send",
-        ad_id: params.object_id,
-        recipient_id: params.buyer_id,
+        ad_id: adId,
+        recipient_id: recipientId,
         optimisticMessage: {
           id: -Date.now(),
           message,
+          sender_id: String(user?.id ?? ""),
           sender_username: user?.username ?? "",
           avatar: user?.avatar as string | undefined,
           created_at: timestamp,
@@ -75,6 +89,7 @@ export default function WindowChat() {
           value={value}
           name="message"
           onChange={(e) => handleChange(e)}
+          disabled={!adId || !recipientId || recipientId === currentUserId}
           onKeyDown={(e) => {
             if (e.key === "Enter") {
               e.preventDefault();

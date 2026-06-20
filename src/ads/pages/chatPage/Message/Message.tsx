@@ -20,7 +20,6 @@ interface Props {
 // }
 
 export default function Message({ message}: Props) {
-  console.log('message', message)
   const userInfo = useAppSelector((state) => state.auth.user);
   function formatTime(date: Date): string {
     const hours: string = String(date.getHours()).padStart(2, "0");
@@ -28,16 +27,24 @@ export default function Message({ message}: Props) {
     return `${hours}:${minutes}`;
   }
 
+  const isOwnMessage =
+    (message.sender_id !== undefined &&
+      userInfo?.id !== undefined &&
+      String(message.sender_id) === String(userInfo.id)) ||
+    (message.sender_username !== undefined &&
+      userInfo?.username !== undefined &&
+      message.sender_username === userInfo.username);
+
   const avatarSrc =
-    message && userInfo && message.sender_username === userInfo.username
-      ? (userInfo.avatar as string) || defaultAvatar
+    isOwnMessage
+      ? (userInfo?.avatar as string) || defaultAvatar
       : (message.avatar as string) || defaultAvatar;
 
 
   return (
     <div
       className={
-        message.sender_username === userInfo?.username
+        isOwnMessage
           ? styles.message
           : `${styles.message} ${styles.message_reverse}`
       }
@@ -54,7 +61,9 @@ export default function Message({ message}: Props) {
         <div className={styles.message__text}>{message.message}</div>
       </div>
 
-      <div className={styles.message__time}>{formatTime(new Date())}</div>
+      <div className={styles.message__time}>
+        {formatTime(new Date(message.created_at))}
+      </div>
     </div>
   );
 }

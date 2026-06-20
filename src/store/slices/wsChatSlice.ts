@@ -74,7 +74,7 @@ export const wsCHATSlice = createSlice({
             (currentMessage) =>
               currentMessage.pending &&
               currentMessage.message === message.message &&
-              currentMessage.sender_username === message.sender_username,
+              currentMessage.sender_id === message.sender_id,
           );
 
           if (pendingMessageIndex >= 0) {

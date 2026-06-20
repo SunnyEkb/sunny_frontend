@@ -1,37 +1,58 @@
-import UserChatList, { type ChatList } from "./UserChatList/UserChatList";
-import Avatar from "../../../assets/Avatar.svg";
-
+import { useEffect, useState } from "react";
+import { getUserChats, type ChatDto } from "../../../shared/api/chatApi";
+import { useAppSelector } from "../../../store/store";
+import UserChatList from "./UserChatList/UserChatList";
 import styles from "./UserMessages.module.scss";
 
-const mockData: ChatList = Array.from({ length: 5 }, (_, id) => {
-  const isUser = Math.random() > 0.5 ? "user" : "companion";
-
-  return {
-    id,
-    user: {
-      name: "Иван",
-      avatar: Avatar,
-      isOnline: Math.random() > 0.5 ? true : false,
-    },
-    item: {
-      title: "Автомобильный коврик",
-      price: 1000,
-      imageUrl: "https://ir.ozone.ru/s3/multimedia-7/6447017695.jpg",
-    },
-    lastMessage: {
-      text: "Ещё не продали?",
-      createdAt: new Date().toISOString(),
-      from: isUser,
-      isRead: isUser === "user" ? (Math.random() > 0.5 ? true : false) : null,
-    },
-  };
-});
-
 const UserMessages = () => {
+  const user = useAppSelector((state) => state.auth.user);
+  const [chats, setChats] = useState<ChatDto[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!user?.token) {
+      setChats([]);
+      setIsLoading(false);
+      return;
+    }
+
+    let isCancelled = false;
+
+    getUserChats(user.token)
+      .then((data) => {
+        if (!isCancelled) {
+          setChats(data);
+        }
+      })
+      .catch((requestError: unknown) => {
+        if (!isCancelled) {
+          setError(
+            requestError instanceof Error
+              ? requestError.message
+              : "Не удалось загрузить чаты",
+          );
+        }
+      })
+      .finally(() => {
+        if (!isCancelled) {
+          setIsLoading(false);
+        }
+      });
+
+    return () => {
+      isCancelled = true;
+    };
+  }, [user?.token]);
+
   return (
     <div className={styles.wrapper}>
       <h1 className={styles.title}>Сообщения</h1>
-      <UserChatList chatList={mockData} />
+      {isLoading && <p>Загружаем чаты…</p>}
+      {error && <p>{error}</p>}
+      {!isLoading && !error && user && (
+        <UserChatList chatList={chats} currentUserId={String(user.id)} />
+      )}
     </div>
   );
 };

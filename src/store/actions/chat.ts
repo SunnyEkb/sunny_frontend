@@ -12,12 +12,25 @@ export interface RequestProps {
 
 export interface ChatMessages {
   created_at: string;
-  id: number;
+  id: string | number;
   message: string;
-  sender_username: string;
+  sender_id?: string;
+  sender_username?: string;
   updated_at: string;
   avatar?: string;
   pending?: boolean;
+}
+
+export interface ChatSocketMessage {
+  id: string;
+  chat_id: string;
+  text: string;
+  sender_id: string;
+  recipient_id: string;
+  date: string;
+  status: string;
+  sender_username?: string;
+  avatar?: string;
 }
 
 // export interface ChatMessages {
@@ -33,8 +46,8 @@ export type CHATPropsMessageSocket = ChatMessages | ChatMessages[];
 export interface CHATSendMessagePayload {
   message: string;
   event: string;
-  ad_id?: string;
-  recipient_id?: string;
+  ad_id: string;
+  recipient_id: string;
   optimisticMessage: ChatMessages;
 }
 

@@ -19,7 +19,7 @@ export default function CardCatalogAuthor({ card }: Props) {
 
   const handleGoAds = () => {
     if (user) {
-      navigate(`/chat/${card.type}/${card.id}/${user.id}`);
+      navigate(`/chat/${card.type}/${card.id}/${card.provider.id}/${user.id}`);
     } else {
       openLogin();
     }

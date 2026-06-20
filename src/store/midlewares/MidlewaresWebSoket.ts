@@ -5,7 +5,11 @@ import {
   MiddlewareAPI,
 } from "@reduxjs/toolkit";
 import { io, Socket } from "socket.io-client";
-import type { CHATPropsMessageSocket, wsCHATActions } from "../actions/chat";
+import type {
+  CHATPropsMessageSocket,
+  ChatSocketMessage,
+  wsCHATActions,
+} from "../actions/chat";
 
 export interface WsProps {
   code?: number;
@@ -115,10 +119,20 @@ export const webSocketMiddleware = (
         });
 
         // Обработка пользовательских событий (сообщения)
-        socket.on("message:received", (data) => {
+        socket.on("message:received", (data: ChatSocketMessage) => {
           console.log("[Socket.IO] Получено сообщение:", data);
 
-          dispatch(wsOnMessage(data));
+          dispatch(
+            wsOnMessage({
+              id: data.id,
+              message: data.text,
+              sender_id: data.sender_id,
+              sender_username: data.sender_username,
+              avatar: data.avatar,
+              created_at: data.date,
+              updated_at: data.date,
+            }),
+          );
         });
 
         socket.on("message:read", (data) => {
