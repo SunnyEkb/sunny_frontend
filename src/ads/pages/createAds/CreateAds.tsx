@@ -2,7 +2,7 @@ import React, { useMemo, useState } from "react";
 import { Outlet, useLoaderData, useNavigate } from "react-router-dom";
 import { FormProvider, useForm } from "react-hook-form";
 import {
-  useAddPhotoToServiceMutation,
+  useAddPhotoMutation,
   useCreateServiceMutation,
   usePublishServiceMutation,
 } from "../../../store/entities/services/services";
@@ -75,7 +75,7 @@ export default function CreateAds() {
 
   const [createAds] = useCreateServiceMutation();
   const [publishAds] = usePublishServiceMutation();
-  const [addPhoto] = useAddPhotoToServiceMutation();
+  const [addPhoto] = useAddPhotoMutation();
 
   const categoriesData = useLoaderData<CategoriesAd[]>();
 
@@ -108,7 +108,7 @@ export default function CreateAds() {
           }
         }
 
-        await addPhoto({ id, images });
+        await addPhoto({ id, endPoint: typeOfAd as TypeOfAd , images });
       }
       await publishAds(response.data?.id);
 
