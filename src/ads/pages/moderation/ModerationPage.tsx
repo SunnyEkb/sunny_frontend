@@ -15,7 +15,7 @@ import { useNavigate } from "react-router-dom";
 import { paths } from "../../../app/paths";
 
 const ModerationPage = () => {
-  const [visibleComponent, setVisibleComponent] = useState("menu");
+  const [visibleComponent, setVisibleComponent] = useState("moderation");
   const [selectedItem, setSelectedItem] = useState(null);
   const [itemType, setItemType] = useState("");
   const [history, setHistory] = useState([]);
@@ -107,17 +107,6 @@ const ModerationPage = () => {
       <div className="divider"></div>
       <div className="content">
         {error && <div className="error-message">{error}</div>}
-        {visibleComponent === "menu" && !error && (
-          <div className="menu">
-            <div
-              className="menu-item"
-              onClick={() => handleComponentSwitch("moderation")}
-            >
-              <span>На модерацию</span>
-              <span>{counts.ads + counts.services + counts.comments}</span>
-            </div>
-          </div>
-        )}
         {visibleComponent === "moderation" && !error && (
           <div className="menu">
             <div
