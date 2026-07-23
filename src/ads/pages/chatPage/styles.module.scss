@@ -4,8 +4,10 @@
   margin: 0 auto;
   max-width: 480px;
   width: 100%;
-  height: auto;
+  height: 100%;
   box-sizing: border-box;
+  padding-block-end: 50px;
+  min-height: 0;
 }
 
 .chat__header {
@@ -41,5 +43,6 @@
 
 
 .chat__wrapper {
+  height: 100%;
   flex-grow: 1;
 }

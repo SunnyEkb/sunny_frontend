@@ -2,12 +2,12 @@ import React from "react";
 import styles from "./style.module.scss";
 import defaultAvatar from "../../../../assets/Avatar.svg";
 
-
 import { ChatMessages } from "../../../../store/actions/chat";
 import { useAppSelector } from "../../../../store/store";
 
 interface Props {
   message: ChatMessages;
+  date?: string;
 }
 
 // interface IMessage {
@@ -19,7 +19,7 @@ interface Props {
 //   read?: boolean;
 // }
 
-export default function Message({ message}: Props) {
+export default function Message({ message, date }: Props) {
   const userInfo = useAppSelector((state) => state.auth.user);
   function formatTime(date: Date): string {
     const hours: string = String(date.getHours()).padStart(2, "0");
@@ -35,35 +35,37 @@ export default function Message({ message}: Props) {
       userInfo?.username !== undefined &&
       message.sender_username === userInfo.username);
 
-  const avatarSrc =
-    isOwnMessage
-      ? (userInfo?.avatar as string) || defaultAvatar
-      : (message.avatar as string) || defaultAvatar;
-
+  const avatarSrc = isOwnMessage
+    ? (userInfo?.avatar as string) || defaultAvatar
+    : (message.avatar as string) || defaultAvatar;
 
   return (
-    <div
-      className={
-        isOwnMessage
-          ? styles.message
-          : `${styles.message} ${styles.message_reverse}`
-      }
-    >
-      <div className={styles.message__avatar}>
-        <img
-          src={avatarSrc}
-          alt="avatar"
-          className={styles.message__avatarImg}
-        />
-      </div>
+    <>
+      {date && <div className={styles.message__date}>{date}</div>}
 
-      <div className={styles.message__content}>
-        <div className={styles.message__text}>{message.message}</div>
-      </div>
+      <div
+        className={
+          isOwnMessage
+            ? styles.message
+            : `${styles.message} ${styles.message_reverse}`
+        }
+      >
+        <div className={styles.message__avatar}>
+          <img
+            src={avatarSrc}
+            alt="avatar"
+            className={styles.message__avatarImg}
+          />
+        </div>
 
-      <div className={styles.message__time}>
-        {formatTime(new Date(message.created_at))}
+        <div className={styles.message__content}>
+          <div className={styles.message__text}>{message.message}</div>
+        </div>
+
+        <div className={styles.message__time}>
+          {formatTime(new Date(message.created_at))}
+        </div>
       </div>
-    </div>
+    </>
   );
 }

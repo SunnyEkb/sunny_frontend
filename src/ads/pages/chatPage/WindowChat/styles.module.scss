@@ -3,6 +3,7 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
+  height: 100%;
 }
 
 .window__dayTitle {
@@ -21,28 +22,35 @@
 
 .window__listMessage {
   display: flex;
+  flex: 1;
   flex-direction: column;
   // flex-grow: 1;
   gap: 16px;
   padding-inline: 16px;
-  min-height: 500px;
+  overflow-y: auto;
+   min-height: 0;
+  scrollbar-width: thin;
 }
 
 .window__wrapperSendInput {
   border-top: 2px solid rgba(178, 189, 199, 0.2);
   padding-inline: 16px;
-  height: 56px;
+  // height: 56px;
   margin-top: 4px;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
   gap: 16px;
+
+  @media (max-width: 480px) {
+      margin-block-end: 40px
+  }
 }
 
-.window__inputText {
+.window__textAreaText {
   width: 100%;
-  height: 24px;
+
   border: none;
   outline: none;
   background-color: rgba(178, 189, 199, 0.2);
@@ -54,17 +62,19 @@
   font-size: 16px;
   font-weight: 400;
   line-height: 20px;
-  text-align: left;
-  text-overflow: ellipsis;
-  white-space: nowrap;
   z-index: 1;
+  resize: none;
+  overflow-y:hidden;
+  max-height: 250px;
+  scrollbar-width: thin;
+    max-height: 140px;
 
   &::placeholder {
-    color: #B2BDC7;
+    color: #b2bdc7;
   }
 
   &:hover {
-    border-color: 1px solid rgba(122, 122, 122, 1);
+    border: 1px solid rgba(122, 122, 122, 1);
   }
 
   &_error {
@@ -72,7 +82,19 @@
   }
 }
 
+.window__sendButton {
+  display: block;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  color: #b2bdc7;
 
+  &:hover > svg:hover {
+    transition: 0.2s ease;
+    color: #98a6b3;
+  }
+}
 
 .window__inputFiles {
   display: none;
@@ -82,10 +104,15 @@
   width: 16px;
   height: 16px;
   cursor: pointer;
-  transition: all ease-in-out .3s;
+  transition: all ease-in-out 0.3s;
 
-  &:hover {
+  & > svg {
+    fill: #b2bdc7;
+  }
+
+  &:hover > svg {
     opacity: 0.9;
     transform: scale(1.1);
+    fill: #98a6b3;
   }
 }

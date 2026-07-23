@@ -2,15 +2,23 @@
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  height: 100%;
 }
 
 .content {
   flex: 1; /* Ensures that the content takes up the remaining space */
   width: 100%;
+  display: flex;
+}
+
+.contentChat {
+  flex: 1;
+  min-height: 0;
+  display: flex;
 }
 
 body {
-    margin: 0;  /* Removes the default 8px margin */
-    padding: 0;
-    overflow-x: hidden; /* Ensures no horizontal scrolling */
+  margin: 0; /* Removes the default 8px margin */
+  padding: 0;
+  overflow-x: hidden; /* Ensures no horizontal scrolling */
 }
