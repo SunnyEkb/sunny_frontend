@@ -21,6 +21,7 @@ export default function FieldPhoto() {
     if (file) {
       const newPhotoUrl = URL.createObjectURL(file);
       append({ url: newPhotoUrl, file: file });
+      console.log(photo)
     }
   };
 

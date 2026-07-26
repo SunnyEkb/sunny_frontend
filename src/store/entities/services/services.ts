@@ -137,9 +137,9 @@ export const servicesApi = createApi({
       }),
       providesTags: ["Favorite"],
     }),
-    publishService: build.mutation({
-      query: (id: string) => ({
-        url: `/services/${id}/publish/`,
+    publishAdOrService: build.mutation({
+      query: (data: {id: string, endPoint: "services" | "ads"}) => ({
+        url: `/${data.endPoint}/${data.id}/publish/`,
         method: "POST",
         credentials: "include",
         headers: {
@@ -149,11 +149,11 @@ export const servicesApi = createApi({
       invalidatesTags: [{ type: "Services", id: "PARTIAL-LIST" }],
     }),
     addPhoto: build.mutation({
-      query: ({id, endPoint, images}: { id: string, endPoint: 'ads' | 'services'; images: { image: string }[] }) => ({
-        url: `/${endPoint}/${id}/add-photo/`,
+      query: (data: {endPoint: "services" | "ads"; id: string; images: { image: string }[] }) => ({
+        url: `/${data.endPoint}/${data.id}/add-photo/`,
         method: "POST",
         credentials: "include",
-        body: JSON.stringify({ images }),
+        body: JSON.stringify({images: data.images}),
         headers: {
           "Content-Type": "application/json",
         },
@@ -253,7 +253,7 @@ export const servicesApi = createApi({
 export const {
   useGetServicesQuery,
   useCreateServiceMutation,
-  usePublishServiceMutation,
+  usePublishAdOrServiceMutation,
   useAddToFavoritesMutation,
   useAddPhotoMutation,
   useUpdateMutation,

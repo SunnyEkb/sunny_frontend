@@ -133,8 +133,8 @@ export const conditionOption = [
     label: "Б/у"
   },
   {
-    value: "Новое",
-    label: "Новое"
+    value: "Новый",
+    label: "Новый"
   }
 ]
 
