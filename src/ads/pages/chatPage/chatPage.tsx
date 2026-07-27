@@ -9,12 +9,11 @@ import {
   CHATWsDisconnect,
   CHATWsOnMessage,
 } from "../../../store/actions/chat";
-import { getChat, type ChatDto } from "../../../shared/api/chatApi";
-// import { BASE_URL } from "../../../utils/constans";
-
-// export const BASE_URL: string = "wss://sunnyekb.ru/";
-export const BASE_URL: string =
-  import.meta.env.VITE_CHAT_API_URL ?? "https://sunnyekb.ru";
+import {
+  CHAT_API_URL,
+  getChat,
+  type ChatDto,
+} from "../../../shared/api/chatApi";
 
 export default function ChatPage() {
   const navigate = useNavigate();
@@ -43,8 +42,7 @@ export default function ChatPage() {
 
   React.useEffect(() => {
     if (user) {
-      // const WS_LINK = `${BASE_URL}chat/${params.objectType}/${params.object_id}/${params.buyer_id}/`;
-      const WS_LINK = `${BASE_URL}/chat`;
+      const WS_LINK = `${CHAT_API_URL}/chat`;
       dispatch(CHATWsConnect({ url: `${WS_LINK}`, token: user.token }));
     }
 
