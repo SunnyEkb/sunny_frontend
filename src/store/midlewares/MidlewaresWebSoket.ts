@@ -10,6 +10,7 @@ import type {
   ChatSocketMessage,
   wsCHATActions,
 } from "../actions/chat";
+import { CHAT_SOCKET_PATH } from "../../shared/api/chatApi";
 
 export interface WsProps {
   code?: number;
@@ -74,7 +75,8 @@ export const webSocketMiddleware = (
 
         // Создаем подключение Socket.IO
         socket = io(socketUrl, {
-          transports: ["websocket", "polling"],
+          path: CHAT_SOCKET_PATH,
+          transports: ["polling", "websocket"],
           withCredentials: true,
           autoConnect: true,
           reconnection: true,

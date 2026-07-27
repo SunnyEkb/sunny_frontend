@@ -2,6 +2,9 @@ export const CHAT_API_URL =
   import.meta.env.VITE_CHAT_API_URL ?? "https://sunnyekb.ru"
   // (import.meta.env.DEV ? "http://localhost:3000" : "https://sunnyekb.ru");
 
+export const CHAT_SOCKET_PATH =
+  import.meta.env.VITE_CHAT_SOCKET_PATH ?? "/chat/socket.io";
+
 export interface ChatMessageDto {
   id: string;
   sender_id: string;
