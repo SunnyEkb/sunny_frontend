@@ -4,7 +4,7 @@ import { FormProvider, useForm } from "react-hook-form";
 import {
   useAddPhotoMutation,
   useCreateServiceMutation,
-  usePublishServiceMutation,
+  usePublishAdOrServiceMutation
 } from "../../../store/entities/services/services";
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
@@ -74,19 +74,19 @@ export default function CreateAds() {
   });
 
   const [createAds] = useCreateServiceMutation();
-  const [publishAds] = usePublishServiceMutation();
+  const [publishAdOrService] = usePublishAdOrServiceMutation();
   const [addPhoto] = useAddPhotoMutation();
 
   const categoriesData = useLoaderData<CategoriesAd[]>();
 
   const onSubmit = async (data: PropsForm) => {
     try {
-      const response = await createAds({
-        endPoint: typeOfAd,
-        data: { ...data },
-      });
-      const id = response.data?.id;
-      if (!id) throw new Error("No ID returned from createAds");
+        const response = await createAds({
+          endPoint: typeOfAd,
+          data: { ...data },
+        });
+        const id = response.data?.id;
+        if (!id) throw new Error("No ID returned from createAds");
       if (data.photo && data.photo.length > 0 && data.photo[0].file) {
         const toBase64 = (file: File): Promise<string> =>
           new Promise((resolve, reject) => {
@@ -99,18 +99,16 @@ export default function CreateAds() {
         const images: { image: string }[] = [];
         for (const photo of data.photo) {
           if (photo.file) {
-            const base64Image = await toBase64(photo.file);
-            const mimeType = photo.file.type;
-            const base64Data = base64Image.split(",")[1];
-            const finalBase64 = `data:${mimeType};base64,${base64Data}`;
+            let base64Image = await toBase64(photo.file);
+            base64Image += "=";
+            images.push({ image: base64Image });
 
-            images.push({ image: finalBase64 });
           }
         }
 
-        await addPhoto({ id, endPoint: typeOfAd as TypeOfAd , images });
+        await addPhoto({ id, images, endPoint: typeOfAd! });
       }
-      await publishAds(response.data?.id);
+      await publishAdOrService({id: response.data?.id, endPoint: typeOfAd!});
 
       setIsAdCreated(true);
       setTimeout(() => {
@@ -124,9 +122,6 @@ export default function CreateAds() {
   const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(
     null,
   );
-
-
-
 
   return (
     <>
