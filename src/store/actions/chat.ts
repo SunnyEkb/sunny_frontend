@@ -13,12 +13,13 @@ export interface RequestProps {
 export interface ChatMessages {
   created_at: string;
   id: string | number;
-  message: string;
+  message?: string;
   sender_id?: string;
   sender_username?: string;
   updated_at: string;
   avatar?: string;
   pending?: boolean;
+  images?: CHATImageData[]
 }
 
 export interface ChatSocketMessage {
@@ -51,6 +52,16 @@ export interface CHATSendMessagePayload {
   optimisticMessage: ChatMessages;
 }
 
+export interface CHATImageData {
+  name: string;
+  mime_type: `image/${string}`;
+  data: ArrayBuffer | ArrayBufferView;
+}
+
+export type CHATSendMessageImagePayload = CHATSendMessagePayload & {
+  images: CHATImageData[];
+};
+
 // export interface CHATPropsMessage {
 //   created_at: string;
 //   id: number;
@@ -67,25 +78,29 @@ const CHAT_WS_ON_CLOSE = "CHAT_WS_ON_CLOSE";
 const CHAT_WS_ON_MESSAGE = "CHAT_WS_ON_MESSAGE";
 const CHAT_WS_ON_ERROR = "CHAT_WS_ON_ERROR";
 const CHAT_WS_SEND_MESSAGE = "CHAT_WS_SEND_MESSAGE";
+const CHAT_WS_SEND_MESSAGE_IMAGE = "CHAT_WS_SEND_MESSAGE_IMAGE";
 
-export const CHATWsConnect = createAction<{url: string, token: string}, typeof CHAT_WS_CONNECT>(
-  CHAT_WS_CONNECT
-);
+export const CHATWsConnect = createAction<
+  { url: string; token: string },
+  typeof CHAT_WS_CONNECT
+>(CHAT_WS_CONNECT);
 export const CHATWsDisconnect = createAction(CHAT_WS_DISCONNECT);
 export const CHATWsConnecting = createAction(CHAT_WS_CONNECTING);
 export const CHATWsOnOpen = createAction(CHAT_WS_ON_OPEN);
 export const CHATWsOnClose = createAction<WsProps, typeof CHAT_WS_ON_CLOSE>(
-  CHAT_WS_ON_CLOSE
+  CHAT_WS_ON_CLOSE,
 );
 export const CHATWsOnMessage = createAction<
   CHATPropsMessageSocket,
   typeof CHAT_WS_ON_MESSAGE
 >(CHAT_WS_ON_MESSAGE); // receive messages
-export const CHATWsSendMessage = createAction<CHATSendMessagePayload>(
-  CHAT_WS_SEND_MESSAGE
-);
+export const CHATWsSendMessage =
+  createAction<CHATSendMessagePayload>(CHAT_WS_SEND_MESSAGE);
 export const CHATWsOnError = createAction<string, typeof CHAT_WS_ON_ERROR>(
-  CHAT_WS_ON_ERROR
+  CHAT_WS_ON_ERROR,
+);
+export const CHATWsSendMessageImage = createAction<CHATSendMessageImagePayload>(
+  CHAT_WS_SEND_MESSAGE_IMAGE,
 );
 
 export const wsCHATActions = {
@@ -96,5 +111,6 @@ export const wsCHATActions = {
   wsOnClose: CHATWsOnClose,
   wsOnMessage: CHATWsOnMessage,
   wsSendMessage: CHATWsSendMessage,
+  wsSendMessageImage: CHATWsSendMessageImage,
   wsOnError: CHATWsOnError,
 };
