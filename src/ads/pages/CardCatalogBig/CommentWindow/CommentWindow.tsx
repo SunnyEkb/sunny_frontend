@@ -76,7 +76,10 @@ export default function CommentWindow({ onClose }: Props) {
       setMessage({ message: error.data, status: "error" });
     }
     if (res?.data) {
-      setMessage({ message: res.data, status: "success" });
+      setMessage({ message: 'Комментарии отправлен на модерацию', status: "success" });
+      setTimeout(() => {
+        onClose();
+      }, 1000)
     }
   };
 
