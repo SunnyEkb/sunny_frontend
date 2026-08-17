@@ -118,13 +118,13 @@ const Registr: FC = () => {
           <CheckboxContainer checked={checked} onToggle={toggleBtn} />
         </div>
 
-        <button
+        {/* <button
           type="submit"
           disabled={!isValid || !isDirty || isLoading || !checked}
           className={styles.buttonReg}
         >
           Зарегистрироваться
-        </button>
+        </button> */}
       </UserForm>
     </AuthPageLayout>
   );
