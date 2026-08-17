@@ -8,7 +8,7 @@ export const paths = {
   favorites: "/favorites",
   user_profile_edit: "/user_profile_edit",
   auth: "/auth",
-  register: "/register",
+  //register: "/register",
   //register: '/',
   confirmEmail: "/confirm-email",
   catalog: "/catalogs/:id",

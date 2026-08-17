@@ -110,14 +110,14 @@ const LogIn: FC = () => {
 
         <p className={styles.LogIn__error_mesage}>{errMsg}</p>
         <div className={styles.LogIn_buttonRegistr}>
-          <button
+          {/* <button
             onClick={() => {
               openRegister();
             }}
             className={styles.LogIn_buttonRegistr_buttonText}
           >
             Зарегистрироваться
-          </button>
+          </button> */}
         </div>
       </div>
     </AuthPageLayout>
