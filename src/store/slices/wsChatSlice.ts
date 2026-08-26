@@ -1,4 +1,8 @@
-import { ActionReducerMapBuilder, createSlice } from "@reduxjs/toolkit";
+import {
+  ActionReducerMapBuilder,
+  createSlice,
+  isAnyOf,
+} from "@reduxjs/toolkit";
 import {
   ChatMessages,
   CHATWsConnect,
@@ -6,6 +10,7 @@ import {
   CHATWsOnError,
   CHATWsOnMessage,
   CHATWsSendMessage,
+  CHATWsSendMessageImage,
   // CHATWsOnOpen,
 } from "../actions/chat";
 
@@ -87,13 +92,18 @@ export const wsCHATSlice = createSlice({
         state.chat = [...state.currentMessages];
         state.isSuccess = true;
       })
-      .addCase(CHATWsSendMessage, (state, action) => {
-        state.currentMessages.push({
-          ...action.payload.optimisticMessage,
-          pending: true,
-        });
-        state.chat = [...state.currentMessages];
-      });
+      .addMatcher(
+        isAnyOf(CHATWsSendMessage, CHATWsSendMessageImage),
+        (state, action) => {
+          state.currentMessages.push({
+            ...action.payload.optimisticMessage,
+            images: CHATWsSendMessageImage.match(action)
+              ? action.payload.images
+              : [],
+            pending: true,
+          });
+        },
+      );
   },
 });
 

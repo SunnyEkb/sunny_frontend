@@ -52,12 +52,12 @@ export const webSocketMiddleware = (
         wsOnMessage,
         wsOnError,
         wsSendMessage,
+        wsSendMessageImage,
       } = wsActions;
 
       if (WS_DEBUG_MIDDLE && type.includes("WS")) {
         console.log(`[Socket.IO Middleware] ${type}:`, action.payload);
       }
-
       // Подключение к сокету
       if (wsConnect.match(action)) {
         const socketUrl = action.payload.url;
@@ -159,9 +159,12 @@ export const webSocketMiddleware = (
       }
 
       // Отправка сообщений
-      if (wsSendMessage?.match(action) && socket?.connected) {
-        const { message, event = "message:send", ...allData } = action.payload as unknown as {
-          event?: string;
+      if (
+        (wsSendMessage?.match(action) || wsSendMessageImage?.match(action)) &&
+        socket?.connected
+      ) {
+        const { message, event, ...allData } = action.payload as unknown as {
+          event: string;
           message: string;
           optimisticMessage?: unknown;
         };

@@ -10,7 +10,7 @@ export const NotificationsPage = () => {
     <div className={styles.wrapper}>
       <h1 className={styles.title}>Уведомления</h1>
 
-        {!!notifications?.results.length ? (
+        {notifications?.results.length ? (
           <ul className={styles.notificationList}>
             {notifications.results.map((notification) => (
               <li key={notification.created_at} className={styles.notificationItem}>

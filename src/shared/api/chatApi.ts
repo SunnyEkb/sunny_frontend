@@ -47,7 +47,7 @@ async function chatRequest<T>(path: string, token: string): Promise<T> {
 }
 
 export const getUserChats = (token: string) =>
-  chatRequest<ChatDto[]>("/chats", token);
+  chatRequest<ChatDto[]>("/chats/", token);
 
 export const getChat = (chatId: string, token: string) =>
   chatRequest<ChatDto>(`/chat/${chatId}`, token);
