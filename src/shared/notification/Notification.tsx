@@ -8,7 +8,7 @@ interface Props {
 export default function Notifications({ messageText, status }: Props) {
   return (
     <div
-      className={`${
+      className={`${style.notification} ${
         status == "success" ? style.success__message : style.error__message
       }`}
     >

@@ -80,6 +80,13 @@
   &_error {
     border-bottom: 2px solid rgb(255, 92, 0);
   }
+
+  &:hover {
+    border: none;
+    outline: 1px solid #000;
+  }
+
+
 }
 
 .window__sendButton {

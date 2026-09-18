@@ -2,12 +2,14 @@ import React from "react";
 import styles from "./style.module.scss";
 import defaultAvatar from "../../../../assets/Avatar.svg";
 
-import { ChatMessages } from "../../../../store/actions/chat";
+import { CHATImageData, ChatMessages } from "../../../../store/actions/chat";
 import { useAppSelector } from "../../../../store/store";
+import MessageImage from "../MessageImage/MessageImage";
 
 interface Props {
   message: ChatMessages;
   date?: string;
+  images?: CHATImageData[];
 }
 
 // interface IMessage {
@@ -19,7 +21,7 @@ interface Props {
 //   read?: boolean;
 // }
 
-export default function Message({ message, date }: Props) {
+export default function Message({ message, date, images }: Props) {
   const userInfo = useAppSelector((state) => state.auth.user);
   function formatTime(date: Date): string {
     const hours: string = String(date.getHours()).padStart(2, "0");
@@ -38,6 +40,21 @@ export default function Message({ message, date }: Props) {
   const avatarSrc = isOwnMessage
     ? (userInfo?.avatar as string) || defaultAvatar
     : (message.avatar as string) || defaultAvatar;
+
+
+  const chunkImages = (
+    arr: CHATImageData[],
+    size: number,
+  ): CHATImageData[][] => {
+    const chunks: CHATImageData[][] = [];
+    for (let i = 0; i < arr.length; i += size) {
+      chunks.push(arr.slice(i, i + size));
+    }
+    return chunks;
+  };
+
+
+  const imageChunks = images ? chunkImages(images, 10) : [];
 
   return (
     <>
@@ -59,7 +76,24 @@ export default function Message({ message, date }: Props) {
         </div>
 
         <div className={styles.message__content}>
-          <div className={styles.message__text}>{message.message}</div>
+          {imageChunks.length > 0 &&
+            imageChunks.map((chunk, chunkIndex) => (
+              <div
+                key={chunkIndex}
+                className={styles.message__images__content}
+                data-count={chunk.length}
+              >
+                {chunk.map((image, index) => {
+                  const globalIndex = chunkIndex * 10 + index;
+                  const uniqueKey = `${image.name}_${image.data.byteLength || 0}_${globalIndex}`;
+
+                  return <MessageImage key={uniqueKey} {...image} />;
+                })}
+              </div>
+            ))}
+          {message.message && (
+            <div className={styles.message__text}>{message.message}</div>
+          )}
         </div>
 
         <div className={styles.message__time}>

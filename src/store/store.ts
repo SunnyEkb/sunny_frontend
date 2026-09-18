@@ -6,7 +6,7 @@ import { servicesApi } from "./entities/services/services";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import servicesSlice from "./slices/serviceSlice";
 import { webSocketMiddleware } from "./midlewares/MidlewaresWebSoket";
-import { wsCHATActions } from "./actions/chat";
+import { CHATWsSendMessageImage, wsCHATActions } from "./actions/chat";
 import { wsChatReducer } from "./slices/wsChatSlice";
 import { commentsApi } from "./entities/comments/comments";
 import { searchApi } from "./entities/search/searchApi";
@@ -26,7 +26,12 @@ export const store = configureStore({
     wsChat: wsChatReducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware()
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [CHATWsSendMessageImage.type],
+        ignoredPaths: ["wsChat.currentMessages", "wsChat.chat"],
+      },
+    })
       .concat(authApi.middleware)
       .concat(servicesApi.middleware)
       .concat(commentsApi.middleware)

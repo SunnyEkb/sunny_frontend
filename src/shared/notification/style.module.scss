@@ -1,5 +1,5 @@
-.success__message {
-  font-family: Montserrat;
+.notification {
+   font-family: Montserrat;
   position: fixed;
   z-index: 1000;
   top: 20px;
@@ -10,27 +10,22 @@
   animation:
     slide-in 2s ease forwards,
     fade-out 1s 4s forwards;
-  background-color: #d4edda;
-  color: #155724;
-  white-space: nowrap;
+
+  white-space: pre-line;
   text-align: center;
+  @media (max-width: 450px) {
+    width: calc(100% - 32px);
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
+.success__message {
+ background-color: #d4edda;
+  color: #155724;
 }
 
 .error__message {
-  white-space: nowrap;
-  text-align: center;
-  font-family: Montserrat;
-  border: 1px solid #f5c6cb;
-  background-color: #f8d7da;
+ background-color: #f8d7da;
   color: #721c24;
-  position: fixed;
-  z-index: 1000;
-  top: 20px;
-  right: 20px;
-  padding: 14px;
-  border: 1px solid #c3e6cb;
-  border-radius: 5px;
-  animation:
-    slide-in 3s ease forwards,
-    fade-out 1s 4s forwards;
 }
