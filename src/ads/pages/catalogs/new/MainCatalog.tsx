@@ -8,10 +8,9 @@ import { useSearch } from "../../../../app/layouts/SearchProvider/SearchProvider
 import { useEffect, useState } from "react";
 import { useGetSearchItemsQuery } from "../../../../store/entities/search/searchApi";
 import MainCatalogCard from "./MainCatalogCard/MainCatalogCard";
-import {
-  useGetAllAdsQuery,
-} from "../../../../store/entities/ads/adsApi";
+import { useGetAllAdsQuery } from "../../../../store/entities/ads/adsApi";
 import { useInView } from "react-intersection-observer";
+import { useSearchItems } from "../../../../shared/hooks/useSearchItems";
 
 interface DataProps {
   id: number;
@@ -37,12 +36,9 @@ export const loaderCatagories = async () => {
 
 export default function MainCatalog() {
   const data = useLoaderData() as DataProps[];
-  const [searchString] = useSearch();
-  const [debounceString, setDebounceString] = useState(searchString);
-  const { data: searchItems } = useGetSearchItemsQuery(debounceString, {
-    skip: debounceString?.length <= 2,
+  const { debounceString, searchItems } = useSearchItems({
+    isAdvertSearch: false,
   });
-
   const [adPageParam, setAdPageParam] = useState(1);
   const { data: adResponse } = useGetAllAdsQuery({
     page: adPageParam,
@@ -51,16 +47,6 @@ export default function MainCatalog() {
   const { ref, inView } = useInView({
     threshold: 0.5,
   });
-
-
-
-  useEffect(() => {
-    const timerId = setTimeout(() => {
-      setDebounceString(searchString);
-    }, 300);
-
-    return () => clearTimeout(timerId);
-  }, [searchString]);
 
   useEffect(() => {
     if (adResponse?.next && inView) {

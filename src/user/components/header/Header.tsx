@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useLazyCheckAuthQuery } from "../../../store/auth-api/authApi"; // update the import path as needed
 import styles from "./header.module.scss";
 import { paths } from "../../../app/paths";
@@ -15,10 +15,11 @@ import { useGetNotificationsQuery } from "../../../store/entities/notifications/
 import { useMediaQuery } from "../../../shared/hooks/useMediaQuery";
 import { TooltipNotification } from "../../../shared/TooltipNotification/TooltipNotification";
 
-import NotificationIcon from '../../../assets/icon/notification-icon.svg?react'
+import NotificationIcon from "../../../assets/icon/notification-icon.svg?react";
 
 export default function Header() {
   const navigate = useNavigate();
+  const location = useLocation();
   const [trigger, { data: user, isLoading }] = useLazyCheckAuthQuery();
   const [searchString, handleSearchItems] = useSearch();
   const { openLogin } = useAuthModal();
@@ -51,6 +52,10 @@ export default function Header() {
     }
   }, [user]);
 
+  useEffect(() => {
+    handleSearchItems("");
+  }, [location]);
+
   return (
     <header className={styles.header}>
       <div className={styles.topRow}>
@@ -74,8 +79,10 @@ export default function Header() {
                   setIsShowNotifications((val) => !val);
                 }}
               >
-                <NotificationIcon/>
-                {!!notifications?.results.length && <span className={styles.counter}>{notifications?.count}</span>}
+                <NotificationIcon />
+                {!!notifications?.results.length && (
+                  <span className={styles.counter}>{notifications?.count}</span>
+                )}
               </button>
             )}
             <button className={styles.authButton} onClick={() => goToProfile()}>
