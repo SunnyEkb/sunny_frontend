@@ -2,7 +2,7 @@
 import styles from "./mainCatalog.module.scss";
 import CardCatalog from "../CardCatalog/CardCatalog";
 
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, useRouteLoaderData } from "react-router-dom";
 
 import { useSearch } from "../../../../app/layouts/SearchProvider/SearchProvider";
 import { useEffect, useState } from "react";
@@ -13,7 +13,7 @@ import {
 } from "../../../../store/entities/ads/adsApi";
 import { useInView } from "react-intersection-observer";
 
-interface DataProps {
+export interface CatalogCategoryProps {
   id: number;
   title: string;
   subcategories: Array<unknown> | null;
@@ -36,7 +36,7 @@ export const loaderCatagories = async () => {
 };
 
 export default function MainCatalog() {
-  const data = useLoaderData() as DataProps[];
+  const catalogData = useRouteLoaderData('main-catalog') as CatalogCategoryProps[];
   const [searchString] = useSearch();
   const [debounceString, setDebounceString] = useState(searchString);
   const { data: searchItems } = useGetSearchItemsQuery(debounceString, {
@@ -51,8 +51,6 @@ export default function MainCatalog() {
   const { ref, inView } = useInView({
     threshold: 0.5,
   });
-
-
 
   useEffect(() => {
     const timerId = setTimeout(() => {
@@ -97,8 +95,8 @@ export default function MainCatalog() {
         {debounceString.length <= 2 && (
           <>
             <div className={styles.catalog__itemList}>
-              {data?.map((card) => {
-                return <CardCatalog key={card.id} card={card} />;
+              {catalogData?.map((category) => {
+                return <CardCatalog key={category.id} card={category} />;
               })}
             </div>
 

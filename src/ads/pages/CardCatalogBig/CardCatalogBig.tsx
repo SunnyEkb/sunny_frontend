@@ -10,6 +10,7 @@ import {
   useLoaderData,
   useNavigate,
   useRevalidator,
+  useRouteLoaderData,
 } from "react-router-dom";
 import {
   useAddToFavoritesMutation,
@@ -22,6 +23,8 @@ import style from "./cardCatalogBig.module.scss";
 import { useLayoutEffect, useState } from "react";
 import CommentSection from "./CommentSection/CommentSection";
 import Notifications from "../../../shared/notification/Notification";
+import { CatalogCategoryProps } from "../catalogs/new/MainCatalog";
+import BreadCrumbs from "../../../shared/Breadcrumbs/Breadcrumbs";
 
 interface LoaderParams {
   idAds?: string;
@@ -45,6 +48,10 @@ export const loaderAdsByCatalogId = async ({
 };
 
 export default function CardCatalogBig() {
+  const catalogData = useRouteLoaderData(
+    "main-catalog",
+  ) as CatalogCategoryProps[];
+  const pathParts = location.pathname.split("/").filter((part) => part !== "");
   const navigate = useNavigate();
   const initialCardData = useLoaderData();
   const [cardData, setCardData] = useState(initialCardData);
@@ -92,14 +99,15 @@ export default function CardCatalogBig() {
       {copy && (
         <Notifications messageText={copy.message} status={copy.status} />
       )}
-      <section className={style.breadcrumbs}>
-        <a href="/">Главная</a> &gt; <span>На районе</span> &gt;{" "}
-        <span>Красота и здоровье</span> &gt;{" "}
-        <span>
-          {" "}
-          <span>Маникюр, педикюр</span>
-        </span>
-      </section>
+
+      {pathParts.includes("catalogs") && (
+        <BreadCrumbs
+          paths={[
+            { path: `/${pathParts[0]}/${pathParts[1]}`, title: "Каталог" },
+            { title: catalogData[Number(pathParts[1]) - 1].title },
+          ]}
+        />
+      )}
 
       <section className={style.cardBig__settings}>
         <button

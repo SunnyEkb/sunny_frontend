@@ -9,6 +9,7 @@ import ArrowBack from "../../../assets/icon/arrow-left.svg?react";
 import style from "./catalog.module.scss";
 import { useNavigate } from "react-router-dom";
 import { useScrollRestoration } from "../../../shared/hooks/useScrollRestoration";
+import BreadCrumbs from "../../../shared/Breadcrumbs/Breadcrumbs";
 
 export const LoaderInitPage = async () => {
   store.dispatch(initPageAction());
@@ -27,9 +28,7 @@ export default function Catalog() {
 
   return (
     <div className={style.catalog}>
-      <nav className={style.catalog__breadcrumbs}>
-        <a href="/">Главная</a> / <span>Каталог</span>
-      </nav>
+     <BreadCrumbs paths={[{path: '', title: "Каталог"}]} className={style.breadcrumbs}/>
 
       <div className={style.catalog__main}>
         <div className={style.catalog__filter}>

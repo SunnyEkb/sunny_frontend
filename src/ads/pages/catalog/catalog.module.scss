@@ -102,7 +102,7 @@
     }
   }
 
-  &__breadcrumbs {
+
     width: 100%;
     padding: 8px 16px;
     box-sizing: border-box;
@@ -121,7 +121,7 @@
     span {
       color: #6c757d;
     }
-  }
+
 
   &__main {
     display: flex;
@@ -181,4 +181,21 @@
       font-size: 20px;
     }
   }
+}
+
+ .breadcrumbs {
+    width: 100%;
+    padding: 8px 16px;
+    box-sizing: border-box;
+
+    font-size: 14px;
+
+    a {
+      color: #6c757d;
+      text-decoration: none;
+
+      &:hover {
+        color: #5e8b4a;
+      }
+    }
 }
