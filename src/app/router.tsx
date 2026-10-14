@@ -39,6 +39,8 @@ export const router = createBrowserRouter(
   [
     {
       element: <RootLayout />,
+      loader: () => loaderCatagories(),
+      id: "main-catalog",
       children: [
         {
           element: <ProtectedRoute />,
@@ -143,7 +145,6 @@ export const router = createBrowserRouter(
         {
           path: paths.index,
           element: <MainCatalog />,
-          loader: () => loaderCatagories(),
         },
         {
           path: paths.auth,
