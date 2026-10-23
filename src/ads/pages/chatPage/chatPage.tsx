@@ -69,7 +69,7 @@ export default function ChatPage() {
         setLoadedChat(chat);
         dispatch(
           CHATWsOnMessage(
-            [...chat.messages].reverse().map((message) => ({
+            [...chat.messages].map((message) => ({
               id: message.id,
               message: message.text,
               sender_id: message.sender_id,
