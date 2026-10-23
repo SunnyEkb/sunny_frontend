@@ -11,6 +11,7 @@ import { changePageAction } from "../../../../store/slices/serviceSlice";
 import { useParams } from "react-router-dom";
 import { ServiceInfo } from "../../../../common/model/ads";
 import styles from "./listServices.module.scss";
+import { useSearchItems } from "../../../../shared/hooks/useSearchItems";
 
 export default function ListServices() {
   const dispatch = useAppDispatch();
@@ -33,7 +34,7 @@ export default function ListServices() {
         return {
           data: {
             items: servicesSelector.selectAll(
-              data ?? servicesAdapter.getInitialState()
+              data ?? servicesAdapter.getInitialState(),
             ),
             next: data?.next,
             previous: data?.previous,
@@ -42,22 +43,42 @@ export default function ListServices() {
           ...originalArgs,
         };
       },
-    }
+    },
   );
-
+  const { debounceString, searchItems } = useSearchItems({
+    isAdvertSearch: true,
+    category: params.id,
+  });
 
   React.useEffect(() => {
     if (isSuccess && inView && data.next) {
       dispatch(changePageAction(page + 1));
     }
-  }, [isSuccess, inView]);
+  }, [isSuccess, inView, searchItems]);
 
   return (
     <React.Fragment>
       <div className={styles.listServices}>
-        {data.items.map((item: ServiceInfo) => {
-          return <CardCatalog key={item.id} title={item.title} card={item} />;
-        })}
+        {Array.isArray(searchItems) &&
+          searchItems.length === 0 &&
+          debounceString.length > 2 && (
+            <span className={styles.title}>Ничего не найдено</span>
+          )}
+
+        {Array.isArray(searchItems) &&
+          searchItems.length > 0 &&
+          debounceString.length > 2 && (
+            <>
+              {searchItems.map((item) => (
+                <CardCatalog key={item.id} title={item.title} card={item} />
+              ))}
+            </>
+          )}
+
+        {debounceString.length <= 2 &&
+          data.items.map((item: ServiceInfo) => {
+            return <CardCatalog key={item.id} title={item.title} card={item} />;
+          })}
         <div ref={ref} className={styles.observer_element} />
       </div>
     </React.Fragment>

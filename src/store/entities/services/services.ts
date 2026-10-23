@@ -2,6 +2,7 @@ import { createEntityAdapter, EntityState } from "@reduxjs/toolkit";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { BASE_URL } from "../../../utils/constans";
 import { Comment, ServiceInfo } from "../../../common/model/ads";
+import { searchApi } from "../search/searchApi";
 
 const SERVICES_URL = "/advertisements";
 
@@ -42,7 +43,13 @@ const getRequestConfig = (method: string, data?: object) => ({
 export const servicesApi = createApi({
   reducerPath: "servicesApi",
   baseQuery: fetchBaseQuery({ baseUrl: BASE_URL }),
-  tagTypes: ["Services", "UNAUTHORIZED", "UNKNOWN_ERROR", "Favorite", "Comments"],
+  tagTypes: [
+    "Services",
+    "UNAUTHORIZED",
+    "UNKNOWN_ERROR",
+    "Favorite",
+    "Comments",
+  ],
   keepUnusedDataFor: 0, //0 секунда
   endpoints: (build) => ({
     getServices: build.query<ServicesState, ParamsServices>({
@@ -56,7 +63,7 @@ export const servicesApi = createApi({
       merge: (currentState, incomingState) => {
         const merged = servicesAdapter.upsertMany(
           currentState,
-          servicesSelector.selectAll(incomingState)
+          servicesSelector.selectAll(incomingState),
         );
 
         merged.next = incomingState.next;
@@ -75,8 +82,8 @@ export const servicesApi = createApi({
           },
           // фильтруем, чтоб были только услуги
           response.results.filter(
-            (item: { type: "ad" | "serivce" }) => item.type !== "ad"
-          )
+            (item: { type: "ad" | "serivce" }) => item.type !== "ad",
+          ),
         );
       },
       forceRefetch: ({ currentArg, previousArg }) => {
@@ -97,8 +104,8 @@ export const servicesApi = createApi({
         result
           ? [{ type: "Services", id: "PARTIAL-LIST" }]
           : error?.status === 401
-          ? ["UNAUTHORIZED"]
-          : ["UNKNOWN_ERROR"],
+            ? ["UNAUTHORIZED"]
+            : ["UNKNOWN_ERROR"],
     }),
     getUserAdvertisements: build.query<
       Pick<ServicesState, "count" | "next" | "previous"> & {
@@ -138,7 +145,7 @@ export const servicesApi = createApi({
       providesTags: ["Favorite"],
     }),
     publishAdOrService: build.mutation({
-      query: (data: {id: string, endPoint: "services" | "ads"}) => ({
+      query: (data: { id: string; endPoint: "services" | "ads" }) => ({
         url: `/${data.endPoint}/${data.id}/publish/`,
         method: "POST",
         credentials: "include",
@@ -149,11 +156,15 @@ export const servicesApi = createApi({
       invalidatesTags: [{ type: "Services", id: "PARTIAL-LIST" }],
     }),
     addPhoto: build.mutation({
-      query: (data: {endPoint: "services" | "ads"; id: string; images: { image: string }[] }) => ({
+      query: (data: {
+        endPoint: "services" | "ads";
+        id: string;
+        images: { image: string }[];
+      }) => ({
         url: `/${data.endPoint}/${data.id}/add-photo/`,
         method: "POST",
         credentials: "include",
-        body: JSON.stringify({images: data.images}),
+        body: JSON.stringify({ images: data.images }),
         headers: {
           "Content-Type": "application/json",
         },
@@ -187,12 +198,13 @@ export const servicesApi = createApi({
                 id: id,
                 changes: { is_favorited: true },
               });
-            }
-          )
+            },
+          ),
         );
 
         try {
           await queryFulfilled;
+          dispatch(searchApi.util.invalidateTags([{ type: "AdvertSearch" }]));
         } catch {
           patchResult.undo();
         }
@@ -211,15 +223,18 @@ export const servicesApi = createApi({
       }),
       invalidatesTags: [{ type: "Services", id: "PARTIAL-LIST" }],
     }),
-      getComments: build.query<Pick<ServicesState, 'next' | 'count' | 'previous'> & {
-        results: Comment[]
-      }, void>({
-        query: () => ({
-          url: "/comments/",
-          credentials: 'include'
-        }),
-        providesTags: ["Comments"]
+    getComments: build.query<
+      Pick<ServicesState, "next" | "count" | "previous"> & {
+        results: Comment[];
+      },
+      void
+    >({
+      query: () => ({
+        url: "/comments/",
+        credentials: "include",
       }),
+      providesTags: ["Comments"],
+    }),
     deleteFromFavorites: build.mutation({
       query: (id) => ({
         url: `/services/${id}/delete-from-favorites/`,
@@ -235,12 +250,13 @@ export const servicesApi = createApi({
                 id: id,
                 changes: { is_favorited: false },
               });
-            }
-          )
+            },
+          ),
         );
 
         try {
           await queryFulfilled;
+          dispatch(searchApi.util.invalidateTags([{ type: "AdvertSearch" }]));
         } catch {
           patchResult.undo();
         }
@@ -261,7 +277,7 @@ export const {
   useGetFavoritesQuery,
   useGetUserAdvertisementsQuery,
   useAddCommentMutation,
-  useGetCommentsQuery
+  useGetCommentsQuery,
 } = servicesApi;
 
 export { servicesAdapter, servicesSelector };
